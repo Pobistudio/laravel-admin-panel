@@ -9,57 +9,56 @@
 </head>
 <body>
     <div id="mainlayout" class="flex flex-row bg-lap-white p-4 h-screen gap-4">
-        <aside id="sidebar" class="flex flex-col w-64 h-full bg-slate-200 rounded-xl transition-all duration-300 ease-in-out">
-            <div class="p-4 bg-slate-200 rounded-t-xl sticky top-0 z-10">
+        <aside id="sidebar" class="flex flex-col w-64 h-full bg-slate-200 lg:rounded-xl rounded-none flex-shrink-0 overflow-y-auto
+                       transition-all duration-300 ease-in-out
+                      fixed inset-y-0 left-0 transform -translate-x-full z-50
+                      md:relative md:translate-x-0">
+            <div class="p-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 sticky top-0 z-10">
                 <h2 class="text-xl font-bold mb-0">Sidebar</h2>
             </div>
-            <div class="p-4 overflow-y-auto">
-                <nav>
+            <div class="p-4 overflow-y-auto hide-scrollbar">
+                <nav class="mt-5">
                     <ul>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 1</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 2</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 3</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 4</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 5</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 6</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 7</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 8</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 9</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 10</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 11</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 12</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 13</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 14</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 15</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 16</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 17</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 18</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 19</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
-                        <li class="mb-2"><a href="#" class="text-gray-700 hover:text-gray-900">Link 20</a></li>
+                        <li>
+                            <a href="#" class="flex items-center justify-between p-2 hover:bg-gray-700">
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="relative">
+                            <a href="#" class="flex items-center justify-between p-2 hover:bg-gray-700 menu-toggle">
+                                <span>Products</span>
+                                <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <ul class="ml-4 nested-menu hidden">
+                                <li>
+                                    <a href="#" class="block p-2 hover:bg-gray-700">All Products</a>
+                                </li>
+                                <li class="relative">
+                                    <a href="#" class="flex items-center justify-between p-2 hover:bg-gray-700 menu-toggle">
+                                        <span>Categories</span>
+                                        <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </a>
+                                    <ul class="ml-4 nested-menu hidden">
+                                        <li><a href="#" class="block p-2 hover:bg-gray-700">Electronics</a></li>
+                                        <li><a href="#" class="block p-2 hover:bg-gray-700">Clothing</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="block p-2 hover:bg-gray-700">Add New Product</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
             </div>
         </aside>
 
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+
         <main class="flex flex-col w-full h-full gap-3 transition-all duration-300 ease-in-out" id="main-content-area">
             <header class="w-full h-20 bg-slate-200 rounded-xl flex items-center justify-between p-4">
                 <h1 class="text-2xl font-bold">Dashboard</h1>
-                <button id="toggleSidebar" class="p-2 bg-slate-300 rounded-lg text-gray-700 hover:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500">
+                <button id="toggleSidebar" class="md:hidden p-2 bg-slate-300 rounded-lg text-gray-700 hover:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -69,7 +68,7 @@
                 <div class="p-4 bg-slate-200 rounded-t-xl sticky top-0 z-10">
                     <h2 class="text-xl font-semibold mb-0">Konten Utama</h2>
                 </div>
-                <div class="p-4 overflow-auto">
+                <div class="p-4 overflow-auto hide-scrollbar">
                     <p class="mb-2">Ini adalah area konten utama Anda. Sidebar dapat diciutkan dan diperluas.</p>
                     <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <p class="mb-2">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -103,47 +102,41 @@
             const mainLayout = document.getElementById('mainlayout');
             const toggleSidebarBtn = document.getElementById('toggleSidebar');
             const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
             const mainContentArea = document.getElementById('main-content-area');
             let isSidebarCollapsed = false;
 
-            toggleSidebarBtn.addEventListener('click', function() {
-                if (isSidebarCollapsed) {
-                    // Main Layout
-                    mainLayout.classList.add('gap-4');
-                    mainLayout.classList.remove('gap-0');
-                    // Expand sidebar
-                    sidebar.classList.remove('w-0', 'p-0', 'overflow-hidden');
-                    sidebar.classList.add('w-64'); // Add back original width
-                    // Show sidebar content again
-                    sidebar.querySelector('.p-4.overflow-y-auto').classList.remove('hidden');
-                    sidebar.querySelector('.p-4.bg-slate-200.rounded-t-xl.sticky').classList.remove('hidden');
+            // Fungsi untuk membuka sidebar
+            function openSidebar() {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+            }
 
-                    mainContentArea.classList.remove('ml-0');
-                    toggleSidebarBtn.innerHTML = `
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    `;
+            // Fungsi untuk menutup sidebar
+            function closeSidebar() {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('hidden');
+            }
+
+            // Event listener untuk tombol toggle
+            toggleSidebarBtn.addEventListener('click', () => {
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    openSidebar();
                 } else {
-                    // Main Layout
-                    mainLayout.classList.remove('gap-4');
-                    mainLayout.classList.add('gap-0');
-                    // Collapse sidebar
-                    sidebar.classList.remove('w-64'); // Remove original width
-                    sidebar.classList.add('w-0', 'p-0', 'overflow-hidden'); // Make it disappear
-                    // Hide sidebar content to prevent overflow issues
-                    sidebar.querySelector('.p-4.overflow-y-auto').classList.add('hidden');
-                    sidebar.querySelector('.p-4.bg-slate-200.rounded-t-xl.sticky').classList.add('hidden');
-
-
-                    // mainContentArea.classList.add('ml-4'); // Optional: push main content
-                    toggleSidebarBtn.innerHTML = `
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
-                        </svg>
-                    `;
+                    closeSidebar();
                 }
-                isSidebarCollapsed = !isSidebarCollapsed;
+            });
+
+            // Event listener untuk overlay (menutup sidebar saat klik di luar)
+            sidebarOverlay.addEventListener('click', closeSidebar);
+
+            // Menutup sidebar saat ukuran layar berubah dari mobile ke desktop
+            // Ini memastikan sidebar selalu terbuka di desktop jika itu adalah perilaku yang diinginkan
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) { // 768px adalah breakpoint default 'md' di Tailwind
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebarOverlay.classList.add('hidden'); // Pastikan overlay tersembunyi di desktop
+                }
             });
         });
     </script>
