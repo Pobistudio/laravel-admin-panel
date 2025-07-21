@@ -14,4 +14,16 @@
     --color-lap-peach: #D9A299;
 }
 
+.hide-scrollbar {
+  /* Untuk Firefox */
+  scrollbar-width: none;
+
+  /* Untuk Chrome, Safari, dan Opera */
+  -ms-overflow-style: none; /* IE dan Edge */
+}
+
+/* Untuk Chrome, Safari, dan Opera (Webkit-based browsers) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
