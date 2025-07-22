@@ -13,7 +13,7 @@
     </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="font-poppins">
     @yield('content')
     @stack('scripts')
 </body>
