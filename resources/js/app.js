@@ -60,17 +60,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const button = document.getElementById('menu-button');
+    const menuButton = document.getElementById('menu-button');
     const dropdownMenu = document.getElementById('dropdown-menu');
 
-    button.addEventListener('click', () => {
+    menuButton.addEventListener('click', () => {
         dropdownMenu.classList.toggle('hidden'); // Menambah/menghapus kelas 'hidden'
+        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', !isExpanded);
     });
 
-    // Menutup dropdown jika klik di luar area dropdown
+    // Opsional: Sembunyikan dropdown jika klik di luar area
     document.addEventListener('click', (event) => {
-        if (!button.contains(event.target) && !dropdownMenu.contains(event.target)) {
-        dropdownMenu.classList.add('hidden');
+        if (!menuButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.classList.add('hidden');
+            menuButton.setAttribute('aria-expanded', 'false');
         }
-    });
+    });;
 });
