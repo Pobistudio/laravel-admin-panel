@@ -11,10 +11,9 @@ class Status extends Model
     protected $table = "statuses";
     protected $primaryKey = "id";
     protected $keyType = "string";
+    protected $guarded = [];
     public $timestamps = false;
     public $incrementing = false;
-    protected $hidden = ['pivot'];
-    protected $guarded = [];
 
     public function users(): HasMany
     {
