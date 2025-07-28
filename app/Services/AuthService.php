@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTOs\Auth\ChangePasswordDto;
+use App\DTOs\Auth\LoginDto;
 use App\DTOs\Auth\RegisterUserDto;
 use App\DTOs\Auth\ResetPasswordDto;
 use App\Models\Role;
@@ -27,75 +28,29 @@ class AuthService
     /**
      * Authenticate a user by email and password.
      *
-     * @param string $email
-     * @param string $password
+     * @param LoginDto $dto
      * @return User
      * @throws ValidationException
      */
-    public function login(string $email, string $password): User
+    public function login(LoginDto $dto): User
     {
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $dto->email)->first();
 
-        if (!$user || !Hash::check($password, $user->password)) {
-            Log::warning("Failed login attempt for email: {$email}");
+        if (!$user || !Hash::check($dto->password, $user->password)) {
+            Log::warning("Failed login attempt for email: {$dto->email}");
             throw ValidationException::withMessages([
-                'email' => ['Invalid Credential'],
-            ])->status(401); // 401 Unauthorized
+                'email' => ['Email tidak sesuai'],
+            ])->status(401);
         }
 
         if ($user->status_id !== 'active') { // Asumsi 'active' adalah status untuk user aktif
-            Log::warning("Login attempt by inactive user: {$email} (Status: {$user->status_id})");
+            Log::warning("Login attempt by inactive user: {$dto->email} (Status: {$user->status_id})");
             throw ValidationException::withMessages([
                 'email' => ['Akun Anda tidak aktif. Silakan hubungi administrator.'],
             ])->status(403); // 403 Forbidden
         }
 
         Log::info("User logged in: {$user->email}");
-        return $user;
-    }
-
-     /**
-     * Register a new user.
-     *
-     * @param RegisterUserDto $dto
-     * @return User
-     * @throws \App\Exceptions\UserAlreadyExistsException
-     */
-    public function register(RegisterUserDto $dto)
-    {
-        if (User::where('email', $dto->email)->exists()) {
-            Log::warning("Registration attempt with existing email: {$dto->email}");
-            throw new \App\Exceptions\UserAlreadyExistsException('Email ini sudah terdaftar. Silakan gunakan email lain.');
-        }
-
-        // Set default role and status if not provided
-        $defaultRoleId = $dto->roleId ?? 'user'; // Asumsi 'user' adalah ID role default
-        $defaultStatusId = $dto->statusId ?? 'active'; // Asumsi 'active' adalah ID status default
-
-        // Pastikan role dan status default ada
-        if (!Role::find($defaultRoleId)) {
-            Log::error("Attempted to register with non-existent default role: {$defaultRoleId}");
-            throw new \App\Exceptions\InvalidRoleException("Role default tidak valid: {$defaultRoleId}");
-        }
-        if (!Status::find($defaultStatusId)) {
-            Log::error("Attempted to register with non-existent default status: {$defaultStatusId}");
-            throw new \App\Exceptions\InvalidStatusException("Status default tidak valid: {$defaultStatusId}");
-        }
-
-        // Panggil UserService untuk membuat user
-        // $user = $this->userService->create([
-        //     'name' => $dto->name,
-        //     'email' => $dto->email,
-        //     'password' => Hash::make($dto->password), // Hash password di AuthService karena ini bagian dari proses pendaftaran
-        //     'role_id' => $defaultRoleId,
-        //     'status_id' => $defaultStatusId,
-        // ]);
-
-        // Log::info("New user registered: {$user->email} with role: {$user->role_id}");
-
-        // Opsional: Kirim email verifikasi, event, dll.
-        // Mail::to($user->email)->send(new WelcomeEmail($user));
-
         return $user;
     }
 
