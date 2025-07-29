@@ -2,7 +2,7 @@
 
 namespace App\DTOs\Auth;
 
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\auths\LoginRequest;
 
 class LoginDto
 {
