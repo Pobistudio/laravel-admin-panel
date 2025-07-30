@@ -19,7 +19,7 @@
                 <input type="password" class="p-3 bg-slate-200 border border-slate-300 rounded-lg block focus:outline-slate-400"/>
                 <a href="#" class="text-slate-800 text-end text-sm font-semibold sm:font-medium w-full">Forgot password?</a>
                 <button type="submit" class="relative group p-3 bg-slate-500 text-white text-lg font-medium rounded-lg drop-shadow-lg cursor-pointer hover:bg-lap-dark hover:drop-shadow-2xl transition-all delay-150">Log In</button>
-                <small class="text-lap-navy text-center w-full pt-16">&copy;{{ date('Y') }} all rights reserved</small>
+                <small class="text-lap-navy text-center w-full pt-16">&copy;{{ date('Y').' '.config('app.name') }} </small>
             </form>
         </div>
     </div>
