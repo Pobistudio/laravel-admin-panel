@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Admin Panel'),
+    'desc' => env('APP_DESC', 'Business Management Made Easy'),
 
     /*
     |--------------------------------------------------------------------------
