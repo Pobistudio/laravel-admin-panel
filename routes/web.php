@@ -16,9 +16,9 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
             Route::post('/', [AuthController::class, 'doLogin'])->name('login');
         });
 
-        Route::prefix('change-password')->group(function () {
-            Route::get('/', [AuthController::class, 'changePassword'])->name('auth-change-password');
-            Route::post('/', [AuthController::class, 'doChangePassword'])->name('auth-change-password');
+        Route::prefix('forgot-password')->group(function () {
+            Route::get('/', [AuthController::class, 'forgotPassword'])->name('auth-forgot-password');
+            Route::post('/', [AuthController::class, 'changePassword'])->name('auth-forgot-password');
         });
 
         Route::get('/logout', [AuthController::class, 'doLogout'])->name('logout');

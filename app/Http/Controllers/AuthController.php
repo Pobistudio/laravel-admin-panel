@@ -35,12 +35,12 @@ class AuthController extends Controller
         }
     }
 
-    public function changePassword()
+    public function forgotPassword()
     {
-
+        return view('pages.auths.forgot-password');
     }
 
-    public function doChangePassword()
+    public function changePassword()
     {
 
     }
