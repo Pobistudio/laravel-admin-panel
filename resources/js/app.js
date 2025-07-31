@@ -29,45 +29,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fungsi untuk membuka sidebar
     function openSidebar() {
-        sidebar.classList.remove('-translate-x-full');
-        sidebarOverlay.classList.remove('hidden');
+        if (sidebar && sidebarOverlay) {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+        }
     }
 
     // Fungsi untuk menutup sidebar
     function closeSidebar() {
-        sidebar.classList.add('-translate-x-full');
-        sidebarOverlay.classList.add('hidden');
+        if (sidebar && sidebarOverlay) {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+        }
     }
 
     // Event listener untuk tombol toggle
-    toggleSidebarBtn.addEventListener('click', () => {
-        if (sidebar.classList.contains('-translate-x-full')) {
-            openSidebar();
-        } else {
-            closeSidebar();
-        }
-    });
+    if (toggleSidebarBtn && sidebar) {
+        toggleSidebarBtn.addEventListener('click', () => {
+            if (sidebar.classList.contains('-translate-x-full')) {
+                openSidebar();
+            } else {
+                closeSidebar();
+            }
+        });
+    }
 
     // Event listener untuk overlay (menutup sidebar saat klik di luar)
-    sidebarOverlay.addEventListener('click', closeSidebar);
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeSidebar);
+    }
 
     // Menutup sidebar saat ukuran layar berubah dari mobile ke desktop
     // Ini memastikan sidebar selalu terbuka di desktop jika itu adalah perilaku yang diinginkan
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 768) { // 768px adalah breakpoint default 'md' di Tailwind
-            sidebar.classList.remove('-translate-x-full');
-            sidebarOverlay.classList.add('hidden'); // Pastikan overlay tersembunyi di desktop
+            if (sidebar && sidebarOverlay) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.add('hidden'); // Pastikan overlay tersembunyi di desktop
+            }
         }
     });
 
     const menuButton = document.getElementById('menu-button');
     const dropdownMenu = document.getElementById('dropdown-menu');
 
-    menuButton.addEventListener('click', () => {
-        dropdownMenu.classList.toggle('hidden'); // Menambah/menghapus kelas 'hidden'
-        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-        menuButton.setAttribute('aria-expanded', !isExpanded);
-    });
+    if (menuButton && dropdownMenu) {
+        menuButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden'); // Menambah/menghapus kelas 'hidden'
+            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+            menuButton.setAttribute('aria-expanded', !isExpanded);
+        });
+    }
 
     // Opsional: Sembunyikan dropdown jika klik di luar area
     document.addEventListener('click', (event) => {
