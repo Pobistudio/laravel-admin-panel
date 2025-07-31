@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="flex flex-col w-full sm:w-1/2 p-10 sm:p-5 items-center justify-center">
-            <form method="POST" action="{{ route('login') }}" class="flex flex-col w-full lg:w-1/2 gap-4">
+            <x-form method="POST" action="{{ route('login') }}" class="flex-col w-full lg:w-1/2">
                 <x-form-title>Forgot Password ?</x-form-title>
                 <x-label for="email">Email</x-label>
                 <x-input type="email" id="email" name="email"/>
@@ -24,7 +24,7 @@
                 <x-button type="submit">Change Password</x-button>
                 <x-link href="{{ route('login') }}" class="text-center w-full">Back to Login</x-link>
                 <x-copyright/>
-            </form>
+            </x-form>
         </div>
     </div>
 @endsection
