@@ -99,7 +99,7 @@ class AuthServiceImpl implements AuthService
     {
         if ($dto->newPassword == $dto->newPasswordConfirmation) {
             // find user by email
-            $user = User::with('roles')
+            $user = User::with('role')
                     ->where([
                         'email' => $dto->email,
                         ])
@@ -159,6 +159,6 @@ class AuthServiceImpl implements AuthService
         SessionUtils::save('id', $user->id);
         SessionUtils::save('name', $user->name);
         SessionUtils::save('email', $user->email);
-        SessionUtils::save('temp_role', $user->roles);
+        SessionUtils::save('role', $user->role_id);
     }
 }

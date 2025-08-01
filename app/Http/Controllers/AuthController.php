@@ -35,7 +35,7 @@ class AuthController extends Controller
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
             Log::error("Error login user attempt : {$e->getMessage()}");
-            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => $e->getMessage()]);
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
 
@@ -55,7 +55,7 @@ class AuthController extends Controller
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
             Log::error("Failed change password user attempt : {$e->getMessage()}");
-            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => $e->getMessage()]);
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
 
