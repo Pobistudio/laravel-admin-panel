@@ -16,7 +16,7 @@
             <x-form method="POST" action="{{ route('login') }}" class="flex-col w-full lg:w-1/2">
                 <x-form-title>Welcom to {{ config('app.name') }}</x-form-title>
                 <x-label for="email">Email</x-label>
-                <x-input type="email" id="email" name="email" autocomplete="email"/>
+                <x-input type="email" id="email" name="email" autocomplete="email" value="{{ old('email') }}"/>
                 <x-label for="password">Password</x-label>
                 <x-input type="password" id="password" name="password"/>
                 <x-link href="{{ route('auth-forgot-password') }}" class="text-end w-full">Forgot password?</x-link>

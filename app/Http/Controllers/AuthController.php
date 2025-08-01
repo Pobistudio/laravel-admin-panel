@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\Auth\ChangePasswordDto;
 use App\DTOs\Auth\LoginDto;
+use App\Exceptions\ServiceException;
+use App\Http\Requests\auths\ChangePasswordRequest;
 use App\Http\Requests\auths\LoginRequest;
 use App\Services\contracts\AuthService;
 use Exception;
@@ -24,16 +27,15 @@ class AuthController extends Controller
     public function doLogin(LoginRequest $request)
     {
         try {
-
-            $user = $this->authService->login(LoginDto::fromRequest($request));
-
-            if ($user) {
-                return redirect()->route('dashboard')->with('alert', ['type' => 'success', 'message' => 'Success login user']);
-            }
-            return redirect()->back()->with('alert', ['type' => 'warning', 'message' => 'Failed login']);
+            $result = $this->authService->login(LoginDto::fromRequest($request));
+            $alertSuccess = ['type' => 'success', 'message' => 'Success login user'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed login user'];
+            return redirect()->back()->withInput()->with('alert', $result ? $alertSuccess : $alertWarning);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Failed login user attempt : {$e->getMessage()}");
-            return redirect()->back()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+            Log::error("Error login user attempt : {$e->getMessage()}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => $e->getMessage()]);
         }
     }
 
@@ -42,9 +44,19 @@ class AuthController extends Controller
         return view('pages.auths.forgot-password');
     }
 
-    public function changePassword()
+    public function changePassword(ChangePasswordRequest $request)
     {
-
+        try {
+            $result = $this->authService->changePassword(ChangePasswordDto::fromRequest($request));
+            $alertSuccess = ['type' => 'success', 'message' => 'Success change password'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed change password'];
+            return redirect()->back()->withInput()->with('alert', $result ? $alertSuccess : $alertWarning);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Failed change password user attempt : {$e->getMessage()}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 
     public function doLogout()

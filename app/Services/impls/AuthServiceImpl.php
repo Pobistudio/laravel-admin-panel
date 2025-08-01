@@ -6,12 +6,12 @@ use App\DTOs\Auth\ChangePasswordDto;
 use App\DTOs\Auth\LoginDto;
 use App\DTOs\Auth\RegisterUserDto;
 use App\Enum\StatusEnum;
+use App\Exceptions\ServiceException;
 use App\Models\User;
 use App\Services\contracts\AuthService;
 use App\Utils\CacheUtils;
 use App\Utils\SessionUtils;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -25,7 +25,7 @@ class AuthServiceImpl implements AuthService
      *
      * @param LoginDto $dto
      * @return User|null
-     * @throws Exception
+     * @throws ServiceException
      */
     public function login(LoginDto $dto): User|null
     {
@@ -40,10 +40,10 @@ class AuthServiceImpl implements AuthService
         if ($user) {
             if (!strcasecmp($dto->password, env('DEFAULT_PASSWORD'))) {
                 Log::warning("Failed login attempt for email: {$dto->email}");
-                throw new Exception("You are using the default password, please change your password first");
+                throw new ServiceException("You are using the default password, please change your password first");
             } else if (!Hash::check($dto->password, $user->password)) {
                 Log::warning("Failed login attempt for email: {$dto->email}");
-                throw new Exception("Invalid email or password");
+                throw new ServiceException("Invalid email or password");
             } else {
                 Log::info("Success login attempt for email: {$dto->email}");
                 // save login user to session
@@ -53,7 +53,7 @@ class AuthServiceImpl implements AuthService
         }
 
         Log::warning("Failed login attempt for email: {$dto->email}");
-        throw new Exception("Invalid email or password");
+        throw new ServiceException("Invalid email or password");
     }
 
     /**
@@ -61,7 +61,7 @@ class AuthServiceImpl implements AuthService
      *
      * @param RegisterUserDto $dto
      * @return User|null
-     * @throws Exception
+     * @throws ServiceException
      */
     public function registerUser(RegisterUserDto $dto): User|null
     {
@@ -70,7 +70,7 @@ class AuthServiceImpl implements AuthService
 
         if ($user) {
             Log::warning("Failed register user attempt for email: {$dto->email}");
-            throw new Exception("Email already registered");
+            throw new ServiceException("Email already registered");
         }
 
         $user = User::create([
@@ -83,7 +83,7 @@ class AuthServiceImpl implements AuthService
 
         if (!$user) {
             Log::warning("Failed register user attempt for email: {$dto->email}");
-            throw new Exception("Failed register user");
+            throw new ServiceException("Failed register user");
         }
         return $user;
     }
@@ -93,7 +93,7 @@ class AuthServiceImpl implements AuthService
      *
      * @param ChangePasswordDto $dto
      * @return bool|null
-     * @throws Exception
+     * @throws ServiceException
      */
     public function changePassword(ChangePasswordDto $dto): bool|null
     {
@@ -110,10 +110,10 @@ class AuthServiceImpl implements AuthService
 
                 if (!strcasecmp($dto->newPassword, env('DEFAULT_PASSWORD')) ) {
                     Log::warning("Failed change password attempt for email: {$dto->email}");
-                    throw new Exception("Your password change failed because you cannot use the default password");
+                    throw new ServiceException("Your password change failed because you cannot use the default password");
                 } else if ($status == StatusEnum::INACTIVE->value || $status == StatusEnum::DELETED->value) {
                     Log::warning("Failed change password attempt for email: {$dto->email}");
-                    throw new Exception("Invalid email");
+                    throw new ServiceException("Invalid email");
                 } else {
                     $status = ($status == StatusEnum::REGISTERED->value) ? StatusEnum::CHANGED_PASSWORD->value : $status;
 
@@ -127,7 +127,7 @@ class AuthServiceImpl implements AuthService
 
                     if (!$user) {
                         Log::warning("Failed change password attempt for email: {$dto->email}");
-                        throw new Exception("Failed change");
+                        throw new ServiceException("Failed change");
                     }
                     return $user;
                 }
@@ -135,7 +135,7 @@ class AuthServiceImpl implements AuthService
         }
 
         Log::warning("Failed change password attempt for email: {$dto->email}");
-        throw new Exception("Password not match");
+        throw new ServiceException("Password not match");
     }
 
     /**
