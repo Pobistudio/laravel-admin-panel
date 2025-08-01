@@ -9,7 +9,7 @@
             </div>
             <span class="font-semibold text-5xl sm:text-4xl text-lap-dark text-start w-2/3 pt-7">{{ config('app.desc') }}</span>
             <div class="flex w-full h-full items-center justify-center">
-                <img src="{{ asset('assets/images/illustration_invite_only.svg') }}" alt="Forgot password illustration" class="bg-lap-cream rounded-2xl p-2 drop-shadow-sm w-[500px]" />
+                <img src="{{ asset('assets/images/illustration_forgot_password.svg') }}" alt="Forgot password illustration" class="bg-lap-cream rounded-2xl p-2 drop-shadow-sm w-[500px]" />
             </div>
         </div>
         <div class="flex flex-col w-full sm:w-1/2 p-10 sm:p-5 items-center justify-center">
