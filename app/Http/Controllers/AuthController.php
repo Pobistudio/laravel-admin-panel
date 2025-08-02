@@ -30,7 +30,10 @@ class AuthController extends Controller
             $result = $this->authService->login(LoginDto::fromRequest($request));
             $alertSuccess = ['type' => 'success', 'message' => 'Success login user'];
             $alertWarning = ['type' => 'warning', 'message' => 'Failed login user'];
-            return redirect()->back()->withInput()->with('alert', $result ? $alertSuccess : $alertWarning);
+            if ($result) {
+                return redirect()->route('dashboard')->with('alert', $alertSuccess);
+            }
+            return redirect()->back()->withInput()->with('alert', $alertWarning);
         } catch(ServiceException $e) {
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
