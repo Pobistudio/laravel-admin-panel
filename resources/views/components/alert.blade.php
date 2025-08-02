@@ -36,7 +36,7 @@
                 break;
         }
     @endphp
-    <div class="absolute top-4 right-4 bg">
+    <div class="absolute top-4 right-4 z-50">
         <div {{ $attributes->merge(['class' => "flex flex-col $bgColor border $borderColor $textColor px-4 py-3 rounded relative mb-4 transition duration-300 w-[300px] rounded-xl shadow-lg gap-2"]) }} role="alert">
             <strong class="text-sm font-semibold">{{ $title }}</strong>
             <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer hover:drop-shadow-2xl" onclick="this.parentElement.style.display='none'">
