@@ -87,5 +87,5 @@ document.addEventListener('DOMContentLoaded', function () {
             dropdownMenu.classList.add('hidden');
             menuButton.setAttribute('aria-expanded', 'false');
         }
-    });;
+    });
 });
