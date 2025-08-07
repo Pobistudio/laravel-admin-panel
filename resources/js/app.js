@@ -1,6 +1,7 @@
 import './bootstrap';
 import 'remixicon/fonts/remixicon.css';
 import './alert.js';
+import './dialog.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     const menuToggles = document.querySelectorAll('.menu-toggle');
