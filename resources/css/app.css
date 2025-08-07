@@ -33,3 +33,24 @@
   display: none;
 }
 
+/* Custom Animations */
+@keyframes fadeOutUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.alert-closing {
+    animation: fadeOutUp 0.3s ease-in-out forwards;
+}
+
+/* Hover effect untuk tombol close */
+.close-btn:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
