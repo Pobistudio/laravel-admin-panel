@@ -1,25 +1,20 @@
-<dialog id="basic-dialog" class="w-96 p-0 rounded-xl m-auto backdrop:bg-slate-600 backdrop:opacity-75">
+<dialog id="basic-dialog" class="w-96 p-0 rounded-xl m-auto backdrop:bg-slate-600 backdrop:opacity-75 drop-shadow-2xl">
     <div class="p-6">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold">Basic Dialog</h3>
-            <button onclick="closeDialog('basic-dialog')"
-                    class="text-gray-400 hover:text-gray-600">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
+            <x-dialog.close-header onclick="closeDialog('basic-dialog')"/>
         </div>
         <p class="text-gray-600 mb-6">This is a native HTML dialog element with Tailwind styling.</p>
         <div class="flex justify-end space-x-3">
             <button onclick="closeDialog('basic-dialog')"
-                    class="px-4 py-2 text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200">
+                    class="px-4 py-2 text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 cursor-pointer">
                 Close
             </button>
         </div>
     </div>
 </dialog>
 
-<dialog id="confirm-dialog" class="w-96 p-0 rounded-xl">
+<dialog id="confirm-dialog" class="w-96 p-0 rounded-xl m-auto backdrop:bg-slate-600 backdrop:opacity-75 drop-shadow-2xl">
     <div class="p-6">
         <div class="flex items-start mb-4">
             <div class="flex-shrink-0 w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">

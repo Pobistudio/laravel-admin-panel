@@ -17,7 +17,7 @@
 <body class="font-poppins">
     <x-alert/>
     @yield('content')
-    <x-dialog/>
+    <x-dialog.dialog/>
     @stack('scripts')
 </body>
 </html>
