@@ -3,6 +3,12 @@ import 'remixicon/fonts/remixicon.css';
 import './alert.js';
 import './dialog.js';
 
+window.confirmLogoutDialog = function (logoutUrl) {
+    showConfirmDialog('Logout', 'Apakah anda ingin logout aplikasi ini ?', 'Logout', function () {
+        window.location.href = logoutUrl;
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const menuToggles = document.querySelectorAll('.menu-toggle');
 
