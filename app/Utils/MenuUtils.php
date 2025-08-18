@@ -15,11 +15,12 @@ class MenuUtils
     private static function sidebarGenerator(array $menus, array $segments)
     {
         $sidebar = '';
+        $hover   = 'hover:bg-slate-500 hover:rounded-lg hover:text-lap-white';
 
         foreach ($menus as $item) {
             $link         = implode('/', $segments);
             $isActive     = str_starts_with($link, $item['link']) || $link == self::findLink($link, $item['children']);
-            $bgSelectMenu = $isActive ? 'bg-lap-dark rounded-lg text-lap-white' : '';
+            $bgSelectMenu = $isActive ? 'bg-slate-500 rounded-lg text-lap-white' : '';
 
             $icon = '';
 
@@ -32,8 +33,8 @@ class MenuUtils
                 $rotateToggle   = $isActive ? 'rotate-180' : '';
 
                 $sidebar .= '<li class="relative my-2">';
-                $sidebar .= '<a href="#" class="flex items-center justify-between p-2 hover:bg-lap-dark hover:rounded-lg hover:text-lap-white menu-toggle">';
-                $sidebar .= '<span class="flex gap-2 items-center">'. $icon . $item['name'] .'</span>';
+                $sidebar .= '<a href="#" class="flex items-center justify-between p-2 '. $hover .' menu-toggle">';
+                $sidebar .= '<span class="flex gap-2 items-center text-sm">'. $icon . $item['name'] .'</span>';
                 $sidebar .= '<svg class="w-4 h-4 transition-transform duration-200 transform '. $rotateToggle .'" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
                 $sidebar .= '</a>';
                 $sidebar .= '<ul class="ml-4 nested-menu '. $showNestedMenu .'">';
@@ -41,8 +42,8 @@ class MenuUtils
                 $sidebar .= '</ul>';
             } else {
                 $sidebar .= '<li class="my-2">';
-                $sidebar .= '<a href="'. route($item['link_alias']) .'" class="flex items-center justify-between p-2 '. $bgSelectMenu .' hover:bg-lap-dark hover:rounded-lg hover:text-lap-white">';
-                $sidebar .= '<span class="flex gap-2 items-center">'. $icon . $item['name'] .'</span>';
+                $sidebar .= '<a href="'. route($item['link_alias']) .'" class="flex items-center justify-between p-2 '. $bgSelectMenu . ' ' . $hover .' ">';
+                $sidebar .= '<span class="flex gap-2 items-center text-sm">'. $icon . $item['name'] .'</span>';
                 $sidebar .= '</a>';
             }
 

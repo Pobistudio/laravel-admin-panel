@@ -26,11 +26,15 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('permissionIsValid:view');
     Route::get('/users', [DashboardController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
-    Route::get('/statuses', [DashboardController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');
-    Route::get('/roles', [DashboardController::class, 'index'])->name('roles')->middleware('permissionIsValid:view');
-    Route::get('/menus', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
-    Route::get('/permissions', [DashboardController::class, 'index'])->name('permissions')->middleware('permissionIsValid:view');
-    Route::get('/roles-menus-permissions', [DashboardController::class, 'index'])->name('roles-menus-permissions')->middleware('permissionIsValid:view');
-    Route::get('/users-roles', [DashboardController::class, 'index'])->name('users-roles')->middleware('permissionIsValid:view');
+    Route::prefix('settings')->group(function () {
+        Route::get('/statuses', [DashboardController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');
+        Route::get('/roles', [DashboardController::class, 'index'])->name('roles')->middleware('permissionIsValid:view');
+        Route::get('/menus', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
+        Route::get('/permissions', [DashboardController::class, 'index'])->name('permissions')->middleware('permissionIsValid:view');
+        Route::prefix('mapping')->group(function () {
+            Route::get('/roles-menus-permissions', [DashboardController::class, 'index'])->name('roles-menus-permissions')->middleware('permissionIsValid:view');
+            Route::get('/users-roles', [DashboardController::class, 'index'])->name('users-roles')->middleware('permissionIsValid:view');
+        });
+    });
 
 });
