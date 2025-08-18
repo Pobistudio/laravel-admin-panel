@@ -18,7 +18,7 @@ class PermissionCheckUtils
         $link            = $splitValue[0];
         $permission      = $splitValue[1];
         $menuPermissions = self::getMenusPermissions();
-// dd($menuPermissions);
+
         return !empty(array_filter($menuPermissions, function ($item) use ($link, $permission) {
             if (str_starts_with($link, $item['link'])) {
                 return in_array($permission, $item['permissions']);
