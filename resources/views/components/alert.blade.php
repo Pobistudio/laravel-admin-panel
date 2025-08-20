@@ -41,7 +41,7 @@
                 break;
         }
     @endphp
-    <div class="absolute top-4 right-4 z-50">
+    <div class="absolute top-4 right-4 z-50 animation-in-down">
         <div {{ $attributes->merge(['class' => "flex flex-col $bgColor border $borderColor $textColor px-4 py-3 rounded relative mb-4 transition duration-300 w-[250px] sm:w-[300px] rounded-xl shadow-lg gap-2"]) }} role="alert" id="alert-{{ uniqid() }}">
             <span class="relative flex size-3">
                 <span class="absolute inline-flex h-full w-full animate-ping rounded-full {{ $bgPing }} opacity-75"></span>

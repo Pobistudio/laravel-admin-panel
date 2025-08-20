@@ -34,6 +34,17 @@
 }
 
 /* Custom Animations */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fadeOutUp {
     0% {
         opacity: 1;
@@ -45,7 +56,11 @@
     }
 }
 
-.alert-closing {
+.animation-in-down {
+    animation: fadeInDown 0.3s ease-in-out forwards;
+}
+
+.animation-out-up {
     animation: fadeOutUp 0.3s ease-in-out forwards;
 }
 
@@ -53,4 +68,15 @@
 .close-btn:hover {
     transform: scale(1.1);
     transition: transform 0.2s ease;
+}
+
+@keyframes rebound-down {
+  0% {
+    transform: translateY(-20px);
+    animation-timing-function: cubic-bezier(0.8, -0.6, 0.2, 1.5);
+  }
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, -0.6, 0.2, 1.5);
+  }
 }

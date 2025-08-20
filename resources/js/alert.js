@@ -4,10 +4,10 @@
 function closeAlert(alertId) {
     const alert = document.getElementById(alertId);
     if (alert) {
-        alert.classList.add('alert-closing');
+        alert.classList.add('animation-out-up');
         setTimeout(() => {
             alert.style.display = 'none';
-            alert.classList.remove('alert-closing');
+            alert.classList.remove('animation-out-up');
         }, 300);
     }
 }

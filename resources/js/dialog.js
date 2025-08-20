@@ -5,7 +5,7 @@ function generateDialog(type, title, message, actionText = '', callbackAction = 
     const sectionDialog = document.getElementById('section_dialog');
     clearSectionDialog();
     if (type == dialogBasic || type == dialogConfirm) {
-        let dialog = '<dialog id="'+type+'" class="w-96 p-0 rounded-xl m-auto backdrop:bg-slate-600 backdrop:opacity-75 drop-shadow-2xl">';
+        let dialog = '<dialog id="'+type+'" class="w-96 p-0 rounded-xl m-auto backdrop:bg-slate-600 backdrop:opacity-75 drop-shadow-2xl animation-in-down">';
         dialog    += '<div class="p-6">';
         dialog    += '<div class="flex justify-between items-center mb-4">';
         dialog    += '<h3 class="text-lg font-semibold">'+title+'</h3>';
@@ -62,8 +62,16 @@ function showConfirmDialog(title, message, actionText, callbackAction) {
 }
 
 function closeDialog(id) {
-    document.getElementById(id).close();
-    clearSectionDialog();
+    const dialog = document.getElementById(id);
+    if (dialog) {
+        dialog.classList.remove('animation-in-down');
+        dialog.classList.add('animation-out-up');
+        setTimeout(() => {
+                dialog.close();
+                dialog.classList.remove('animation-out-up');
+                clearSectionDialog();
+        }, 300);
+    }
 }
 
 window.showBasicDialog = showBasicDialog;
