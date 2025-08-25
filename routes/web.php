@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureSessionIsValid;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('permissionIsValid:view');
-    Route::get('/users', [DashboardController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
+    Route::get('/users', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
     Route::prefix('settings')->group(function () {
         Route::get('/statuses', [DashboardController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');
         Route::get('/roles', [DashboardController::class, 'index'])->name('roles')->middleware('permissionIsValid:view');

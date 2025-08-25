@@ -6,6 +6,7 @@ import './sidebar.js';
 import './dropdown-menu-navbar.js';
 import 'laravel-datatables-vite';
 import './datatable-tailwind.js';
+import './buttons.datatables.js'
 
 window.confirmLogoutDialog = function (logoutUrl) {
     showConfirmDialog('Logout', 'Apakah anda ingin logout aplikasi ini ?', 'Logout', function () {
