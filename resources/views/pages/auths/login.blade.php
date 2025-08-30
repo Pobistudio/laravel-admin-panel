@@ -13,14 +13,25 @@
             </div>
         </div>
         <div class="flex flex-col w-full sm:w-1/2 p-10 sm:p-5 items-center justify-center">
-            <x-form method="POST" action="{{ route('login') }}" class="flex-col w-full lg:w-1/2">
+            <x-form x-data="{ open: false, showPassword: false, textPassword: '' }" method="POST" action="{{ route('login') }}" class="flex-col w-full lg:w-1/2">
                 <x-form-title>Welcom to {{ config('app.name') }}</x-form-title>
-                <x-label for="email">Email</x-label>
+                <x-label id="label_email" for="email">Email</x-label>
                 <x-input type="email" id="email" name="email" autocomplete="email" value="{{ old('email') }}"/>
-                <x-label for="password">Password</x-label>
-                <x-input type="password" id="password" name="password"/>
+                <x-label id="label_password" for="password">Password</x-label>
+                <div class="flex flex-row gap-2 items-center">
+                    <div class="flex flex-col w-[90%]">
+                        <x-input x-show="!showPassword" type="password" id="password" name="password" class="w-full" x-model="textPassword"/>
+                        <x-input x-show="showPassword" type="text" id="password2" name="password" class="w-full" x-model="textPassword"/>
+                    </div>
+                    <div class="flex w-[10%] items-center justify-center cursor-pointer">
+                        <i x-show="showPassword" x-on:click="showPassword = false" class="ri-eye-line"></i>
+                        <i x-show="!showPassword" x-on:click="showPassword = true" class="ri-eye-close-line"></i>
+                    </div>
+                </div>
                 <x-link href="{{ route('auth-forgot-password') }}" class="text-end w-full">Forgot password?</x-link>
-                <x-button type="submit">Log In</x-button>
+                <x-button x-on:click="open = true" type="submit" class="flex items-center justify-center">
+                    <x-loader-button x-show="open"/>
+                    Log In</x-button>
                 <x-copyright/>
             </x-form>
         </div>
