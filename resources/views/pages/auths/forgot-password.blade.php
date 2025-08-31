@@ -18,9 +18,9 @@
                 <x-label for="email">Email</x-label>
                 <x-input type="email" id="email" name="email" value="{{ old('email') }}"/>
                 <x-label for="new_password">New Password</x-label>
-                <x-input type="password" id="new_password" name="new_password" value="{{ old('new_password') }}"/>
+                <x-input type="password" id="new_password" name="new_password" value="{{ old('new_password') }}" :isPassword="true"/>
                 <x-label for="confirm_password">Confirm Password</x-label>
-                <x-input type="password" id="confirm_password" name="confirm_password"/>
+                <x-input type="password" id="confirm_password" name="confirm_password" :isPassword="true"/>
                 <x-button type="submit">Change Password</x-button>
                 <x-link href="{{ route('login') }}" class="text-center w-full">Back to Login</x-link>
                 <x-copyright/>
