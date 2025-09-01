@@ -11,4 +11,9 @@ class UserController extends Controller
     {
         return $dataTable->render('pages.users.list');
     }
+
+    public function create()
+    {
+        return view('pages.users.create');
+    }
 }

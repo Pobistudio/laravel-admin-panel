@@ -1,8 +1,7 @@
 @extends('layouts.app')
 @section('title', "Dashboard")
 @section('page')
-    {{ $dataTable->table() }}
+    <x-table :data="$dataTable" :routeButtonAdd="route('users-create')">
+        filter
+    </x-table>
 @endsection
-@push('scripts')
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-@endpush

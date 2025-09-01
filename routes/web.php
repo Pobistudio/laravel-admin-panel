@@ -26,7 +26,10 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('permissionIsValid:view');
-    Route::get('/users', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
+        Route::get('/create', [UserController::class, 'create'])->name('users-create')->middleware('permissionIsValid:view');
+    });
     Route::prefix('settings')->group(function () {
         Route::get('/statuses', [DashboardController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');
         Route::get('/roles', [DashboardController::class, 'index'])->name('roles')->middleware('permissionIsValid:view');
