@@ -18,7 +18,7 @@
                 <x-label id="label_email" for="email">Email</x-label>
                 <x-input type="email" id="email" name="email" autocomplete="email" value="{{ old('email') }}"/>
                 <x-label id="label_password" for="password">Password</x-label>
-                <x-input id="password" name="password" class="w-full" :isPassword="true"/>
+                <x-input type="password" id="password" name="password" class="w-full" :isPassword="true"/>
                 <x-link href="{{ route('auth-forgot-password') }}" class="text-end w-full">Forgot password?</x-link>
                 <x-button x-on:click="open = true" type="submit" class="flex items-center justify-center">
                     <x-loader-button x-show="open"/>
