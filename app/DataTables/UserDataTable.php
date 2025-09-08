@@ -22,7 +22,17 @@ class UserDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'user.action')
+            ->addIndexColumn()
+            ->filterColumn('role', function($query, $keyword) {
+                $query->whereRaw("LOWER(roles.name) LIKE ?", ["%{$keyword}%"]);
+            })
+            ->filterColumn('status', function($query, $keyword) {
+                $query->whereRaw("LOWER(statuses.name) LIKE ?", ["%{$keyword}%"]);
+            })
+            ->addColumn('action', function($row) {
+                return view('components.action-dropdown-table');
+            })
+            ->rawColumns(['action'])
             ->setRowId('id');
     }
 
@@ -33,7 +43,11 @@ class UserDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model->newQuery()
+        ->addSelect('users.id', 'users.name', 'users.email','roles.name as role', 'statuses.name as status', 'users.created_at', 'users.updated_at')
+        ->leftJoin('roles', 'roles.id', '=', 'users.role_id')
+        ->leftJoin('statuses', 'statuses.id', '=', 'users.status_id');
+        return $this->applyScopes($query);
     }
 
     /**
@@ -64,16 +78,18 @@ class UserDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('DT_RowIndex', '#'),
+            Column::make('name'),
+            Column::make('email'),
+            Column::make('role'),
+            Column::make('status'),
+            Column::make('created_at'),
+            Column::make('updated_at'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

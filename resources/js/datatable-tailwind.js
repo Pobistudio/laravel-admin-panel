@@ -101,7 +101,7 @@ $.extend( true, DataTable.ext.classes, {
 		enabled: 'text-gray-800 hover:text-gray-900 hover:border-gray-300 hover:shadow-sm focus:ring focus:ring-gray-300 focus:ring-opacity-25',
 		notEnabled: 'text-gray-300'
 	},
-	table: 'dataTable min-w-screen text-sm align-middle whitespace-nowrap bg-white rounded-2xl border-2 border-slate-200',
+	table: 'dataTable w-full text-sm align-middle whitespace-nowrap bg-white rounded-2xl border-2 border-slate-200',
 	thead: {
 		row: 'border-b border-gray-100 rounded-md',
 		cell: 'px-3 py-4 text-gray-900 bg-gray-100/75 font-semibold text-left'
