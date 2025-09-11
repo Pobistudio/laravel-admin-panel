@@ -29,7 +29,7 @@ class UserDataTable extends DataTable
                 $query->whereRaw("LOWER(statuses.name) LIKE ?", ["%{$keyword}%"]);
             })
             ->addColumn('action', function($row) {
-                $userID      = CryptUtils::enc($row->id);
+                $userID      = $row->id;
                 $userName    = $row->name;
                 $routeEdit   = route('users-edit', ['id' => $userID]);
                 $routeDelete = route('users-delete', ['id' => $userID]);
