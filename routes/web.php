@@ -26,9 +26,21 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('permissionIsValid:view');
+
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users')->middleware('permissionIsValid:view');
-        Route::get('/create', [UserController::class, 'create'])->name('users-create')->middleware('permissionIsValid:view');
+
+        Route::prefix('create')->group(function () {
+            Route::get('/', [UserController::class, 'create'])->name('users-create')->middleware('permissionIsValid:view');
+            Route::post('/', [UserController::class, 'store'])->name('users-create')->middleware('permissionIsValid:create');
+        });
+
+        Route::prefix('edit')->group(function () {
+            Route::get('{id}', [UserController::class, 'edit'])->name('users-edit')->middleware('permissionIsValid:view');
+            Route::post('{id}', [UserController::class, 'update'])->name('users-edit')->middleware('permissionIsValid:update');
+        });
+
+        Route::get('/delete/{id}', [UserController::class, 'delete'])->name('users-delete')->middleware('permissionIsValid:delete');
     });
     Route::prefix('settings')->group(function () {
         Route::get('/statuses', [DashboardController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');

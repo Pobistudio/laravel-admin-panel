@@ -3,13 +3,12 @@
 namespace App\DataTables;
 
 use App\Models\User;
+use App\Utils\CryptUtils;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class UserDataTable extends DataTable
@@ -30,7 +29,25 @@ class UserDataTable extends DataTable
                 $query->whereRaw("LOWER(statuses.name) LIKE ?", ["%{$keyword}%"]);
             })
             ->addColumn('action', function($row) {
-                return view('components.action-dropdown-table');
+                $userID      = CryptUtils::enc($row->id);
+                $userName    = $row->name;
+                $routeEdit   = route('users-edit', ['id' => $userID]);
+                $routeDelete = route('users-delete', ['id' => $userID]);
+                $actions = [
+                    [
+                        'type'   => 'link',
+                        'name'   => 'Edit',
+                        'action' => $routeEdit
+                    ],
+                    [
+
+                        'type'   => 'button',
+                        'name'   => 'Delete',
+                        'action' => "confirmDeleteDialog('$userName', '$routeDelete')"
+                    ]
+                ];
+
+                return view('components.action-dropdown-table', compact('actions'));
             })
             ->rawColumns(['action'])
             ->setRowId('id');
@@ -56,20 +73,19 @@ class UserDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('user-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    // ->postAjax([
+                    //     'url' => route('users'),
+                    //     'data' => 'function(d) {
+                    //         d.status ="'.$this->filter_status.'";
+                    //         d.role = "'.$this->filter_role.'";
+                    //         d.created_at = "'.$this->filter_created_at.'";
+                    //     }'
+                    // ])
                     ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('add'),
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload'),
-                    ]);
+                    ->selectStyleSingle();
     }
 
     /**

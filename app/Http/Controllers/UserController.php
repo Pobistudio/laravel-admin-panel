@@ -16,4 +16,24 @@ class UserController extends Controller
     {
         return view('pages.users.create');
     }
+
+    public function store()
+    {
+
+    }
+
+    public function edit($id)
+    {
+        return view('pages.users.edit');
+    }
+
+    public function update($id)
+    {
+
+    }
+
+    public function delete($id)
+    {
+
+    }
 }
