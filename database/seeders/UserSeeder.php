@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
 
         User::insert([
             [
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::orderedUuid(),
                 'status_id' => StatusEnum::ACTIVE->value,
                 'role_id' => 'super_admin',
                 'name' => 'The Super Admin',
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::orderedUuid(),
                 'status_id' => StatusEnum::ACTIVE->value,
                 'role_id' => 'admin',
                 'name' => 'The Admin',
