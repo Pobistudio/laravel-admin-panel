@@ -18,7 +18,7 @@ class DialogManager {
         this.exposeToWindow();
     }
 
-    generateDialog(type, title, message, actionText = '', bgAction = 'slate', callbackAction = null) {
+    generateDialog(type, title, message, actionText = '', bgAction = 'gray', callbackAction = null) {
         const sectionDialog = document.getElementById(this.sectionDialogId);
         this.clearSectionDialog();
 
@@ -52,7 +52,7 @@ class DialogManager {
         dialog += `<button onclick="dialogManager.closeDialog('${type}')" class="px-4 py-2 text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 cursor-pointer">Close</button>`;
 
         if (type === this.DIALOG_CONFIRM) {
-            dialog += `<button id="confirmActionButton" class="px-4 py-2 text-white bg-${bgAction}-600 rounded-md hover:bg-${bgAction}-700 cursor-pointer">${actionText}</button>`;
+            dialog += `<button id="confirmActionButton" class="px-4 py-2 text-white bg-${bgAction}-500 rounded-md hover:bg-${bgAction}-700 cursor-pointer">${actionText}</button>`;
         }
 
         dialog += '</div>';
@@ -125,7 +125,7 @@ class DialogManager {
             () => {
                 window.location.href = logoutUrl;
             },
-            'slate'
+            'gray'
         );
     }
 
