@@ -1,6 +1,9 @@
 @props(['name', 'value' => null, 'options' => '[]', 'placeholder' => 'Select date', 'class' => ''])
 
-<div>
+<div class="relative">
+     <div class="absolute inset-y-0 end-0 flex items-center p-3 pointer-events-none">
+         <i class="ri-calendar-line"></i>
+     </div>
     <input
         type="text"
         name="{{ $name }}"
