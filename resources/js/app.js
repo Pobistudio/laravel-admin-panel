@@ -6,6 +6,6 @@ import './sidebar.js';
 import './dropdown-menu-navbar.js';
 import 'laravel-datatables-vite';
 import './datatable-tailwind.js';
-import './buttons.datatables.js'
 import './alpine.js';
 import './toggle-password.js';
+import './flatpicker.js';
