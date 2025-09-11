@@ -2,6 +2,17 @@
 @section('title', "Dashboard")
 @section('page')
     <x-table :data="$dataTable" :routeButtonAdd="route('users-create')">
-        filter
+        <x-filter-table class="sm:w-1/2 w-full">
+            <div class="flex sm:flex-row flex-col gap-3">
+                <div class="flex flex-col gap-2">
+                    <x-label id="label_start_date" for="email">Start Date</x-label>
+                    <x-datepicker name="start_date" placeholder="Select start date" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <x-label id="label_end_date" for="email">End Date</x-label>
+                    <x-datepicker name="end_date" placeholder="Select end date" />
+                </div>
+            </div>
+        </x-filter-table>
     </x-table>
 @endsection
