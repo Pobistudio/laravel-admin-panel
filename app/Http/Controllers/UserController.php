@@ -9,6 +9,7 @@ class UserController extends Controller
 {
     public function index(UserDataTable $dataTable)
     {
+        //UserDataTable $dataTable
         return $dataTable->render('pages.users.list');
     }
 
