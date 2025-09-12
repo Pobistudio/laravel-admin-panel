@@ -1,4 +1,5 @@
 import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/themes/dark.css';
 import flatpickr from 'flatpickr';
 
 // Inisialisasi Flatpickr
