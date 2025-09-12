@@ -12,4 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+function setRangeMinMaxDate(e, range, idEndDate) {
+    const endDate         = document.getElementById(idEndDate);
+    const startDateString = e.value;
+    const startDate       = new Date(startDateString + 'T00:00:00');
+    const maxDate         = startDate;
+    flatpickr(endDate, {
+        minDate: startDate,
+        maxDate: maxDate.fp_incr(range-1)
+    });
+}
+
 window.flatpickr = flatpickr;
+window.setRangeMinMaxDate = setRangeMinMaxDate
