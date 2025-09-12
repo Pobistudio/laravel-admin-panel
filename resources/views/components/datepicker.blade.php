@@ -11,7 +11,7 @@
         value="{{ old($name, $value) }}"
         placeholder="{{ $placeholder }}"
         {{ $attributes->merge([
-            'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ' . $class,
+            'class' => 'p-3 w-full bg-slate-200 border border-slate-300 rounded-lg focus:outline-slate-400 ' . $class,
             'data-datepicker' => true,
             'data-options' => $options
             ]) }}
