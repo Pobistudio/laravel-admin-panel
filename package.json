@@ -18,7 +18,6 @@
     "dependencies": {
         "alpinejs": "^3.14.9",
         "flatpickr": "^4.6.13",
-        "remixicon": "^4.6.0",
-        "tom-select": "^2.4.3"
+        "remixicon": "^4.6.0"
     }
 }
