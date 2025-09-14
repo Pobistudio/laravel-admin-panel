@@ -18,6 +18,23 @@ class UserDataTable extends DataTable
      *
      * @param QueryBuilder<User> $query Results from query() method.
      */
+
+    private string $filter_start_date;
+    private string $filter_end_date;
+    private string $filter_status;
+    private string $filter_role;
+
+    public function __construct(
+        string $filter_start_date = '',
+        string $filter_end_date = '',
+        string $filter_status = '',
+        string $filter_role = '',
+    ) {
+        $this->filter_start_date = $filter_start_date;
+        $this->filter_end_date = $filter_end_date;
+        $this->filter_status = $filter_status;
+        $this->filter_role = $filter_role;
+    }
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -64,6 +81,20 @@ class UserDataTable extends DataTable
         ->addSelect('users.id', 'users.name', 'users.email','roles.name as role', 'statuses.name as status', 'users.created_at', 'users.updated_at')
         ->leftJoin('roles', 'roles.id', '=', 'users.role_id')
         ->leftJoin('statuses', 'statuses.id', '=', 'users.status_id');
+
+        // filter
+        if ((request()->has('start_date') && request()->start_date != '') && (request()->has('end_date') && request()->end_date != '')) {
+            $query->whereBetween('updated_at', [request()->start_date, request()->end_date]);
+        }
+
+        if (request()->has('status') && request()->status != '') {
+            $query->where('statuses.id', request()->status);
+        }
+
+        if (request()->has('role') && request()->status != '') {
+            $query->where('roles.id', request()->role);
+        }
+
         return $this->applyScopes($query);
     }
 

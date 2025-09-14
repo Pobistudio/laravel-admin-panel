@@ -15,6 +15,6 @@
             'data-datepicker' => true,
             'data-options' => $options
             ]) }}
-        readonly>
+    >
     <x-error-validation name="{{ $name }}"/>
 </div>

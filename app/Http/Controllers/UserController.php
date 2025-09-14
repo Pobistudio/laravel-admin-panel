@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(UserDataTable $dataTable)
+    public function index(Request $request)
     {
-        //UserDataTable $dataTable
-        return $dataTable->render('pages.users.list');
+        // UserDataTable $dataTable
+        // return $dataTable->render('pages.users.list');
     }
 
     public function create()

@@ -14,7 +14,7 @@
     </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="overflow-hidden font-poppins">
+<body class="overflow-auto font-poppins">
     <x-alert/>
     @yield('content')
     <x-dialog.dialog/>

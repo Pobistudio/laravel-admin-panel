@@ -3,7 +3,7 @@
 @section('page')
     <x-table :data="$dataTable" :routeButtonAdd="route('users-create')">
         <x-filter-table class="sm:w-2/3 w-full">
-            <x-form method="POST" action="{{ route('users') }}" class="flex sm:flex-row flex-col gap-3">
+            <x-form method="POST" action="{{ route('users') }}" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div class="flex flex-col gap-2">
                     <x-label id="label_start_date" for="start_date">Start Date</x-label>
                     <x-datepicker name="start_date" placeholder="Select start date" onchange="setRangeMinMaxDate(this, 30, 'end_date')"/>
@@ -14,12 +14,12 @@
                 </div>
                 <div class="flex flex-col gap-2">
                     <x-label id="label_role" for="role">End Date</x-label>
-                    <select name="role" id="role" data-select="true" class="w-[400px] mt-1 block border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="1">admin</option>
-                        <option value="2">super admin</option>
-                    </select>
+                    <x-select name="role" class="w-[400px]" :options="[
+                        ['value' => 'admin', 'label' => 'Admin'],
+                        ['value' => 'superadmin', 'label' => 'Super Admin'],
+                    ]"/>
                 </div>
-                <div class="flex items-end">
+                <div class="flex">
                     <x-button type="submit" class="bg-teal-500 hover:bg-teal-700 px-6 h-[50px]">Filter</x-button>
                 </div>
             </x-form>
