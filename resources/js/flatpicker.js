@@ -19,7 +19,7 @@ function setRangeMinMaxDate(e, range, idEndDate) {
     const maxDate         = startDate;
     flatpickr(endDate, {
         minDate: startDate,
-        maxDate: maxDate.fp_incr(range-1)
+        maxDate: maxDate.fp_incr(range)
     });
 }
 

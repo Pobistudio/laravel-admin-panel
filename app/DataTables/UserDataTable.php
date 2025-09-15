@@ -35,6 +35,7 @@ class UserDataTable extends DataTable
         $this->filter_status = $filter_status;
         $this->filter_role = $filter_role;
     }
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -84,14 +85,14 @@ class UserDataTable extends DataTable
 
         // filter
         if ((request()->has('start_date') && request()->start_date != '') && (request()->has('end_date') && request()->end_date != '')) {
-            $query->whereBetween('updated_at', [request()->start_date, request()->end_date]);
+            $query->whereBetween('created_at', [request()->start_date, request()->end_date]);
         }
 
-        if (request()->has('status') && request()->status != '') {
+        if (request()->has('status') && request()->status != 'all') {
             $query->where('statuses.id', request()->status);
         }
 
-        if (request()->has('role') && request()->status != '') {
+        if (request()->has('role') && request()->status != 'all') {
             $query->where('roles.id', request()->role);
         }
 
@@ -107,14 +108,15 @@ class UserDataTable extends DataTable
                     ->setTableId('user-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    // ->postAjax([
-                    //     'url' => route('users'),
-                    //     'data' => 'function(d) {
-                    //         d.status ="'.$this->filter_status.'";
-                    //         d.role = "'.$this->filter_role.'";
-                    //         d.created_at = "'.$this->filter_created_at.'";
-                    //     }'
-                    // ])
+                    ->postAjax([
+                        'url' => route('users'),
+                        'data' => 'function(d) {
+                            d.start_date = "'.$this->filter_start_date.'";
+                            d.end_date = "'.$this->filter_end_date.'";
+                            d.status ="'.$this->filter_status.'";
+                            d.role = "'.$this->filter_role.'";
+                        }'
+                    ])
                     ->orderBy(1)
                     ->selectStyleSingle();
     }

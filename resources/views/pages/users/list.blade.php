@@ -6,11 +6,11 @@
             <x-form method="POST" action="{{ route('users') }}" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div class="flex flex-col gap-2">
                     <x-label id="label_start_date" for="start_date">Start Date</x-label>
-                    <x-datepicker name="start_date" placeholder="Select start date" onchange="setRangeMinMaxDate(this, 30, 'end_date')"/>
+                    <x-datepicker name="start_date" :value="$startDate" placeholder="Select start date" onchange="setRangeMinMaxDate(this, 30, 'end_date')"/>
                 </div>
                 <div class="flex flex-col gap-2">
                     <x-label id="label_end_date" for="end_date">End Date</x-label>
-                    <x-datepicker name="end_date" placeholder="Select end date"/>
+                    <x-datepicker name="end_date" :value="$endDate" placeholder="Select end date"/>
                 </div>
                 <div class="flex flex-col gap-2">
                     <x-label id="label_role" for="role">End Date</x-label>
@@ -26,3 +26,11 @@
         </x-filter-table>
     </x-table>
 @endsection
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const startDate = document.getElementById('start_date');
+        setRangeMinMaxDate(startDate, 30, 'end_date');
+    });
+</script>
+@endpush
