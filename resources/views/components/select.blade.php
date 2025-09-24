@@ -1,11 +1,13 @@
+
 <div x-data="{
     open: false,
     selected: '{{ old($attributes->get('name')) ?? $selected ?? '' }}',
     filter: '',
+    defaultOption: 'Pilih opsi...',
     options: {{ json_encode($options) }},
     get selectedLabel() {
         let option = this.options.find(o => o.value == this.selected);
-        return option ? option.label : 'Pilih opsi...';
+        return option ? option.label : this.defaultOption;
     }
     }"
     @click.away="open = false" class="relative w-full">

@@ -4,12 +4,14 @@ namespace App\DataTables;
 
 use App\Models\User;
 use App\Utils\CryptUtils;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use App\Utils\SessionUtils;
+use Illuminate\Support\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class UserDataTable extends DataTable
 {
@@ -45,6 +47,12 @@ class UserDataTable extends DataTable
             })
             ->filterColumn('status', function($query, $keyword) {
                 $query->whereRaw("LOWER(statuses.name) LIKE ?", ["%{$keyword}%"]);
+            })
+            ->editColumn('created_at', function($row) {
+                return Carbon::parse($row->created_at)->format('Y-m-d H:i');
+            })
+            ->editColumn('updated_at', function($row) {
+                return Carbon::parse($row->created_at)->format('Y-m-d H:i');
             })
             ->addColumn('action', function($row) {
                 $userID      = $row->id;
@@ -82,6 +90,8 @@ class UserDataTable extends DataTable
         ->addSelect('users.id', 'users.name', 'users.email','roles.name as role', 'statuses.name as status', 'users.created_at', 'users.updated_at')
         ->leftJoin('roles', 'roles.id', '=', 'users.role_id')
         ->leftJoin('statuses', 'statuses.id', '=', 'users.status_id');
+
+        $query->whereNotIn('users.id', [SessionUtils::get('id')]);
 
         // filter
         if ((request()->has('start_date') && request()->start_date != '') && (request()->has('end_date') && request()->end_date != '')) {

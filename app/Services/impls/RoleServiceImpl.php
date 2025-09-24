@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\impls;
 
-class RoleService
+use App\Models\Role;
+use App\Services\Contracts\RoleService;
+
+class RoleServiceImpl implements RoleService
 {
     public function create()
     {
@@ -19,9 +22,9 @@ class RoleService
 
     }
 
-    public function getAll()
+    public function getAll(array $exceptions = [])
     {
-
+        return Role::whereNotIn('id', $exceptions)->get();
     }
 
     public function getRoleById()
