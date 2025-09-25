@@ -12,7 +12,7 @@ interface RoleService
 
     public function getAll(array $exceptions = []);
 
-    public function getRoleById();
+    public function getRoleById(string $id);
 
     public function assignPermissionsToRole();
 

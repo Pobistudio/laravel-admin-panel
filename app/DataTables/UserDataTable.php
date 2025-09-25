@@ -54,6 +54,14 @@ class UserDataTable extends DataTable
             ->editColumn('updated_at', function($row) {
                 return Carbon::parse($row->created_at)->format('Y-m-d H:i');
             })
+            ->addColumn('role', function($row) {
+                $role = $row->role;
+                return view('components.badge.role-badge-wrapper', compact('role'));
+            })
+            ->addColumn('status', function($row) {
+                $status = $row->status;
+                return view('components.badge.status-badge-wrapper', compact('status'));
+            })
             ->addColumn('action', function($row) {
                 $userID      = $row->id;
                 $userName    = $row->name;
@@ -102,7 +110,7 @@ class UserDataTable extends DataTable
             $query->where('statuses.id', request()->status);
         }
 
-        if (request()->has('role') && request()->status != 'all') {
+        if (request()->has('role') && request()->role != 'all') {
             $query->where('roles.id', request()->role);
         }
 
@@ -140,8 +148,8 @@ class UserDataTable extends DataTable
             Column::computed('DT_RowIndex', '#'),
             Column::make('name'),
             Column::make('email'),
-            Column::make('role'),
-            Column::make('status'),
+            Column::computed('role'),
+            Column::computed('status'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')

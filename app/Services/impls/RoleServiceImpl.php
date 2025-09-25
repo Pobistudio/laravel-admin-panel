@@ -27,9 +27,9 @@ class RoleServiceImpl implements RoleService
         return Role::whereNotIn('id', $exceptions)->get();
     }
 
-    public function getRoleById()
+    public function getRoleById(string $id)
     {
-
+        return Role::find($id);
     }
 
     public function assignPermissionsToRole()

@@ -54,4 +54,21 @@ class MappingUtils
 
         return $mappedData;
     }
+
+    public static function childRolesToValueLabel($childRoles) {
+        if (!is_array($childRoles)) {
+            return [];
+        }
+
+        $data = [];
+
+        foreach ($childRoles as $item) {
+            array_push($data, [
+                'id' => $item,
+                'name' => ucwords(str_replace('_', ' ', $item))
+            ]);
+        }
+
+        return self::mapToValueLabel($data, 'id', 'name', [ 'value' => 'all', 'label' => 'Semua Role' ]);
+    }
 }

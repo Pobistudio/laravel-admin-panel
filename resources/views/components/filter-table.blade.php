@@ -11,13 +11,16 @@
         default => 'sm:grid-cols-1',
     };
 
-    $baseGridClass = 'grid grid-cols-1 ' . $gridClass;
+    $baseGridClass = 'grid grid-cols-1 gap-3 ' . $gridClass;
 @endphp
 <div {{ $attributes->merge(['class' => 'flex flex-col gap-2 p-3 rounded-lg border border-slate-300']) }}>
     <span class="text-lap-dark font-normal text-base sm:text-sm">Filter</span>
-    <x-form method="POST" action="{{ $action }}" class="{{ $baseGridClass }}">
-        {{ $slot }}
-        <div class="flex">
+    <x-form method="POST" action="{{ $action }}" class="flex-col">
+        @csrf
+        <div class="{{ $baseGridClass }}">
+            {{ $slot }}
+        </div>
+        <div class="flex w-full justify-end">
             <x-button type="submit" class="bg-teal-500 hover:bg-teal-700 px-5 text-sm font-normal">Filter</x-button>
         </div>
     </x-form>
