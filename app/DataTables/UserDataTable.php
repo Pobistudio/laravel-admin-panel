@@ -55,12 +55,14 @@ class UserDataTable extends DataTable
                 return Carbon::parse($row->created_at)->format('Y-m-d H:i');
             })
             ->addColumn('role', function($row) {
-                $role = $row->role;
-                return view('components.badge.role-badge-wrapper', compact('role'));
+                $type = 'role';
+                $name = $row->role;
+                return view('components.badge.badge-wrapper', compact('type', 'name'));
             })
             ->addColumn('status', function($row) {
-                $status = $row->status;
-                return view('components.badge.status-badge-wrapper', compact('status'));
+                $type = 'status';
+                $name = $row->status;
+                return view('components.badge.badge-wrapper', compact('type', 'name'));
             })
             ->addColumn('action', function($row) {
                 $userID      = $row->id;
