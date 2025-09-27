@@ -20,7 +20,7 @@ class MenuUtils
         foreach ($menus as $item) {
             $link         = implode('/', $segments);
             $isActive     = str_starts_with($link, $item['link']) || $link == self::findLink($link, $item['children']);
-            $bgSelectMenu = $isActive ? 'bg-slate-500 rounded-lg text-lap-white' : '';
+            $bgSelectMenu = $isActive ? 'bg-slate-500 drop-shadow-xl rounded-lg text-lap-white' : '';
 
             $icon = '';
 
