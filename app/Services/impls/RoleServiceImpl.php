@@ -4,6 +4,8 @@ namespace App\Services\impls;
 
 use App\Models\Role;
 use App\Services\Contracts\RoleService;
+use App\Utils\MappingUtils;
+use App\Utils\SessionUtils;
 
 class RoleServiceImpl implements RoleService
 {
@@ -29,7 +31,18 @@ class RoleServiceImpl implements RoleService
 
     public function getRoleById(string $id)
     {
-        return Role::find($id);
+        return Role::where('id', $id)->first();
+    }
+
+    public function getChildRoles()
+    {
+        return explode(',', SessionUtils::get('child_roles'));
+    }
+
+    public function getChildRolesDataSelect()
+    {
+        $childRoles = $this->getChildRoles();
+        return MappingUtils::childRolesToValueLabel($childRoles);;
     }
 
     public function assignPermissionsToRole()

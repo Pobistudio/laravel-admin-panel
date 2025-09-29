@@ -112,8 +112,12 @@ class UserDataTable extends DataTable
             $query->where('statuses.id', request()->status);
         }
 
-        if (request()->has('role') && request()->role != 'all') {
-            $query->where('roles.id', request()->role);
+        if (request()->has('role')) {
+            if (request()->role != 'all') {
+                $query->where('roles.id', request()->role);
+            } else {
+                $query->whereIn('roles.id', explode(',', SessionUtils::get('child_roles')));
+            }
         }
 
         return $this->applyScopes($query);

@@ -161,5 +161,6 @@ class AuthServiceImpl implements AuthService
         SessionUtils::save('email', $user->email);
         SessionUtils::save('role', $user->role_id);
         SessionUtils::save('role_name', $user->role->name);
+        SessionUtils::save('child_roles', $user->role->child_roles);
     }
 }

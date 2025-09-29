@@ -13,4 +13,6 @@ interface StatusService
     public function getAll();
 
     public function getStatusById(string $id);
+
+    public function getStatusesDataSelect();
 }

@@ -14,7 +14,12 @@ interface RoleService
 
     public function getRoleById(string $id);
 
+    public function getChildRoles();
+
+    public function getChildRolesDataSelect();
+
     public function assignPermissionsToRole();
 
     public function attachMenuToRole();
+
 }
