@@ -13,10 +13,9 @@
 
     $baseGridClass = 'grid grid-cols-1 gap-3 ' . $gridClass;
 @endphp
-<div {{ $attributes->merge(['class' => 'flex flex-col gap-2 p-3 rounded-lg border border-slate-300']) }}>
+<div {{ $attributes->merge(['class' => 'flex flex-col gap-2 p-3']) }}>
     <span class="text-lap-dark font-normal text-base sm:text-sm">Filter</span>
     <x-form method="POST" action="{{ $action }}" class="flex-col">
-        @csrf
         <div class="{{ $baseGridClass }}">
             {{ $slot }}
         </div>
