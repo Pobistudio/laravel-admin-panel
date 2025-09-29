@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\impls;
 
-class UserService
+use App\Models\User;
+use App\Services\Contracts\UserService;
+
+class UserServiceImpl implements UserService
 {
     public function create()
     {
@@ -24,9 +27,9 @@ class UserService
 
     }
 
-    public function getUserById()
+    public function getUserById(string $id)
     {
-
+        return User::find($id);
     }
 
     public function getUsersByRole()

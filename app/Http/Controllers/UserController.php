@@ -8,16 +8,19 @@ use Illuminate\Http\Request;
 use App\DataTables\UserDataTable;
 use App\Services\Contracts\RoleService;
 use App\Services\Contracts\StatusService;
+use App\Services\Contracts\UserService;
 use App\Utils\MappingUtils;
 
 class UserController extends Controller
 {
     private RoleService $roleService;
     private StatusService $statusService;
+    private UserService $userService;
 
-    public function __construct(RoleService $roleService, StatusService $statusService) {
+    public function __construct(RoleService $roleService, StatusService $statusService, UserService $userService) {
         $this->roleService = $roleService;
         $this->statusService = $statusService;
+        $this->userService = $userService;
     }
 
     public function index(Request $request)
@@ -44,6 +47,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
+
         return view('pages.users.edit');
     }
 
