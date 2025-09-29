@@ -16,11 +16,12 @@ function setRangeMinMaxDate(e, range, idEndDate) {
     const endDate         = document.getElementById(idEndDate);
     const startDateString = e.value;
     const startDate       = new Date(startDateString + 'T00:00:00');
-    const maxDate         = startDate;
+    const maxDate         = startDate.fp_incr(range);
     flatpickr(endDate, {
         minDate: startDate,
-        maxDate: maxDate.fp_incr(range)
+        maxDate: maxDate
     });
+    endDate.value = maxDate.toISOString().split('T')[0];
 }
 
 window.flatpickr = flatpickr;
