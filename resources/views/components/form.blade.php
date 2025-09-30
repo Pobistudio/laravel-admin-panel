@@ -1,5 +1,12 @@
+@props(['border' => false])
 @php
-    $classes = "flex gap-4 rounded-lg border border-slate-300 p-3";
+    $borderClasses = "";
+
+    if ($border) {
+        $borderClasses = "rounded-lg border border-slate-300 p-3";
+    }
+
+    $classes = "flex gap-4 " . $borderClasses;
 @endphp
 <form {{ $attributes->merge(['class' => "{$classes}"]) }}>
     @csrf
