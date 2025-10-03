@@ -29,7 +29,7 @@ class UserController extends Controller
         $endDate      = $request->post() && $request->has('end_date') && !empty($request->get('end_date')) ? $request->get('end_date') : Carbon::now()->addDays(30)->format('Y-m-d');
         $status       = $request->post() && $request->has('status') && !empty($request->get('status')) ? $request->get('status') : 'all';
         $role         = $request->post() && $request->has('role') && !empty($request->get('role')) ? $request->get('role') : 'all';
-        $listRoles    = $this->roleService->getChildRolesDataSelect(SessionUtils::get('role'));
+        $listRoles    = $this->roleService->getChildRolesDataSelect();
         $listStatuses = $this->statusService->getStatusesDataSelect();
         $dataTable    = new UserDataTable($startDate, $endDate, $status, $role);
         return $dataTable->render('pages.users.list', compact('startDate', 'endDate', 'role', 'status', 'listRoles', 'listStatuses'));
@@ -37,7 +37,8 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('pages.users.create');
+        $listRoles    = $this->roleService->getChildRolesDataSelect(false);
+        return view('pages.users.create', compact('listRoles'));
     }
 
     public function store()

@@ -9,6 +9,8 @@
     <x-input type="email" id="email" name="email" autocomplete="email" value="{{ old('email') }}"/>
     <x-label id="label_password" for="password">Password</x-label>
     <x-input type="password" id="password" name="password" class="w-full" :isPassword="true"/>
+    <x-label id="label_role" for="role">Role</x-label>
+    <x-select name="role"  :options="$listRoles" value="{{ old('role') }}"/>
     <div class="flex justify-end w-full">
         <x-button x-on:click="open = true" type="submit" class="flex items-center justify-center">
             <x-loader-button x-show="open"/>

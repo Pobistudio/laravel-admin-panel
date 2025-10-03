@@ -55,7 +55,7 @@ class MappingUtils
         return $mappedData;
     }
 
-    public static function childRolesToValueLabel($childRoles) {
+    public static function childRolesToValueLabel($childRoles, $allItem = true) {
         if (!is_array($childRoles)) {
             return [];
         }
@@ -69,6 +69,10 @@ class MappingUtils
             ]);
         }
 
-        return self::mapToValueLabel($data, 'id', 'name', [ 'value' => 'all', 'label' => 'Semua Role' ]);
+        if ($allItem) {
+            return self::mapToValueLabel($data, 'id', 'name', [ 'value' => 'all', 'label' => 'Semua Role' ]);
+        }
+
+        return self::mapToValueLabel($data, 'id', 'name', null);
     }
 }
