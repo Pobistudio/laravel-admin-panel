@@ -9,3 +9,4 @@ import './datatable-tailwind.js';
 import './alpine.js';
 import './toggle-password.js';
 import './flatpicker.js';
+import './select.js';
