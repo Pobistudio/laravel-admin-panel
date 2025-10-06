@@ -1,4 +1,4 @@
-@props(['border' => false])
+@props(['border' => false, 'actionBack' => null])
 @php
     $borderClasses = "";
 
@@ -8,7 +8,12 @@
 
     $classes = "flex gap-4 " . $borderClasses;
 @endphp
-<form {{ $attributes->merge(['class' => "{$classes}"]) }}>
-    @csrf
-    {{ $slot }}
-</form>
+<div class="flex flex-col gap-2">
+    @if ($actionBack)
+        <x-form-button-back action="{{ $actionBack }}"/>
+    @endif
+    <form {{ $attributes->merge(['class' => "{$classes}"]) }}>
+        @csrf
+        {{ $slot }}
+    </form>
+</div>
