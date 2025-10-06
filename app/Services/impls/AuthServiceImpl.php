@@ -77,7 +77,7 @@ class AuthServiceImpl implements AuthService
             'name' => $dto->name,
             'email' => $dto->email,
             'password' => Hash::make(env('DEFAULT_PASSWORD')),
-            'status_id' => $dto->statusId && env('DEFAULT_USER_STATUS'),
+            'status_id' => $dto->statusId ?? env('DEFAULT_USER_STATUS', StatusEnum::REGISTERED),
             'role_id' => $dto->roleId
         ]);
 

@@ -2,25 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\auths\RegisterUserRequest;
 use Carbon\Carbon;
-use App\Utils\SessionUtils;
 use Illuminate\Http\Request;
 use App\DataTables\UserDataTable;
+use App\DTOs\Auth\RegisterUserDto;
+use App\Enum\StatusEnum;
+use App\Exceptions\ServiceException;
+use App\Services\contracts\AuthService;
 use App\Services\Contracts\RoleService;
 use App\Services\Contracts\StatusService;
 use App\Services\Contracts\UserService;
-use App\Utils\MappingUtils;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     private RoleService $roleService;
     private StatusService $statusService;
     private UserService $userService;
+    private AuthService $authService;
 
-    public function __construct(RoleService $roleService, StatusService $statusService, UserService $userService) {
+    public function __construct(RoleService $roleService, StatusService $statusService, UserService $userService, AuthService $authService) {
         $this->roleService = $roleService;
         $this->statusService = $statusService;
         $this->userService = $userService;
+        $this->authService = $authService;
     }
 
     public function index(Request $request)
@@ -41,9 +48,24 @@ class UserController extends Controller
         return view('pages.users.create', compact('listRoles'));
     }
 
-    public function store()
+    public function store(RegisterUserRequest $request)
     {
+        try {
+            $response = $this->authService->registerUser(RegisterUserDto::fromRequest($request, env('DEFAULT_USER_STATUS', StatusEnum::REGISTERED)));
 
+            $alertSuccess = ['type' => 'success', 'message' => 'Success create new user'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed create new user'];
+
+            if ($response) {
+                return redirect()->route('users')->with('alert', $alertSuccess);
+            }
+            return redirect()->back()->withInput()->with('alert', $alertWarning);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error register user attempt : {$e->getMessage()}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
     }
 
     public function edit($id)
