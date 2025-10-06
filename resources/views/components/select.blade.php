@@ -68,9 +68,9 @@
             <template x-if="multiple && selectedItems.length > 0">
                 <div class="flex flex-wrap gap-1.5 -m-1">
                     <template x-for="item in selectedItems" :key="item.value">
-                        <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-md border border-blue-200">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-500 text-white text-sm font-medium rounded-md border border-blue-200">
                             <span x-text="item.label" class="max-w-[150px] truncate"></span>
-                            <button @click.stop="removeItem(item.value)" type="button" class="hover:bg-blue-200 rounded-full p-0.5 transition-colors">
+                            <button @click.stop="removeItem(item.value)" type="button" class="hover:bg-white hover:text-slate-500 rounded-full p-0.5 transition-colors cursor-pointer">
                                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                 </svg>
