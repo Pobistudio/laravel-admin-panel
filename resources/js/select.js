@@ -161,24 +161,51 @@ function initSelectComponent(component) {
 
         filteredOptions.forEach(option => {
             const li = document.createElement('li');
-            li.className = 'px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center justify-between transition-colors';
+            li.className = 'px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center gap-3 transition-colors';
 
             if (isSelected(option.value)) {
-                li.classList.add('bg-blue-50', 'text-blue-700');
+                li.classList.add('bg-blue-50');
             }
 
+            // Checkbox container
+            const checkboxContainer = document.createElement('div');
+            checkboxContainer.className = 'flex-shrink-0';
+
+            // Create checkbox/radio
+            const checkbox = document.createElement('div');
+            checkbox.className = 'w-5 h-5 border-2 rounded flex items-center justify-center transition-all';
+
+            if (multiple) {
+                // Checkbox style for multiple
+                checkbox.classList.add('border-gray-400');
+                if (isSelected(option.value)) {
+                    checkbox.classList.remove('border-gray-400');
+                    checkbox.classList.add('bg-blue-600', 'border-blue-600');
+                    checkbox.innerHTML = '<svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>';
+                }
+            } else {
+                // Radio style for single
+                checkbox.classList.add('rounded-full', 'border-gray-400');
+                if (isSelected(option.value)) {
+                    checkbox.classList.remove('border-gray-400');
+                    checkbox.classList.add('border-blue-600');
+                    checkbox.innerHTML = '<div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>';
+                }
+            }
+
+            checkboxContainer.appendChild(checkbox);
+
+            // Label
             const span = document.createElement('span');
+            span.className = 'flex-1 text-gray-700';
             span.textContent = option.label;
-            li.appendChild(span);
 
-            if (multiple && isSelected(option.value)) {
-                const checkmark = document.createElement('svg');
-                checkmark.className = 'w-5 h-5 text-blue-700';
-                checkmark.setAttribute('fill', 'currentColor');
-                checkmark.setAttribute('viewBox', '0 0 20 20');
-                checkmark.innerHTML = '<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>';
-                li.appendChild(checkmark);
+            if (isSelected(option.value)) {
+                span.classList.add('text-blue-700', 'font-medium');
             }
+
+            li.appendChild(checkboxContainer);
+            li.appendChild(span);
 
             li.addEventListener('click', function() {
                 toggleOption(option.value);
