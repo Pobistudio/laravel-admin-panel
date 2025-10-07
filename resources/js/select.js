@@ -34,6 +34,12 @@ function initSelectComponent(component) {
     const optionsList = component.querySelector('.select-options');
     const hiddenInputsContainer = component.querySelector('.hidden-inputs');
 
+    // Make trigger focusable
+    trigger.setAttribute('tabindex', '0');
+    trigger.setAttribute('role', 'combobox');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-haspopup', 'listbox');
+
     // Functions
     function getSelectedLabel() {
         if (multiple) {
@@ -96,12 +102,22 @@ function initSelectComponent(component) {
         isOpen = true;
         dropdown.classList.remove('hidden');
         arrow.classList.add('rotate-180');
+        trigger.setAttribute('aria-expanded', 'true');
+
+        // Focus pada filter input setelah dropdown terbuka
+        setTimeout(() => {
+            filterInput.focus();
+        }, 50);
     }
 
     function closeDropdown() {
         isOpen = false;
         dropdown.classList.add('hidden');
         arrow.classList.remove('rotate-180');
+        trigger.setAttribute('aria-expanded', 'false');
+        filter = '';
+        filterInput.value = '';
+        renderOptions();
     }
 
     function toggleDropdown() {
@@ -162,6 +178,8 @@ function initSelectComponent(component) {
         filteredOptions.forEach(option => {
             const li = document.createElement('li');
             li.className = 'px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center justify-between transition-colors';
+            li.setAttribute('role', 'option');
+            li.setAttribute('aria-selected', isSelected(option.value));
 
             if (isSelected(option.value)) {
                 li.classList.add('bg-blue-50', 'text-blue-700');
@@ -220,11 +238,51 @@ function initSelectComponent(component) {
     // Event listeners
     trigger.addEventListener('click', toggleDropdown);
 
+    // Keyboard navigation untuk trigger
+    trigger.addEventListener('keydown', function(e) {
+        switch(e.key) {
+            case 'Enter':
+            case ' ':
+            case 'ArrowDown':
+            case 'ArrowUp':
+                e.preventDefault();
+                if (!isOpen) {
+                    openDropdown();
+                }
+                break;
+            case 'Escape':
+                if (isOpen) {
+                    e.preventDefault();
+                    closeDropdown();
+                    trigger.focus();
+                }
+                break;
+        }
+    });
+
+    // Focus event - otomatis buka dropdown
+    trigger.addEventListener('focus', function() {
+        if (!isOpen) {
+            openDropdown();
+        }
+    });
+
     filterInput.addEventListener('input', function(e) {
         filter = e.target.value;
         renderOptions();
         if (!isOpen) {
             openDropdown();
+        }
+    });
+
+    // Keyboard navigation untuk filter input
+    filterInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeDropdown();
+            trigger.focus();
+        } else if (e.key === 'Tab') {
+            closeDropdown();
         }
     });
 
