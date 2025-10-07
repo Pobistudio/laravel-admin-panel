@@ -82,7 +82,7 @@ $.extend( true, DataTable.defaults, {
 
 // Default class modification
 $.extend( true, DataTable.ext.classes, {
-	container: "dt-container dt-tailwindcss overflow-x-auto",
+	container: "dt-container dt-tailwindcss overflow-x-auto min-h-[500px]",
 	search: {
 		input: "border placeholder-gray-500 ml-2 px-3 py-2 rounded-lg border-gray-200 focus:border-slate-500 focus:ring focus:ring-gray-500 focus:ring-opacity-50 focus:outline-none"
 	},
