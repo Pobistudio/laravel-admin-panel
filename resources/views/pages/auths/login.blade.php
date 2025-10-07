@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="flex flex-col w-full sm:w-1/2 p-10 sm:p-5 items-center justify-center">
-            <x-form x-data="{ open: false}" method="POST" action="{{ route('login') }}" class="flex-col w-full lg:w-1/2">
+            <x-form x-data="{ open: false}" method="POST" action="{{ route('login') }}" class="w-full lg:w-1/2">
                 <x-form-title>Welcom to {{ config('app.name') }}</x-form-title>
                 <x-label id="label_email" for="email">Email</x-label>
                 <x-input type="email" id="email" name="email" autocomplete="email" value="{{ old('email') }}"/>

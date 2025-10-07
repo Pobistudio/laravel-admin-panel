@@ -15,7 +15,7 @@
 @endphp
 <div {{ $attributes->merge(['class' => 'flex flex-col gap-2 p-3']) }}>
     <span class="text-lap-dark font-normal text-base sm:text-sm">Filter</span>
-    <x-form method="POST" action="{{ $action }}" class="flex-col" :border="true">
+    <x-form method="POST" action="{{ $action }}" :border="true">
         <div class="{{ $baseGridClass }}">
             {{ $slot }}
         </div>

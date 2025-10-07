@@ -6,14 +6,12 @@
         $borderClasses = "rounded-lg border border-slate-300 p-3";
     }
 
-    $classes = "flex gap-4 " . $borderClasses;
+    $classes = "flex flex-col gap-4 " . $borderClasses;
 @endphp
-<div class="flex flex-col gap-2">
+<form {{ $attributes->merge(['class' => "{$classes}"]) }}>
     @if ($actionBack)
         <x-form-button-back action="{{ $actionBack }}"/>
     @endif
-    <form {{ $attributes->merge(['class' => "{$classes}"]) }}>
-        @csrf
-        {{ $slot }}
-    </form>
-</div>
+    @csrf
+    {{ $slot }}
+</form>
