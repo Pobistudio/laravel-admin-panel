@@ -87,33 +87,22 @@ class UserServiceImpl implements UserService
 
     }
 
-    public function delete()
-    {
-
-    }
-
-    public function getAll()
-    {
-
-    }
-
+     /**
+     * Find user by id .
+     *
+     * @param string $id
+     * @return User
+     * @throws ServiceException
+     */
     public function getUserById(string $id)
     {
-        return User::find($id);
+        $user = User::find($id);
+
+        if (!$user) {
+            Log::warning("User not found for id : {$id}");
+            throw new ServiceException("User not found");
+        }
+        return $user;
     }
 
-    public function getUsersByRole()
-    {
-
-    }
-
-    public function assignRole()
-    {
-
-    }
-
-    public function changeStatus()
-    {
-
-    }
 }
