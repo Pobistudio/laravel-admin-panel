@@ -34,7 +34,7 @@ class UserServiceImpl implements UserService
             'name' => $dto->name,
             'email' => $dto->email,
             'password' => Hash::make(env('DEFAULT_PASSWORD')),
-            'status_id' => $dto->statusId ?? env('DEFAULT_USER_STATUS', StatusEnum::REGISTERED),
+            'status_id' => $dto->statusId ?? env('DEFAULT_USER_STATUS', StatusEnum::REGISTERED->value),
             'role_id' => $dto->roleId
         ]);
 
@@ -102,6 +102,29 @@ class UserServiceImpl implements UserService
             Log::warning("User not found for id : {$id}");
             throw new ServiceException("User not found");
         }
+        return $user;
+    }
+
+    /**
+     * Reset password by id .
+     *
+     * @param string $id
+     * @return User
+     * @throws ServiceException
+     */
+    public function resetPassword(string $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            Log::warning("User not found for id : {$id}");
+            throw new ServiceException("User not found");
+        }
+
+        $user->password = Hash::make(env('DEFAULT_PASSWORD'));
+        $user->status_id = StatusEnum::REGISTERED->value;
+        $user->save();
+
         return $user;
     }
 

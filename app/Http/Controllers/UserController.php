@@ -59,14 +59,14 @@ class UserController extends Controller
             $alertWarning = ['type' => 'warning', 'message' => 'Failed create new user'];
 
             if (!$response) {
-                return redirect()->intended(route('users-create'))->withInput()->with('alert', $alertWarning);
+                return redirect()->back()->withInput()->with('alert', $alertWarning);
             }
-            return redirect()->intended(route('users'))->with('alert', $alertSuccess);
+            return redirect()->route('users')->with('alert', $alertSuccess);
         } catch(ServiceException $e) {
-            return redirect()->intended(route('users-create'))->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
             Log::error("Error register user attempt : {$e->getMessage()}");
-            return redirect()->intended(route('users-create'))->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
 
@@ -76,14 +76,14 @@ class UserController extends Controller
             $response = $this->userService->getUserById($id);
 
             if (!$response) {
-                return redirect()->intended(route('users'))->with('alert', ['type' => 'warning', 'message' => 'User not found']);
+                return redirect()->back()->with('alert', ['type' => 'warning', 'message' => 'User not found']);
             }
             return view('pages.users.edit', compact('response'));
         } catch(ServiceException $e) {
-            return redirect()->intended(route('users'))->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
             Log::error("Error register user attempt : {$e->getMessage()}");
-            return redirect()->intended(route('users'))->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
 
@@ -109,7 +109,19 @@ class UserController extends Controller
 
     public function resetPassword($id)
     {
+        try {
+            $response = $this->userService->resetPassword($id);
 
+            if (!$response) {
+                return redirect()->route('users')->with('alert', ['type' => 'warning', 'message' => 'User not found']);
+            }
+            return redirect()->route('users')->with('alert', ['type' => 'success', 'message' => 'Success reset password for user']);
+        } catch(ServiceException $e) {
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error register user attempt : {$e->getMessage()}");
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
     }
 
     public function changeStatus($id)

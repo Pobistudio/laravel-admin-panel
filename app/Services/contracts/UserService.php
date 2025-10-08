@@ -12,4 +12,6 @@ interface UserService
     public function update(UpdateUserDto $dto);
 
     public function getUserById(string $id);
+
+    public function resetPassword(string $id);
 }
