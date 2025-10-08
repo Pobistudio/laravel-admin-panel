@@ -65,10 +65,14 @@ class UserDataTable extends DataTable
                 return view('components.badge.badge-wrapper', compact('type', 'name'));
             })
             ->addColumn('action', function($row) {
-                $userID      = $row->id;
-                $userName    = $row->name;
-                $routeEdit   = route('users-edit', ['id' => $userID]);
-                $routeDelete = route('users-delete', ['id' => $userID]);
+                $userID             = $row->id;
+                $email              = $row->email;
+                $userName           = $row->name;
+                $dataResetPassword  = $userName.' dengan email '.$email;
+                $routeEdit          = route('users-edit', ['id' => $userID]);
+                $routeResetPassword = route('users-reset-password', ['id' => $userID]);
+                $routeChangeStatus  = route('users-change-status', ['id' => $userID]);
+                $routeChangeRole    = route('users-change-role', ['id' => $userID]);
                 $actions = [
                     [
                         'type'   => 'link',
@@ -76,11 +80,20 @@ class UserDataTable extends DataTable
                         'action' => $routeEdit
                     ],
                     [
-
                         'type'   => 'button',
-                        'name'   => 'Delete',
-                        'action' => "confirmDeleteDialog('$userName', '$routeDelete')"
-                    ]
+                        'name'   => 'Reset Password',
+                        'action' => "confirmResetPasswordDialog('$dataResetPassword', '$routeResetPassword')"
+                    ],
+                    [
+                        'type'   => 'link',
+                        'name'   => 'Change Role',
+                        'action' => $routeChangeRole
+                    ],
+                    [
+                        'type'   => 'link',
+                        'name'   => 'Change Status',
+                        'action' => $routeChangeStatus
+                    ],
                 ];
 
                 return view('components.action-dropdown-table', compact('actions'));

@@ -43,7 +43,11 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
             Route::post('{id}', [UserController::class, 'update'])->name('users-edit')->middleware('permissionIsValid:update');
         });
 
-        Route::get('/delete/{id}', [UserController::class, 'delete'])->name('users-delete')->middleware('permissionIsValid:delete');
+        Route::get('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('users-reset-password')->middleware('permissionIsValid:update');
+
+        Route::get('/change-status/{id}', [UserController::class, 'changeStatus'])->name('users-change-status')->middleware('permissionIsValid:update');
+
+        Route::get('/change-role/{id}', [UserController::class, 'changeRole'])->name('users-change-role')->middleware('permissionIsValid:update');
     });
     Route::prefix('settings')->group(function () {
         Route::get('/statuses', [DashboardController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');

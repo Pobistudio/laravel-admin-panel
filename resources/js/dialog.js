@@ -141,6 +141,18 @@ class DialogManager {
         );
     }
 
+    confirmResetPasswordDialog(data, resetPasswordUrl) {
+        this.showConfirmDialog(
+            'Reset Password',
+            `Apakah anda ingin reset password <strong>${data}</strong> ?`,
+            'Delete',
+            () => {
+                window.location.href = resetPasswordUrl;
+            },
+            'red'
+        );
+    }
+
     // Method to create custom dialogs
     createCustomDialog(config) {
         const {
@@ -167,6 +179,7 @@ class DialogManager {
         window.closeDialog = (id) => this.closeDialog(id);
         window.confirmLogoutDialog = (logoutUrl) => this.confirmLogoutDialog(logoutUrl);
         window.confirmDeleteDialog = (dataDelete, deleteUrl) => this.confirmDeleteDialog(dataDelete, deleteUrl);
+        window.confirmResetPasswordDialog = (data, resetPasswordUrl) => this.confirmResetPasswordDialog(data, resetPasswordUrl);
     }
 
     // Static method to create singleton instance
