@@ -18,7 +18,7 @@ class DialogManager {
         this.exposeToWindow();
     }
 
-    generateDialog(type, title, message, actionText = '', bgAction = 'gray', callbackAction = null) {
+    generateDialog(type, title, message, actionText = '', bgAction = 'slate', callbackAction = null) {
         const sectionDialog = document.getElementById(this.sectionDialogId);
         this.clearSectionDialog();
 
@@ -52,7 +52,8 @@ class DialogManager {
         dialog += `<button onclick="dialogManager.closeDialog('${type}')" class="px-4 py-2 text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 cursor-pointer">Close</button>`;
 
         if (type === this.DIALOG_CONFIRM) {
-            dialog += `<button id="confirmActionButton" class="px-4 py-2 text-white bg-${bgAction}-500 rounded-md hover:bg-${bgAction}-700 cursor-pointer">${actionText}</button>`;
+            const bgActionMain = bgAction == 'red' ? 'bg-red-600' : `bg-${bgAction}-500`;
+            dialog += `<button id="confirmActionButton" class="px-4 py-2 text-white ${bgActionMain} rounded-md hover:bg-${bgAction}-700 cursor-pointer">${actionText}</button>`;
         }
 
         dialog += '</div>';
@@ -145,7 +146,7 @@ class DialogManager {
         this.showConfirmDialog(
             'Reset Password',
             `Apakah anda ingin reset password <strong>${data}</strong> ?`,
-            'Delete',
+            'Reset Password',
             () => {
                 window.location.href = resetPasswordUrl;
             },
