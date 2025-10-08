@@ -14,5 +14,5 @@ interface StatusService
 
     public function getStatusById(string $id);
 
-    public function getStatusesDataSelect();
+    public function getStatusesDataSelect($allItem = true, $exceptions = []);
 }

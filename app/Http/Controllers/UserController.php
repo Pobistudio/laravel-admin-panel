@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\DataTables\UserDataTable;
-use App\DTOs\Auth\CreateUserDto;
-use App\DTOs\Auth\UpdateUserDto;
+use App\DTOs\Users\ChangeUserStatusDto;
+use App\DTOs\Users\CreateUserDto;
+use App\DTOs\Users\UpdateUserDto;
 use App\Enum\StatusEnum;
 use App\Exceptions\ServiceException;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\Users\ChangeUserStatusRequest;
+use App\Http\Requests\Users\CreateUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 use App\Services\contracts\AuthService;
 use App\Services\Contracts\RoleService;
 use App\Services\Contracts\StatusService;
@@ -80,10 +82,10 @@ class UserController extends Controller
             }
             return view('pages.users.edit', compact('response'));
         } catch(ServiceException $e) {
-            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
             Log::error("Error register user attempt : {$e->getMessage()}");
-            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
 
@@ -126,7 +128,40 @@ class UserController extends Controller
 
     public function changeStatus($id)
     {
+        try {
+            $response = $this->userService->getUserById($id);
 
+            if (!$response) {
+                return redirect()->route('users')->with('alert', ['type' => 'warning', 'message' => 'User not found']);
+            }
+            $listStatuses = $this->statusService->getStatusesDataSelect(false, [$response->status_id]);
+            return view('pages.users.change-status', compact('response', 'listStatuses'));
+        } catch(ServiceException $e) {
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error register user attempt : {$e->getMessage()}");
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
+
+    public function doChangeStatus(ChangeUserStatusRequest $request, $id)
+    {
+        try {
+            $response = $this->userService->changeStatus(ChangeUserStatusDto::fromRequest( $request, $id));
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success update status user'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed update status user'];
+
+            if (!$response) {
+                return redirect()->back()->withInput()->with('alert', $alertWarning);
+            }
+            return redirect()->route('users')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error register user attempt : {$e->getMessage()}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
     }
 
     public function changeRole($id)

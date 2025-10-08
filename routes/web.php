@@ -45,7 +45,10 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
         Route::get('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('users-reset-password')->middleware('permissionIsValid:update');
 
-        Route::get('/change-status/{id}', [UserController::class, 'changeStatus'])->name('users-change-status')->middleware('permissionIsValid:update');
+        Route::prefix('change-status')->group(function () {
+            Route::get('/{id}', [UserController::class, 'changeStatus'])->name('users-change-status')->middleware('permissionIsValid:update');
+            Route::post('/{id}', [UserController::class, 'doChangeStatus'])->name('users-change-status')->middleware('permissionIsValid:update');
+        });
 
         Route::get('/change-role/{id}', [UserController::class, 'changeRole'])->name('users-change-role')->middleware('permissionIsValid:update');
     });

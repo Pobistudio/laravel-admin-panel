@@ -1,9 +1,9 @@
 <?php
 
-namespace App\DTOs\Auth;
+namespace App\DTOs\Users;
 
 use App\Enum\StatusEnum;
-use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\Users\CreateUserRequest;
 
 class CreateUserDto
 {

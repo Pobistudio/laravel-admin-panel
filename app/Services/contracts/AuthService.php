@@ -2,8 +2,8 @@
 
 namespace App\Services\contracts;
 
-use App\DTOs\Auth\ChangePasswordDto;
-use App\DTOs\Auth\LoginDto;
+use App\DTOs\Auths\ChangePasswordDto;
+use App\DTOs\Auths\LoginDto;
 use App\Models\User;
 
 interface AuthService

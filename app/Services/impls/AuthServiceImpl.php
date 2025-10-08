@@ -2,9 +2,8 @@
 
 namespace App\Services\impls;
 
-use App\DTOs\Auth\ChangePasswordDto;
-use App\DTOs\Auth\LoginDto;
-use App\DTOs\Auth\RegisterUserDto;
+use App\DTOs\Auths\ChangePasswordDto;
+use App\DTOs\Auths\LoginDto;
 use App\Enum\StatusEnum;
 use App\Exceptions\ServiceException;
 use App\Models\User;

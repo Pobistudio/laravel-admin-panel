@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\DTOs\Auth\ChangePasswordDto;
-use App\DTOs\Auth\LoginDto;
+use App\DTOs\Auths\ChangePasswordDto;
+use App\DTOs\Auths\LoginDto;
 use App\Exceptions\ServiceException;
-use App\Http\Requests\auths\ChangePasswordRequest;
-use App\Http\Requests\auths\LoginRequest;
+use App\Http\Requests\Auths\ChangePasswordRequest;
+use App\Http\Requests\Auths\LoginRequest;
 use App\Services\contracts\AuthService;
 use Exception;
 use Illuminate\Support\Facades\Log;

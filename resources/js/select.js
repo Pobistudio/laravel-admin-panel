@@ -236,7 +236,10 @@ function initSelectComponent(component) {
     }
 
     // Event listeners
-    trigger.addEventListener('click', toggleDropdown);
+    trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleDropdown();
+    });
 
     // Keyboard navigation untuk trigger
     trigger.addEventListener('keydown', function(e) {
@@ -260,12 +263,12 @@ function initSelectComponent(component) {
         }
     });
 
-    // Focus event - otomatis buka dropdown
-    trigger.addEventListener('focus', function() {
-        if (!isOpen) {
-            openDropdown();
-        }
-    });
+    // Hilangkan auto-open saat focus untuk menghindari konflik dengan click
+    // trigger.addEventListener('focus', function() {
+    //     if (!isOpen) {
+    //         openDropdown();
+    //     }
+    // });
 
     filterInput.addEventListener('input', function(e) {
         filter = e.target.value;
@@ -284,6 +287,11 @@ function initSelectComponent(component) {
         } else if (e.key === 'Tab') {
             closeDropdown();
         }
+    });
+
+    // Prevent click inside dropdown from closing it
+    dropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
     });
 
     // Click outside to close

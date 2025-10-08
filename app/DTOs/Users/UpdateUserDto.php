@@ -1,10 +1,8 @@
 <?php
 
-namespace App\DTOs\Auth;
+namespace App\DTOs\Users;
 
-use App\Enum\StatusEnum;
-use App\Http\Requests\auths\RegisterUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 
 class UpdateUserDto
 {

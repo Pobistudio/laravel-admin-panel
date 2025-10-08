@@ -2,8 +2,9 @@
 
 namespace App\Services\Contracts;
 
-use App\DTOs\Auth\CreateUserDto;
-use App\DTOs\Auth\UpdateUserDto;
+use App\DTOs\Users\ChangeUserStatusDto;
+use App\DTOs\Users\CreateUserDto;
+use App\DTOs\Users\UpdateUserDto;
 
 interface UserService
 {
@@ -14,4 +15,6 @@ interface UserService
     public function getUserById(string $id);
 
     public function resetPassword(string $id);
+
+    public function changeStatus(ChangeUserStatusDto $dto);
 }

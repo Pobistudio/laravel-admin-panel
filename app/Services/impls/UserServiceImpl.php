@@ -2,8 +2,9 @@
 
 namespace App\Services\impls;
 
-use App\DTOs\Auth\CreateUserDto;
-use App\DTOs\Auth\UpdateUserDto;
+use App\DTOs\Users\ChangeUserStatusDto;
+use App\DTOs\Users\CreateUserDto;
+use App\DTOs\Users\UpdateUserDto;
 use App\Enum\StatusEnum;
 use App\Exceptions\ServiceException;
 use App\Models\User;
@@ -128,4 +129,18 @@ class UserServiceImpl implements UserService
         return $user;
     }
 
+    public function changeStatus(ChangeUserStatusDto $dto)
+    {
+        $user = User::find($dto->id);
+
+        if (!$user) {
+            Log::warning("User not found for id : {$dto->id}");
+            throw new ServiceException("User not found");
+        }
+
+        $user->status_id = $dto->statusId;
+        $user->save();
+
+        return $user;
+    }
 }

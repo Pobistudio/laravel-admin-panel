@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Users;
 
 use App\Utils\SessionUtils;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest
+class ChangeUserStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +24,7 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'   => ['required', 'max:100'],
-            'email'  => ['required', 'email', 'max:100', 'unique:users,email'],
-            'role'   => ['required'],
-            'status' => ['nullable']
+            'status' => ['required'],
         ];
     }
 }

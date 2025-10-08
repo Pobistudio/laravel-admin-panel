@@ -86,13 +86,13 @@ class UserDataTable extends DataTable
                     ],
                     [
                         'type'   => 'link',
-                        'name'   => 'Change Role',
-                        'action' => $routeChangeRole
+                        'name'   => 'Change Status',
+                        'action' => $routeChangeStatus
                     ],
                     [
                         'type'   => 'link',
-                        'name'   => 'Change Status',
-                        'action' => $routeChangeStatus
+                        'name'   => 'Change Role',
+                        'action' => $routeChangeRole
                     ],
                 ];
 

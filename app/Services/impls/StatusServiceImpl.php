@@ -33,10 +33,13 @@ class StatusServiceImpl implements StatusService
         return Status::find($id);
     }
 
-    public function getStatusesDataSelect()
+    public function getStatusesDataSelect($allItem = true, $exceptions = [])
     {
-        $statuses = Status::all()->toArray();
-        return MappingUtils::mapToValueLabel($statuses, 'id', 'name', [ 'value' => 'all', 'label' => 'Semua Status' ]);
+        $statuses = Status::whereNotIn('id', $exceptions)->get()->toArray();
+        if ($allItem) {
+            return MappingUtils::mapToValueLabel($statuses, 'id', 'name', [ 'value' => 'all', 'label' => 'Semua Status' ]);
+        }
+        return MappingUtils::mapToValueLabel($statuses, 'id', 'name');
 
     }
 }

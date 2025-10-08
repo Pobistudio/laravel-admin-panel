@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Auths;
+namespace App\Http\Requests\Users;
 
+use App\Utils\SessionUtils;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
-class ChangePasswordRequest extends FormRequest
+class CreateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return SessionUtils::isExist();
     }
 
     /**
@@ -23,9 +23,10 @@ class ChangePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'            => ['required', 'email', 'max:100'],
-            'new_password'     => ['required', Password::min(6)->letters()->numbers()->symbols()],
-            'confirm_password' => ['required'],
+            'name'   => ['required', 'max:100'],
+            'email'  => ['required', 'email', 'max:100', 'unique:users,email'],
+            'role'   => ['required'],
+            'status' => ['nullable']
         ];
     }
 }

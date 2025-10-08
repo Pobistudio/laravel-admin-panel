@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTOs\Auth;
+namespace App\DTOs\Auths;
 
-use App\Http\Requests\auths\LoginRequest;
+use App\Http\Requests\Auths\LoginRequest;
 
 class LoginDto
 {
