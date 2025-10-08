@@ -57,38 +57,6 @@ class AuthServiceImpl implements AuthService
     }
 
     /**
-     * Register a new user .
-     *
-     * @param RegisterUserDto $dto
-     * @return User|null
-     * @throws ServiceException
-     */
-    public function registerUser(RegisterUserDto $dto): User|null
-    {
-        // find user by email
-        $user = User::where('email' , $dto->email)->first();
-
-        if ($user) {
-            Log::warning("Failed register user attempt for email: {$dto->email}");
-            throw new ServiceException("Email already registered");
-        }
-
-        $user = User::create([
-            'name' => $dto->name,
-            'email' => $dto->email,
-            'password' => Hash::make(env('DEFAULT_PASSWORD')),
-            'status_id' => $dto->statusId ?? env('DEFAULT_USER_STATUS', StatusEnum::REGISTERED),
-            'role_id' => $dto->roleId
-        ]);
-
-        if (!$user) {
-            Log::warning("Failed register user attempt for email: {$dto->email}");
-            throw new ServiceException("Failed register user");
-        }
-        return $user;
-    }
-
-    /**
      * Authenticate a user by email and password.
      *
      * @param ChangePasswordDto $dto

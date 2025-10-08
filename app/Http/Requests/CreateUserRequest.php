@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Requests\auths;
+namespace App\Http\Requests;
 
+use App\Utils\SessionUtils;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterUserRequest extends FormRequest
+class CreateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return SessionUtils::isExist();
     }
 
     /**

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\auths\RegisterUserRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\DataTables\UserDataTable;
-use App\DTOs\Auth\RegisterUserDto;
+use App\DTOs\Auth\CreateUserDto;
+use App\DTOs\Auth\UpdateUserDto;
 use App\Enum\StatusEnum;
 use App\Exceptions\ServiceException;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Services\contracts\AuthService;
 use App\Services\Contracts\RoleService;
 use App\Services\Contracts\StatusService;
@@ -48,18 +50,55 @@ class UserController extends Controller
         return view('pages.users.create', compact('listRoles'));
     }
 
-    public function store(RegisterUserRequest $request)
+    public function store(CreateUserRequest $request)
     {
         try {
-            $response = $this->authService->registerUser(RegisterUserDto::fromRequest($request, env('DEFAULT_USER_STATUS', StatusEnum::REGISTERED)));
+            $response = $this->userService->create(CreateUserDto::fromRequest($request, env('DEFAULT_USER_STATUS', StatusEnum::REGISTERED)));
 
             $alertSuccess = ['type' => 'success', 'message' => 'Success create new user'];
             $alertWarning = ['type' => 'warning', 'message' => 'Failed create new user'];
 
-            if ($response) {
-                return redirect()->route('users')->with('alert', $alertSuccess);
+            if (!$response) {
+                return redirect()->intended(route('users-create'))->withInput()->with('alert', $alertWarning);
             }
-            return redirect()->back()->withInput()->with('alert', $alertWarning);
+            return redirect()->intended(route('users'))->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->intended(route('users-create'))->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error register user attempt : {$e->getMessage()}");
+            return redirect()->intended(route('users-create'))->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $response = $this->userService->getUserById($id);
+
+            if (!$response) {
+                return redirect()->intended(route('users'))->with('alert', ['type' => 'warning', 'message' => 'User not found']);
+            }
+            return view('pages.users.edit', compact('response'));
+        } catch(ServiceException $e) {
+            return redirect()->intended(route('users'))->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error register user attempt : {$e->getMessage()}");
+            return redirect()->intended(route('users'))->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
+
+    public function update(UpdateUserRequest $request, string $id)
+    {
+        try {
+            $response = $this->userService->update(UpdateUserDto::fromRequest($id, $request));
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success update user'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed update user'];
+
+            if (!$response) {
+                return redirect()->back()->withInput()->with('alert', $alertWarning);
+            }
+            return redirect()->route('users')->with('alert', $alertSuccess);
         } catch(ServiceException $e) {
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
@@ -68,18 +107,17 @@ class UserController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-
-        return view('pages.users.edit');
-    }
-
-    public function update($id)
+    public function resetPassword($id)
     {
 
     }
 
-    public function delete($id)
+    public function changeStatus($id)
+    {
+
+    }
+
+    public function changeRole($id)
     {
 
     }
