@@ -31,10 +31,7 @@ class AuthServiceImpl implements AuthService
     {
         // find user by email
         $user = User::with('role')->with('status')
-                ->where([
-                    'email' => $dto->email,
-                    'status_id' => StatusEnum::ACTIVE->value
-                    ])
+                ->where(['email' => $dto->email])
                 ->first();
 
         if ($user) {
@@ -44,6 +41,15 @@ class AuthServiceImpl implements AuthService
             } else if (!Hash::check($dto->password, $user->password)) {
                 Log::warning("Failed login attempt for email: {$dto->email}");
                 throw new ServiceException("Invalid email or password");
+            } else if ($user->status_id == StatusEnum::INACTIVE->value || $user->status_id == StatusEnum::DELETED->value) {
+                Log::warning("Failed login attempt for email: {$dto->email}");
+                throw new ServiceException("Your account is inactive or deleted");
+            } else if ($user->status_id == StatusEnum::REGISTERED->value) {
+                Log::warning("Failed login attempt for email: {$dto->email}");
+                throw new ServiceException("Your account is not active yet, please change your password first");
+            } else if ($user->status_id == StatusEnum::CHANGED_PASSWORD->value) {
+                Log::warning("Failed login attempt for email: {$dto->email}");
+                throw new ServiceException("Your account is not active yet, please wait for admin to activate your account");
             } else {
                 Log::info("Success login attempt for email: {$dto->email}");
                 // save login user to session
