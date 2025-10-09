@@ -16,7 +16,9 @@ interface RoleService
 
     public function getChildRoles();
 
-    public function getChildRolesDataSelect($allItem = true);
+    public function getRolesDataSelect($allItem = true, array $exceptions = []);
+
+    public function getChildRolesDataSelect($allItem = true, array $exceptions = []);
 
     public function assignPermissionsToRole();
 

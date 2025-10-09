@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\DataTables\UserDataTable;
+use App\DTOs\Users\ChangeUserRoleDto;
 use App\DTOs\Users\ChangeUserStatusDto;
 use App\DTOs\Users\CreateUserDto;
 use App\DTOs\Users\UpdateUserDto;
 use App\Enum\StatusEnum;
 use App\Exceptions\ServiceException;
+use App\Http\Requests\Users\ChangeUserRoleRequest;
 use App\Http\Requests\Users\ChangeUserStatusRequest;
 use App\Http\Requests\Users\CreateUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
@@ -166,6 +168,43 @@ class UserController extends Controller
 
     public function changeRole($id)
     {
+        try {
+            $response = $this->userService->getUserById($id);
 
+            if (!$response) {
+                return redirect()->route('users')->with('alert', ['type' => 'warning', 'message' => 'User not found']);
+            }
+            $listRoles = $this->roleService->getRolesDataSelect(false, [$response->role_id]);
+            return view('pages.users.change-role', compact('response', 'listRoles'));
+        } catch(ServiceException $e) {
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error register user attempt : {$e->getMessage()}");
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
+
+    public function doChangeRole(ChangeUserRoleRequest $request, $id)
+    {
+        try {
+            $response = $this->userService->changeRole(ChangeUserRoleDto::fromRequest($request, $id));
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success update role user'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed update role user'];
+
+            if (!$response) {
+                return redirect()->back()->withInput()->with('alert', $alertWarning);
+            }
+            // if ($this->authService->getCurrentUser()->id === $id) {
+            //     $this->authService->logout();
+            //     return redirect()->route('login')->with('alert', ['type' => 'info', 'message' => 'Please login again to apply the new role']);
+            // }
+            return redirect()->route('users')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error register user attempt : {$e->getMessage()}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
     }
 }

@@ -39,9 +39,25 @@ class RoleServiceImpl implements RoleService
         return explode(',', SessionUtils::get('child_roles'));
     }
 
-    public function getChildRolesDataSelect($allItem = true)
+    public function getRolesDataSelect($allItem = true, array $exceptions = [])
+    {
+        $roles = $this->getAll($exceptions)->toArray();
+
+        if ($allItem) {
+            array_unshift($roles, ['id' => 'all', 'name' => 'All']);
+        }
+
+        return MappingUtils::mapToValueLabel($roles, 'id', 'name');
+    }
+
+    public function getChildRolesDataSelect($allItem = true, array $exceptions = [])
     {
         $childRoles = $this->getChildRoles();
+
+        if (!empty($exceptions)) {
+            $childRoles = array_diff($childRoles, $exceptions);
+        }
+
         return MappingUtils::childRolesToValueLabel($childRoles, $allItem);
     }
 

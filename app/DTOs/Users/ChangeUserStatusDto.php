@@ -2,9 +2,7 @@
 
 namespace App\DTOs\Users;
 
-use App\Enum\StatusEnum;
 use App\Http\Requests\Users\ChangeUserStatusRequest;
-use App\Http\Requests\Users\CreateUserRequest;
 
 class ChangeUserStatusDto
 {

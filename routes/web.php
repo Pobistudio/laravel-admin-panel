@@ -50,7 +50,10 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
             Route::post('/{id}', [UserController::class, 'doChangeStatus'])->name('users-change-status')->middleware('permissionIsValid:update');
         });
 
-        Route::get('/change-role/{id}', [UserController::class, 'changeRole'])->name('users-change-role')->middleware('permissionIsValid:update');
+        Route::prefix('change-role')->group(function () {
+            Route::get('/{id}', [UserController::class, 'changeRole'])->name('users-change-role')->middleware('permissionIsValid:update');
+            Route::post('/{id}', [UserController::class, 'doChangeRole'])->name('users-change-role')->middleware('permissionIsValid:update');
+        });
     });
     Route::prefix('settings')->group(function () {
         Route::get('/statuses', [DashboardController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');

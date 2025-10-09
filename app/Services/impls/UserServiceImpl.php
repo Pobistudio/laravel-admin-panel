@@ -2,6 +2,7 @@
 
 namespace App\Services\impls;
 
+use App\DTOs\Users\ChangeUserRoleDto;
 use App\DTOs\Users\ChangeUserStatusDto;
 use App\DTOs\Users\CreateUserDto;
 use App\DTOs\Users\UpdateUserDto;
@@ -139,6 +140,21 @@ class UserServiceImpl implements UserService
         }
 
         $user->status_id = $dto->statusId;
+        $user->save();
+
+        return $user;
+    }
+
+    public function changeRole(ChangeUserRoleDto $dto)
+    {
+        $user = User::find($dto->id);
+
+        if (!$user) {
+            Log::warning("User not found for id : {$dto->id}");
+            throw new ServiceException("User not found");
+        }
+
+        $user->role_id = $dto->roleId;
         $user->save();
 
         return $user;
