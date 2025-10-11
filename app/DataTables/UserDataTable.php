@@ -96,6 +96,12 @@ class UserDataTable extends DataTable
                     ],
                 ];
 
+                $role = SessionUtils::get('role');
+
+                if ( array_search($role, ['admin', 'super_admin']) === false ) {
+                    $actions = [];
+                }
+
                 return view('components.action-dropdown-table', compact('actions'));
             })
             ->rawColumns(['action'])
