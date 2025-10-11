@@ -20,4 +20,6 @@ interface UserService
     public function changeStatus(ChangeUserStatusDto $dto);
 
     public function changeRole(ChangeUserRoleDto $dto);
+
+    public function countUsers(): int;
 }

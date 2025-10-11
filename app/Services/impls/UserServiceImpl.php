@@ -130,6 +130,13 @@ class UserServiceImpl implements UserService
         return $user;
     }
 
+    /**
+     * Change user status.
+     *
+     * @param ChangeUserStatusDto $dto
+     * @return User
+     * @throws ServiceException
+     */
     public function changeStatus(ChangeUserStatusDto $dto)
     {
         $user = User::find($dto->id);
@@ -145,7 +152,14 @@ class UserServiceImpl implements UserService
         return $user;
     }
 
-    public function changeRole(ChangeUserRoleDto $dto)
+    /**
+     * Change user role.
+     *
+     * @param ChangeUserRoleDto $dto
+     * @return User
+     * @throws ServiceException
+     */
+    public function changeRole(ChangeUserRoleDto $dto): User
     {
         $user = User::find($dto->id);
 
@@ -158,5 +172,15 @@ class UserServiceImpl implements UserService
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * Count total users.
+     *
+     * @return int
+     */
+    public function countUsers(): int
+    {
+        return User::count();
     }
 }
