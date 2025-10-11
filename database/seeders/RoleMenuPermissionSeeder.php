@@ -50,6 +50,16 @@ class RoleMenuPermissionSeeder extends Seeder
             [
                 'role_id' => 'admin',
                 'menu_id' => $user->id,
+                'permission_id' => 'reset_password'
+            ],
+            [
+                'role_id' => 'admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'change_role'
+            ],
+            [
+                'role_id' => 'admin',
+                'menu_id' => $user->id,
                 'permission_id' => 'change_status'
             ],
             [
@@ -86,6 +96,16 @@ class RoleMenuPermissionSeeder extends Seeder
                 'role_id' => 'super_admin',
                 'menu_id' => $user->id,
                 'permission_id' => 'update'
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'reset_password'
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $user->id,
+                'permission_id' => 'change_role'
             ],
             [
                 'role_id' => 'super_admin',

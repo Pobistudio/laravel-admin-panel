@@ -43,16 +43,16 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
             Route::post('{id}', [UserController::class, 'update'])->name('users-edit')->middleware('permissionIsValid:update');
         });
 
-        Route::get('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('users-reset-password')->middleware('permissionIsValid:update');
+        Route::get('/reset-password/{id}', [UserController::class, 'resetPassword'])->name('users-reset-password')->middleware('permissionIsValid:reset_password');
 
         Route::prefix('change-status')->group(function () {
-            Route::get('/{id}', [UserController::class, 'changeStatus'])->name('users-change-status')->middleware('permissionIsValid:update');
-            Route::post('/{id}', [UserController::class, 'doChangeStatus'])->name('users-change-status')->middleware('permissionIsValid:update');
+            Route::get('/{id}', [UserController::class, 'changeStatus'])->name('users-change-status')->middleware('permissionIsValid:change_status');
+            Route::post('/{id}', [UserController::class, 'doChangeStatus'])->name('users-change-status')->middleware('permissionIsValid:change_status');
         });
 
         Route::prefix('change-role')->group(function () {
-            Route::get('/{id}', [UserController::class, 'changeRole'])->name('users-change-role')->middleware('permissionIsValid:update');
-            Route::post('/{id}', [UserController::class, 'doChangeRole'])->name('users-change-role')->middleware('permissionIsValid:update');
+            Route::get('/{id}', [UserController::class, 'changeRole'])->name('users-change-role')->middleware('permissionIsValid:change_role');
+            Route::post('/{id}', [UserController::class, 'doChangeRole'])->name('users-change-role')->middleware('permissionIsValid:change_role');
         });
     });
     Route::prefix('settings')->group(function () {

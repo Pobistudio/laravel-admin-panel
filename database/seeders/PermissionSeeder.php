@@ -31,16 +31,24 @@ class PermissionSeeder extends Seeder
                 'name' => 'Delete',
             ],
             [
-                'id' => 'change_status',
-                'name' => 'Change Status',
-            ],
-            [
                 'id' => 'change_profile',
                 'name' => 'Change Profile',
             ],
             [
                 'id' => 'change_password',
                 'name' => 'Change Password',
+            ],
+            [
+                'id' => 'reset_password',
+                'name' => 'Reset Password',
+            ],
+            [
+                'id' => 'change_role',
+                'name' => 'Change Role',
+            ],
+            [
+                'id' => 'change_status',
+                'name' => 'Change Status',
             ],
         ];
         Permission::insert($permissions);
