@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureSessionIsValid;
 use Illuminate\Support\Facades\Route;
@@ -56,7 +57,25 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
         });
     });
     Route::prefix('settings')->group(function () {
-        Route::get('/statuses', [DashboardController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');
+
+        Route::prefix('statuses')->group(function () {
+
+            Route::get('/', [StatusController::class, 'index'])->name('statuses')->middleware('permissionIsValid:view');
+
+            Route::prefix('create')->group(function () {
+                Route::get('/', [StatusController::class, 'create'])->name('statuses-create')->middleware('permissionIsValid:view');
+                Route::post('/', [StatusController::class, 'store'])->name('statuses-create')->middleware('permissionIsValid:create');
+            });
+
+            Route::prefix('edit')->group(function () {
+                Route::get('{id}', [StatusController::class, 'edit'])->name('statuses-edit')->middleware('permissionIsValid:view');
+                Route::post('{id}', [StatusController::class, 'update'])->name('statuses-edit')->middleware('permissionIsValid:update');
+            });
+
+            Route::get('/delete/{id}', [StatusController::class, 'delete'])->name('statuses-delete')->middleware('permissionIsValid:delete');
+
+        });
+
         Route::get('/roles', [DashboardController::class, 'index'])->name('roles')->middleware('permissionIsValid:view');
         Route::get('/menus', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
         Route::get('/permissions', [DashboardController::class, 'index'])->name('permissions')->middleware('permissionIsValid:view');
