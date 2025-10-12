@@ -2,9 +2,11 @@
 
 namespace App\Services\Contracts;
 
+use App\DTOs\Statuses\CreateStatusDto;
+
 interface StatusService
 {
-    public function create();
+    public function create(CreateStatusDto $dto);
 
     public function update();
 
