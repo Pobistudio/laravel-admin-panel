@@ -3,6 +3,7 @@
 namespace App\Services\impls;
 
 use App\DTOs\Statuses\CreateStatusDto;
+use App\DTOs\Statuses\UpdateStatusDto;
 use App\Exceptions\ServiceException;
 use App\Models\Status;
 use App\Services\Contracts\StatusService;
@@ -37,9 +38,30 @@ class StatusServiceImpl implements StatusService
         return $status;
     }
 
-    public function update()
+    /**
+     * Update an existing status.
+     *
+     * @param UpdateStatusDto $dto
+     * @param string $id
+     * @return bool
+     */
+    public function update(UpdateStatusDto $dto)
     {
+        $statusWithId = Status::find($dto->id);
+        if (!$statusWithId) {
+            throw new ServiceException("Status with id {$dto->id} not found");
+        }
 
+        $newId = str_replace(' ', '_', strtolower($dto->name));
+        $statusWithName = Status::find($newId);
+
+        if ($statusWithName) {
+            throw new ServiceException("Status with name {$dto->name} already exists");
+        }
+
+        $statusWithId->id = $newId;
+        $statusWithId->name = $dto->name;
+        return $statusWithId->save();
     }
 
     public function delete()
@@ -52,6 +74,12 @@ class StatusServiceImpl implements StatusService
         return Status::all();
     }
 
+    /**
+     * Get a status by its ID.
+     *
+     * @param string $id
+     * @return Status|null
+     */
     public function getStatusById(string $id)
     {
         return Status::find($id);
