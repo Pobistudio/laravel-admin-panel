@@ -2,13 +2,16 @@
 
 namespace App\Services\Contracts;
 
+use App\Http\Requests\Roles\CreateRoleDto;
+use App\Http\Requests\Roles\UpdateRoleDto;
+
 interface RoleService
 {
-    public function create();
+    public function create(CreateRoleDto $dto);
 
-    public function update();
+    public function update(UpdateRoleDto $dto);
 
-    public function delete();
+    public function delete(string $id);
 
     public function getAll(array $exceptions = []);
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureSessionIsValid;
@@ -76,7 +77,24 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
         });
 
-        Route::get('/roles', [DashboardController::class, 'index'])->name('roles')->middleware('permissionIsValid:view');
+        Route::prefix('roles')->group(function () {
+
+            Route::get('/', [RoleController::class, 'index'])->name('roles')->middleware('permissionIsValid:view');
+
+            Route::prefix('create')->group(function () {
+                Route::get('/', [RoleController::class, 'create'])->name('roles-create')->middleware('permissionIsValid:view');
+                Route::post('/', [RoleController::class, 'store'])->name('roles-create')->middleware('permissionIsValid:create');
+            });
+
+            Route::prefix('edit')->group(function () {
+                Route::get('{id}', [RoleController::class, 'edit'])->name('roles-edit')->middleware('permissionIsValid:view');
+                Route::post('{id}', [RoleController::class, 'update'])->name('roles-edit')->middleware('permissionIsValid:update');
+            });
+
+            Route::get('/delete/{id}', [RoleController::class, 'delete'])->name('roles-delete')->middleware('permissionIsValid:delete');
+
+        });
+
         Route::get('/menus', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
         Route::get('/permissions', [DashboardController::class, 'index'])->name('permissions')->middleware('permissionIsValid:view');
         Route::prefix('mapping')->group(function () {
