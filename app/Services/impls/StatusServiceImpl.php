@@ -64,9 +64,13 @@ class StatusServiceImpl implements StatusService
         return $statusWithId->save();
     }
 
-    public function delete()
+    public function delete(string $id)
     {
-
+        $status = Status::find($id);
+        if (!$status) {
+            throw new ServiceException("Status with id {$id} not found");
+        }
+        return $status->delete();
     }
 
     public function getAll()

@@ -86,4 +86,24 @@ class StatusController extends Controller
             return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
+
+    public function delete(string $id)
+    {
+        try {
+            $response = $this->statusService->delete($id);
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success delete status'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed delete status'];
+
+            if (!$response) {
+                return redirect()->back()->with('alert', $alertWarning);
+            }
+            return redirect()->route('statuses')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error delete status attempt : {$e->getMessage()}");
+            return redirect()->back()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
 }

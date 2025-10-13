@@ -11,7 +11,7 @@ interface StatusService
 
     public function update(UpdateStatusDto $dto);
 
-    public function delete();
+    public function delete(string $id);
 
     public function getAll();
 
