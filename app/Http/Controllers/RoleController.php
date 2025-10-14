@@ -18,4 +18,10 @@ class RoleController extends Controller
     {
         return $dataTable->render('pages.settings.roles.list');
     }
+
+    public function create()
+    {
+        $roles = $this->roleService->getRolesDataSelect(false);
+        return view('pages.settings.roles.create', compact('roles'));
+    }
 }
