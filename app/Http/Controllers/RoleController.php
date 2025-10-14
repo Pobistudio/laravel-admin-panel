@@ -95,4 +95,24 @@ class RoleController extends Controller
             return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
+
+    public function delete(string $id)
+    {
+        try {
+            $response = $this->roleService->delete($id);
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success delete role'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed delete role'];
+
+            if (!$response) {
+                return redirect()->back()->with('alert', $alertWarning);
+            }
+            return redirect()->route('roles')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error delete role attempt : {$e->getMessage()}");
+            return redirect()->back()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
 }
