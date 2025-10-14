@@ -2,8 +2,8 @@
 
 namespace App\Services\Contracts;
 
-use App\Http\Requests\Roles\CreateRoleDto;
-use App\Http\Requests\Roles\UpdateRoleDto;
+use App\DTOs\Roles\CreateRoleDto;
+use App\DTOs\Roles\UpdateRoleDto;
 
 interface RoleService
 {

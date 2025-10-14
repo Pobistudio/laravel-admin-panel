@@ -6,10 +6,7 @@ use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class RoleDataTable extends DataTable
@@ -24,6 +21,10 @@ class RoleDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('child_roles', function($row) {
+
+                if (!$row->child_roles) {
+                    return '<span class="text-slate-400 italic">No child roles</span>';
+                }
 
                 $items = array_map(fn($role) => ucwords(str_replace('_', ' ', $role)), explode(',', $row->child_roles));
 

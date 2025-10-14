@@ -2,9 +2,9 @@
 
 namespace App\Services\impls;
 
+use App\DTOs\Roles\CreateRoleDto;
+use App\DTOs\Roles\UpdateRoleDto;
 use App\Exceptions\ServiceException;
-use App\Http\Requests\Roles\CreateRoleDto;
-use App\Http\Requests\Roles\UpdateRoleDto;
 use App\Models\Role;
 use App\Services\Contracts\RoleService;
 use App\Utils\MappingUtils;
