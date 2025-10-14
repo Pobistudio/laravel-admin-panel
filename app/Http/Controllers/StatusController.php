@@ -62,7 +62,7 @@ class StatusController extends Controller
         } catch(ServiceException $e) {
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Error register user attempt : {$e->getMessage()}");
+            Log::error("Error edit status attempt : {$e->getMessage()}");
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }

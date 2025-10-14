@@ -9,7 +9,7 @@ class UpdateRoleDto
     public function __construct(
         public string $id,
         public string $name,
-        public ?string $childRoles = null,
+        public ?array $childRoles = [],
     ) {}
 
     public static function fromRequest(UpdateRoleRequest $request, string $id)
@@ -17,7 +17,7 @@ class UpdateRoleDto
         return new self(
             id: $id,
             name: $request->validated('name'),
-            childRoles: $request->validated('child_roles') ?? '',
+            childRoles: $request->validated('child_roles') ?? [],
         );
     }
 }

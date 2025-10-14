@@ -24,7 +24,7 @@ class UpdateRoleRequest extends FormRequest
     {
         return [
             'name'        => ['required', 'string', 'max:50'],
-            'child_roles' => ['nullable', 'string'],
+            'child_roles' => ['nullable', 'array'],
         ];
     }
 }

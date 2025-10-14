@@ -31,7 +31,7 @@ class RoleDataTable extends DataTable
                 $result = '<div class="flex flex-wrap gap-1">';
 
                 foreach ($items as $item) {
-                    $result .= "<span class='bg-slate-200 text-lap-dark rounded-md p-2'>$item</span>";
+                    $result .= "<span class='bg-slate-400 text-lap-cream rounded-md p-2'>$item</span>";
                 }
 
                 $result .= '</div>';
@@ -41,8 +41,8 @@ class RoleDataTable extends DataTable
             ->addColumn('action', function($row) {
                 $id          = $row->id;
                 $name        = $row->name;
-                $routeEdit   = route('statuses-edit', ['id' => $id]);
-                $routeDelete = route('statuses-delete', ['id' => $id]);
+                $routeEdit   = route('roles-edit', ['id' => $id]);
+                $routeDelete = route('roles-delete', ['id' => $id]);
 
                 $actions = [
                     [

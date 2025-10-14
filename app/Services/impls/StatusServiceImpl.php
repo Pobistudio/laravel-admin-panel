@@ -53,10 +53,13 @@ class StatusServiceImpl implements StatusService
         }
 
         $newId = str_replace(' ', '_', strtolower($dto->name));
-        $statusWithName = Status::find($newId);
 
-        if ($statusWithName) {
-            throw new ServiceException("Status with name {$dto->name} already exists");
+        if ($newId != $dto->id) {
+            $statusWithName = Status::find($newId);
+
+            if ($statusWithName) {
+                throw new ServiceException("Status with name {$dto->name} already exists");
+            }
         }
 
         $statusWithId->id = $newId;

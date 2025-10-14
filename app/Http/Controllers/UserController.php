@@ -86,7 +86,7 @@ class UserController extends Controller
         } catch(ServiceException $e) {
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Error register user attempt : {$e->getMessage()}");
+            Log::error("Error edit user attempt : {$e->getMessage()}");
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
@@ -106,7 +106,7 @@ class UserController extends Controller
         } catch(ServiceException $e) {
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Error register user attempt : {$e->getMessage()}");
+            Log::error("Error update user attempt : {$e->getMessage()}");
             return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
@@ -123,7 +123,7 @@ class UserController extends Controller
         } catch(ServiceException $e) {
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Error register user attempt : {$e->getMessage()}");
+            Log::error("Error reset password attempt : {$e->getMessage()}");
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
@@ -141,7 +141,7 @@ class UserController extends Controller
         } catch(ServiceException $e) {
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Error register user attempt : {$e->getMessage()}");
+            Log::error("Error change status attempt : {$e->getMessage()}");
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
@@ -161,7 +161,7 @@ class UserController extends Controller
         } catch(ServiceException $e) {
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Error register user attempt : {$e->getMessage()}");
+            Log::error("Error change status attempt : {$e->getMessage()}");
             return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
@@ -179,7 +179,7 @@ class UserController extends Controller
         } catch(ServiceException $e) {
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Error register user attempt : {$e->getMessage()}");
+            Log::error("Error change role attempt : {$e->getMessage()}");
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
@@ -195,15 +195,12 @@ class UserController extends Controller
             if (!$response) {
                 return redirect()->back()->withInput()->with('alert', $alertWarning);
             }
-            // if ($this->authService->getCurrentUser()->id === $id) {
-            //     $this->authService->logout();
-            //     return redirect()->route('login')->with('alert', ['type' => 'info', 'message' => 'Please login again to apply the new role']);
-            // }
+
             return redirect()->route('users')->with('alert', $alertSuccess);
         } catch(ServiceException $e) {
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
-            Log::error("Error register user attempt : {$e->getMessage()}");
+            Log::error("Error change role attempt : {$e->getMessage()}");
             return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }

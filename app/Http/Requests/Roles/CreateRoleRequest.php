@@ -24,7 +24,7 @@ class CreateRoleRequest extends FormRequest
     {
         return [
             'name'        => ['required', 'string', 'max:50', 'unique:roles,name'],
-            'child_roles' => ['nullable', 'string'],
+            'child_roles' => ['nullable', 'array'],
         ];
     }
 }

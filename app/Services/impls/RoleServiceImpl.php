@@ -28,10 +28,17 @@ class RoleServiceImpl implements RoleService
             throw new ServiceException("Role with name {$dto->name} already exists");
         }
 
+        //child roles to string
+        $childRoles = '';
+
+        if (!empty($dto->childRoles)) {
+            $childRoles = implode(',', $dto->childRoles);
+        }
+
         $role = Role::create([
             'id' => $id,
             'name' => $dto->name,
-            'child_roles' => $dto->childRoles,
+            'child_roles' => $childRoles,
         ]);
 
         if (!$role) {
@@ -55,15 +62,25 @@ class RoleServiceImpl implements RoleService
         }
 
         $newId = str_replace(' ', '_', strtolower($dto->name));
-        $roleWithName = Role::find($newId);
 
-        if ($roleWithName) {
-            throw new ServiceException("Role with name {$dto->name} already exists");
+        if ($newId != $dto->id) {
+            $roleWithName = Role::find($newId);
+
+            if ($roleWithName) {
+                throw new ServiceException("Role with name {$dto->name} already exists");
+            }
+        }
+
+        //child roles to string
+        $childRoles = '';
+
+        if (!empty($dto->childRoles)) {
+            $childRoles = implode(',', $dto->childRoles);
         }
 
         $roleWithId->id = $newId;
         $roleWithId->name = $dto->name;
-        $roleWithId->child_roles = $dto->childRoles;
+        $roleWithId->child_roles = $childRoles;
         return $roleWithId->save();
     }
 
