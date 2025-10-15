@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatusController;
@@ -114,7 +115,9 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
         });
 
-        Route::get('/menus', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');Route::prefix('mapping')->group(function () {
+        Route::get('/menus', [MenuController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
+
+        Route::get('/xx', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');Route::prefix('mapping')->group(function () {
             Route::get('/roles-menus-permissions', [DashboardController::class, 'index'])->name('roles-menus-permissions')->middleware('permissionIsValid:view');
             Route::get('/users-roles', [DashboardController::class, 'index'])->name('users-roles')->middleware('permissionIsValid:view');
         });
