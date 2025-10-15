@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UserController;
@@ -95,9 +96,25 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
         });
 
-        Route::get('/menus', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
-        Route::get('/permissions', [DashboardController::class, 'index'])->name('permissions')->middleware('permissionIsValid:view');
-        Route::prefix('mapping')->group(function () {
+        Route::prefix('permissions')->group(function () {
+
+            Route::get('/', [PermissionController::class, 'index'])->name('permissions')->middleware('permissionIsValid:view');
+
+            Route::prefix('create')->group(function () {
+                Route::get('/', [PermissionController::class, 'create'])->name('permissions-create')->middleware('permissionIsValid:view');
+                Route::post('/', [PermissionController::class, 'store'])->name('permissions-create')->middleware('permissionIsValid:create');
+            });
+
+            Route::prefix('edit')->group(function () {
+                Route::get('{id}', [PermissionController::class, 'edit'])->name('permissions-edit')->middleware('permissionIsValid:view');
+                Route::post('{id}', [PermissionController::class, 'update'])->name('permissions-edit')->middleware('permissionIsValid:update');
+            });
+
+            Route::get('/delete/{id}', [PermissionController::class, 'delete'])->name('permissions-delete')->middleware('permissionIsValid:delete');
+
+        });
+
+        Route::get('/menus', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');Route::prefix('mapping')->group(function () {
             Route::get('/roles-menus-permissions', [DashboardController::class, 'index'])->name('roles-menus-permissions')->middleware('permissionIsValid:view');
             Route::get('/users-roles', [DashboardController::class, 'index'])->name('users-roles')->middleware('permissionIsValid:view');
         });
