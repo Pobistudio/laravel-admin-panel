@@ -11,8 +11,11 @@
             <div class="text-lg text-lap-cream uppercase tracking-wider">
                 @yield('message')
             </div>
+            @php
+                $codeValue = $__env->yieldContent('code');
+            @endphp
         </div>
-        <a href="{{ url()->previous()}}" class="bg-lap-cream text-lap-navy px-4 py-3 rounded-lg hover:drop-shadow-2xl">Go Back</a>
+        <a href="{{ $codeValue == '403' ? route('logout') : url()->previous()}}" class="bg-lap-cream text-lap-navy px-4 py-3 rounded-lg hover:drop-shadow-2xl">Go Back</a>
     </div>
 </div>
 @endsection
