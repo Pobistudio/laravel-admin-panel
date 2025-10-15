@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Menu;
 use App\Models\RoleMenuPermission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RoleMenuPermissionSeeder extends Seeder
@@ -16,12 +15,9 @@ class RoleMenuPermissionSeeder extends Seeder
     {
         $dashboard = Menu::where('name', 'Dashboard')->first();
         $settings = Menu::where('name', 'Settings')->first();
-        $mapping = Menu::where('name', 'Mapping')->first();
         $role = Menu::where('name', 'Role')->first();
         $menu = Menu::where('name', 'Menu')->first();
         $permission = Menu::where('name', 'Permission')->first();
-        $roleWithMenuWithPermission = Menu::where('name', 'Role Menu Permission')->first();
-        $userWithRole = Menu::where('name', 'User Role')->first();
         $status = Menu::where('name', 'Status')->first();
         $user = Menu::where('name', 'User')->first();
         $profile = Menu::where('name', 'Profile')->first();
@@ -209,52 +205,7 @@ class RoleMenuPermissionSeeder extends Seeder
             ],
             [
                 'role_id' => 'super_admin',
-                'menu_id' => $roleWithMenuWithPermission->id,
-                'permission_id' => 'view',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $roleWithMenuWithPermission->id,
-                'permission_id' => 'create',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $roleWithMenuWithPermission->id,
-                'permission_id' => 'update',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $roleWithMenuWithPermission->id,
-                'permission_id' => 'delete',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $userWithRole->id,
-                'permission_id' => 'view',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $userWithRole->id,
-                'permission_id' => 'create',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $userWithRole->id,
-                'permission_id' => 'update',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $userWithRole->id,
-                'permission_id' => 'delete',
-            ],
-            [
-                'role_id' => 'super_admin',
                 'menu_id' => $settings->id,
-                'permission_id' => 'view',
-            ],
-            [
-                'role_id' => 'super_admin',
-                'menu_id' => $mapping->id,
                 'permission_id' => 'view',
             ],
         ];
