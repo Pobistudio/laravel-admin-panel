@@ -6,10 +6,7 @@ use App\Models\Menu;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class MenuDataTable extends DataTable
@@ -28,14 +25,14 @@ class MenuDataTable extends DataTable
             })
             ->addColumn('status', function($row) {
                 $type = 'status_menu';
-                $name = $row->status ? 'Aktif' : 'Non Aktif';
+                $name = $row->status ? 'Active' : 'Inactive';
                 return view('components.badge.badge-wrapper', compact('type', 'name'));;
             })
             ->addColumn('action', function($row) {
                 $id                = $row->id;
                 $name              = $row->name;
                 $status            = $row->status;
-                $desStatusName     = $status ? 'Non Aktif' : 'Aktif';
+                $desStatusName     = $status ? 'Inactive' : 'Active';
                 $routeEdit         = route('menus-edit', ['id' => $id]);
                 $routeChangeStatus = route('menus-change-status', ['id' => $id, 'status' => !$status]);
 
@@ -47,7 +44,7 @@ class MenuDataTable extends DataTable
                     ],
                     [
                         'type'   => 'button',
-                        'name'   => $desStatusName.'kan',
+                        'name'   => 'Set '.$desStatusName,
                         'action' => "confirmChangeStatusDialog('$name', $desStatusName,'$routeChangeStatus')"
                     ],
                 ];

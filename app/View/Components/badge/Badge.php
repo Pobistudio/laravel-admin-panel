@@ -42,8 +42,8 @@ class Badge extends Component
 
         } else if ($type === 'status_menu') {
             return match ($name) {
-                'aktif' => 'bg-green-100 text-green-800',
-                'non aktif' => 'bg-slate-100 text-slate-800',
+                'Active' => 'bg-green-100 text-green-800',
+                'Inactive' => 'bg-slate-100 text-slate-800',
                 default => 'bg-green-100 text-green-800',
             };
         } else {
