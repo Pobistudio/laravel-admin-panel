@@ -154,6 +154,18 @@ class DialogManager {
         );
     }
 
+    confirmChangeStatusDialog(data, desStatusName, changeStatusUrl) {
+        this.showConfirmDialog(
+            'Change Status',
+            `Apakah anda ingin ${desStatusName}kan <strong>${data}</strong> ?`,
+            'Reset Password',
+            () => {
+                window.location.href = changeStatusUrl;
+            },
+            'red'
+        );
+    }
+
     // Method to create custom dialogs
     createCustomDialog(config) {
         const {
