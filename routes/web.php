@@ -115,7 +115,24 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
         });
 
-        Route::get('/menus', [MenuController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
+        Route::prefix('menus')->group(function () {
+
+            Route::get('/', [MenuController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
+
+            Route::prefix('create')->group(function () {
+                Route::get('/', [MenuController::class, 'create'])->name('menus-create')->middleware('permissionIsValid:view');
+                Route::post('/', [MenuController::class, 'store'])->name('menus-create')->middleware('permissionIsValid:create');
+            });
+
+            Route::prefix('edit')->group(function () {
+                Route::get('{id}', [MenuController::class, 'edit'])->name('menus-edit')->middleware('permissionIsValid:view');
+                Route::post('{id}', [MenuController::class, 'update'])->name('menus-edit')->middleware('permissionIsValid:update');
+            });
+
+            Route::get('/change-status/{id}/{status}', [MenuController::class, 'changeStatus'])->name('menus-change-status')->middleware('permissionIsValid:change_status');
+
+        });
+
     });
 
 });

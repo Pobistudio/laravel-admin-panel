@@ -22,7 +22,39 @@ class MenuDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'menu.action')
+            ->addIndexColumn()
+            ->addColumn('icon', function($row) {
+                return '<i class="'.$row->icon.' ri-lg"></i>';
+            })
+            ->addColumn('status', function($row) {
+                $type = 'status_menu';
+                $name = $row->status ? 'Aktif' : 'Non Aktif';
+                return view('components.badge.badge-wrapper', compact('type', 'name'));;
+            })
+            ->addColumn('action', function($row) {
+                $id                = $row->id;
+                $name              = $row->name;
+                $status            = $row->status;
+                $desStatusName     = $status ? 'Non Aktif' : 'Aktif';
+                $routeEdit         = route('menus-edit', ['id' => $id]);
+                $routeChangeStatus = route('menus-change-status', ['id' => $id, 'status' => !$status]);
+
+                $actions = [
+                    [
+                        'type'   => 'link',
+                        'name'   => 'Edit',
+                        'action' => $routeEdit
+                    ],
+                    [
+                        'type'   => 'button',
+                        'name'   => $desStatusName.'kan',
+                        'action' => "confirmChangeStatusDialog('$name', $desStatusName,'$routeChangeStatus')"
+                    ],
+                ];
+
+                return view('components.action-dropdown-table', compact('actions'));
+            })
+            ->rawColumns(['icon', 'status', 'action'])
             ->setRowId('id');
     }
 
@@ -46,15 +78,7 @@ class MenuDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+                    ->selectStyleSingle();
     }
 
     /**
@@ -63,15 +87,19 @@ class MenuDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('DT_RowIndex', '#'),
+            Column::make('name'),
+            Column::make('link'),
+            Column::make('link_alias'),
+            Column::computed('icon'),
+            Column::make('parent'),
+            Column::make('order'),
+            Column::computed('status'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
