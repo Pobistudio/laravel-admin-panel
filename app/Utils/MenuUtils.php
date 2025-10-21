@@ -71,6 +71,7 @@ class MenuUtils
         return Menu::leftJoin('role_menu_permission', 'role_menu_permission.menu_id', '=', 'menus.id')
         ->select('menus.*')
         ->where('role_menu_permission.role_id', $role)
+        ->where('menus.status', 1)
         ->groupBy('role_menu_permission.menu_id')
         ->orderBy('order', 'asc')
         ->get()->toArray();
