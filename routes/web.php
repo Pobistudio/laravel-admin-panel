@@ -116,11 +116,6 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
         });
 
         Route::get('/menus', [MenuController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');
-
-        Route::get('/xx', [DashboardController::class, 'index'])->name('menus')->middleware('permissionIsValid:view');Route::prefix('mapping')->group(function () {
-            Route::get('/roles-menus-permissions', [DashboardController::class, 'index'])->name('roles-menus-permissions')->middleware('permissionIsValid:view');
-            Route::get('/users-roles', [DashboardController::class, 'index'])->name('users-roles')->middleware('permissionIsValid:view');
-        });
     });
 
 });
