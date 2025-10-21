@@ -40,6 +40,12 @@ class Badge extends Component
                 default => 'bg-gray-100 text-gray-800',
             };
 
+        } else if ($type === 'status_menu') {
+            return match ($name) {
+                'aktif' => 'bg-green-100 text-green-800',
+                'non aktif' => 'bg-slate-100 text-slate-800',
+                default => 'bg-green-100 text-green-800',
+            };
         } else {
             return match ($name) {
                 'super admin' => 'bg-purple-100 text-purple-800 border border-purple-400',
