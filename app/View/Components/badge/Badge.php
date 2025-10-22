@@ -40,7 +40,7 @@ class Badge extends Component
                 default => 'bg-gray-100 text-gray-800',
             };
 
-        } else if ($type === 'status_menu') {
+        } else if ($type === 'is_active') {
             return match ($name) {
                 'Active' => 'bg-green-100 text-green-800',
                 'Inactive' => 'bg-slate-100 text-slate-800',

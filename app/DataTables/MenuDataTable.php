@@ -24,8 +24,8 @@ class MenuDataTable extends DataTable
                 return '<i class="'.$row->icon.' ri-lg"></i>';
             })
             ->addColumn('status', function($row) {
-                $type = 'status_menu';
-                $name = $row->status ? 'Active' : 'Inactive';
+                $type = 'is_active';
+                $name = $row->is_active ? 'Active' : 'Inactive';
                 return view('components.badge.badge-wrapper', compact('type', 'name'));;
             })
             ->addColumn('action', function($row) {
@@ -91,7 +91,7 @@ class MenuDataTable extends DataTable
             Column::computed('icon'),
             Column::make('parent'),
             Column::make('order'),
-            Column::computed('status'),
+            Column::computed('is_active'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

@@ -16,12 +16,14 @@ return new class extends Migration
             $table->string('id', 50)->primary();
             $table->string('name', 50);
             $table->string('section', 50);
+            $table->boolean('is_active')->nullable(false)->default(true);
         });
 
         Schema::create('statuses', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->string('id', 50)->primary();
             $table->string('name', 50);
+            $table->boolean('is_active')->nullable(false)->default(true);
         });
 
         Schema::create('roles', function (Blueprint $table) {
@@ -29,6 +31,7 @@ return new class extends Migration
             $table->string('id', 50)->primary();
             $table->string('name', 50);
             $table->text('child_roles',)->nullable();
+            $table->boolean('is_active')->nullable(false)->default(true);
         });
 
         Schema::create('menus', function (Blueprint $table) {
@@ -40,13 +43,14 @@ return new class extends Migration
             $table->string('icon', 100)->nullable(false)->default('#');
             $table->bigInteger('parent')->nullable(false)->default(0);
             $table->bigInteger('order')->nullable(false)->default(0);
-            $table->boolean('status')->nullable(false)->default(true);
+            $table->boolean('is_active')->nullable(false)->default(true);
         });
 
         Schema::create('permissions', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->string('id', 50)->primary();
             $table->string('name', 50);
+            $table->boolean('is_active')->nullable(false)->default(true);
         });
 
         Schema::create('role_menu_permission', function (Blueprint $table) {

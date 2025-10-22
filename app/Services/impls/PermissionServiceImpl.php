@@ -90,6 +90,6 @@ class PermissionServiceImpl implements PermissionService
      */
     public function getPermissionById(string $id)
     {
-        return Permission::find($id);
+        return Permission::where('id', $id)->where('is_active', 1)->first();
     }
 }
