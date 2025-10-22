@@ -27,7 +27,7 @@ class MenuController extends Controller
     {
         try {
             $menus = $this->menuService->getAllParent();
-            $menus = MappingUtils::mapToValueLabel($menus, 'id', 'name');
+            $menus = MappingUtils::mapToValueLabel($menus, 'id', 'name', [ 'value' => '#', 'label' => 'Default Parent' ]);
             return view('pages.settings.menus.create', compact('menus'));
         } catch(ServiceException $e) {
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);

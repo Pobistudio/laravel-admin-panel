@@ -31,6 +31,10 @@
             <ul class="select-options py-1"></ul>
         </div>
     </div>
+    @if ($attributes->get('description'))
+        <x-input-description>{{ $attributes->get('description') }}</x-input-description>
+    @endif
+
     @if ($attributes->get('name'))
         <x-error-validation name="{{ $attributes->get('name') }}"/>
     @endif

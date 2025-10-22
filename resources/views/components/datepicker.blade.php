@@ -1,4 +1,4 @@
-@props(['name', 'value' => null, 'options' => '[]', 'placeholder' => 'Select date', 'class' => ''])
+@props(['name', 'value' => null, 'options' => '[]', 'placeholder' => 'Select date', 'class' => '', 'description' => ''])
 
 <div class="relative">
      <div class="absolute inset-y-0 end-0 flex items-center p-3 pointer-events-none">
@@ -16,5 +16,9 @@
             'data-options' => $options
             ]) }}
     >
+    @if ($description)
+        <x-input-description>{{ $description }}</x-input-description>
+    @endif
+
     <x-error-validation name="{{ $name }}"/>
 </div>

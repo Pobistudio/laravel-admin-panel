@@ -2,7 +2,7 @@
 @section('title', "Create User")
 @section('page')
 <x-form x-data="{ open: false}" method="POST" action="{{ route('users-create') }}" class="sm:w-1/2 w-full" :border="true" :actionBack="route('users')">
-    <x-label id="label_name" for="email">Name</x-label>
+    <x-label id="label_name" for="name">Name</x-label>
     <x-input type="text" id="name" name="name" value="{{ old('name') }}"/>
     <x-label id="label_email" for="email">Email</x-label>
     <x-input type="email" id="email" name="email" autocomplete="email" value="{{ old('email') }}"/>

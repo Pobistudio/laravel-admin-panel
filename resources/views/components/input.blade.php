@@ -1,4 +1,4 @@
-@props(['name' => '', 'isPassword' => false ])
+@props(['name' => '', 'isPassword' => false, 'description' => '' ])
 @php
     $classes = "p-3 w-full bg-slate-200 border border-slate-300 rounded-lg focus:outline-slate-400";
 @endphp
@@ -12,6 +12,10 @@
             </div>
         @endif
     </div>
+    @if ($description)
+        <x-input-description>{{ $description }}</x-input-description>
+    @endif
+
     @if ($name)
         <x-error-validation name="{{ $name }}"/>
     @endif
