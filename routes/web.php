@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IconController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -60,6 +61,22 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
         });
     });
     Route::prefix('settings')->group(function () {
+
+        Route::prefix('icons')->group(function () {
+
+            Route::get('/', [IconController::class, 'index'])->name('icons')->middleware('permissionIsValid:view');
+
+            Route::prefix('create')->group(function () {
+                Route::get('/', [IconController::class, 'create'])->name('icons-create')->middleware('permissionIsValid:view');
+                Route::post('/', [IconController::class, 'store'])->name('icons-create')->middleware('permissionIsValid:create');
+            });
+
+            Route::prefix('edit')->group(function () {
+                Route::get('{id}', [IconController::class, 'edit'])->name('icons-edit')->middleware('permissionIsValid:view');
+                Route::post('{id}', [IconController::class, 'update'])->name('icons-edit')->middleware('permissionIsValid:update');
+            });
+
+        });
 
         Route::prefix('statuses')->group(function () {
 

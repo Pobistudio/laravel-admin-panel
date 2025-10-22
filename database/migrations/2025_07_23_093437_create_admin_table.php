@@ -11,6 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('icons', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->string('id', 50)->primary();
+            $table->string('name', 50);
+            $table->string('section', 50);
+        });
+
         Schema::create('statuses', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->string('id', 50)->primary();
