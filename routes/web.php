@@ -76,6 +76,8 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
                 Route::post('{id}', [IconController::class, 'update'])->name('icons-edit')->middleware('permissionIsValid:update');
             });
 
+            Route::get('/change-status/{id}/{status}', [IconController::class, 'changeStatus'])->name('icons-change-status')->middleware('permissionIsValid:change_status');
+
         });
 
         Route::prefix('statuses')->group(function () {

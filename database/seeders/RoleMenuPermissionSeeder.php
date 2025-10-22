@@ -19,6 +19,7 @@ class RoleMenuPermissionSeeder extends Seeder
         $menu = Menu::where('name', 'Menu')->first();
         $permission = Menu::where('name', 'Permission')->first();
         $status = Menu::where('name', 'Status')->first();
+        $icon = Menu::where('name', 'Icon')->first();
         $user = Menu::where('name', 'User')->first();
         $profile = Menu::where('name', 'Profile')->first();
 
@@ -201,6 +202,26 @@ class RoleMenuPermissionSeeder extends Seeder
             [
                 'role_id' => 'super_admin',
                 'menu_id' => $permission->id,
+                'permission_id' => 'change_status',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $icon->id,
+                'permission_id' => 'view',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $icon->id,
+                'permission_id' => 'create',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $icon->id,
+                'permission_id' => 'update',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $icon->id,
                 'permission_id' => 'change_status',
             ],
             [

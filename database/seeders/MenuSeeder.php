@@ -48,32 +48,39 @@ class MenuSeeder extends Seeder
 
         $subMenuSettings = [
             [
+                'name' => 'Icon',
+                'link' => 'settings/icons',
+                'link_alias' => 'icons',
+                'parent' => $menuSettings->id,
+                'order' => 1,
+            ],
+            [
                 'name' => 'Status',
                 'link' => 'settings/statuses',
                 'link_alias' => 'statuses',
                 'parent' => $menuSettings->id,
-                'order' => 1,
+                'order' => 2,
             ],
             [
                 'name' => 'Role',
                 'link' => 'settings/roles',
                 'link_alias' => 'roles',
                 'parent' => $menuSettings->id,
-                'order' => 2,
+                'order' => 3,
             ],
             [
                 'name' => 'Permission',
                 'link' => 'settings/permissions',
                 'link_alias' => 'permissions',
                 'parent' => $menuSettings->id,
-                'order' => 3,
+                'order' => 4,
             ],
             [
                 'name' => 'Menu',
                 'link' => 'settings/menus',
                 'link_alias' => 'menus',
                 'parent' => $menuSettings->id,
-                'order' => 4,
+                'order' => 5,
             ],
         ];
 

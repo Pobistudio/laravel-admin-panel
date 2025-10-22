@@ -21,11 +21,21 @@ class IconDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->addColumn('name', function($row) {
+                return '<i class="'.$row->id.' ri-lg"></i> '.$row->name;
+            })
+            ->addColumn('is_active', function($row) {
+                $type = 'is_active';
+                $name = $row->is_active ? 'Active' : 'Inactive';
+                return view('components.badge.badge-wrapper', compact('type', 'name'));;
+            })
             ->addColumn('action', function($row) {
-                $id          = $row->id;
-                $name        = $row->name;
-                $routeEdit   = route('statuses-edit', ['id' => $id]);
-                $routeDelete = route('statuses-delete', ['id' => $id]);
+                $id                = $row->id;
+                $name              = $row->name;
+                $isActive          = $row->is_active;
+                $desStatusName     = $isActive ? 'Inactive' : 'Active';
+                $routeEdit         = route('icons-edit', ['id' => $id]);
+                $routeChangeStatus = route('icons-change-status', ['id' => $id, 'status' => $isActive == 1 ? 0 : 1]);
 
                 $actions = [
                     [
@@ -35,14 +45,14 @@ class IconDataTable extends DataTable
                     ],
                     [
                         'type'   => 'button',
-                        'name'   => 'Delete',
-                        'action' => "confirmDeleteDialog('$name', '$routeDelete')"
+                        'name'   => "Set $desStatusName",
+                        'action' => "confirmChangeStatusDialog('$name', '$desStatusName','$routeChangeStatus')"
                     ],
                 ];
 
                 return view('components.action-dropdown-table', compact('actions'));
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['name', 'is_active', 'action'])
             ->setRowId('id');
     }
 
@@ -76,7 +86,8 @@ class IconDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex', '#'),
-            Column::make('name'),
+            Column::computed('name'),
+            Column::computed('is_active'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
