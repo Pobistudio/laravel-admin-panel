@@ -141,7 +141,7 @@ class RoleMenuPermissionSeeder extends Seeder
             [
                 'role_id' => 'super_admin',
                 'menu_id' => $status->id,
-                'permission_id' => 'delete',
+                'permission_id' => 'change_status',
             ],
             [
                 'role_id' => 'super_admin',
@@ -161,7 +161,7 @@ class RoleMenuPermissionSeeder extends Seeder
             [
                 'role_id' => 'super_admin',
                 'menu_id' => $role->id,
-                'permission_id' => 'delete',
+                'permission_id' => 'change_status',
             ],
             [
                 'role_id' => 'super_admin',
@@ -181,7 +181,7 @@ class RoleMenuPermissionSeeder extends Seeder
             [
                 'role_id' => 'super_admin',
                 'menu_id' => $menu->id,
-                'permission_id' => 'delete',
+                'permission_id' => 'change_status',
             ],
             [
                 'role_id' => 'super_admin',
@@ -201,7 +201,7 @@ class RoleMenuPermissionSeeder extends Seeder
             [
                 'role_id' => 'super_admin',
                 'menu_id' => $permission->id,
-                'permission_id' => 'delete',
+                'permission_id' => 'change_status',
             ],
             [
                 'role_id' => 'super_admin',

@@ -38,11 +38,18 @@ class RoleDataTable extends DataTable
 
                 return $result;
             })
+            ->addColumn('is_active', function($row) {
+                $type = 'is_active';
+                $name = $row->is_active ? 'Active' : 'Inactive';
+                return view('components.badge.badge-wrapper', compact('type', 'name'));;
+            })
             ->addColumn('action', function($row) {
-                $id          = $row->id;
-                $name        = $row->name;
-                $routeEdit   = route('roles-edit', ['id' => $id]);
-                $routeDelete = route('roles-delete', ['id' => $id]);
+                $id                = $row->id;
+                $name              = $row->name;
+                $isActive          = $row->is_active;
+                $desStatusName     = $isActive ? 'Inactive' : 'Active';
+                $routeEdit         = route('roles-edit', ['id' => $id]);
+                $routeChangeStatus = route('roles-change-status', ['id' => $id, 'status' => $isActive == 1 ? 0 : 1]);
 
                 $actions = [
                     [
@@ -52,14 +59,14 @@ class RoleDataTable extends DataTable
                     ],
                     [
                         'type'   => 'button',
-                        'name'   => 'Delete',
-                        'action' => "confirmDeleteDialog('$name', '$routeDelete')"
+                        'name'   => "Set $desStatusName",
+                        'action' => "confirmChangeStatusDialog('$name', '$desStatusName','$routeChangeStatus')"
                     ],
                 ];
 
                 return view('components.action-dropdown-table', compact('actions'));
             })
-            ->rawColumns(['child_roles', 'action'])
+            ->rawColumns(['child_roles', 'is_active', 'action'])
             ->setRowId('id');
     }
 
@@ -95,6 +102,7 @@ class RoleDataTable extends DataTable
             Column::computed('DT_RowIndex', '#'),
             Column::make('name'),
             Column::computed('child_roles'),
+            Column::computed('is_active'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

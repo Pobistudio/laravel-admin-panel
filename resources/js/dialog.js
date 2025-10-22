@@ -157,8 +157,8 @@ class DialogManager {
     confirmChangeStatusDialog(data, desStatusName, changeStatusUrl) {
         this.showConfirmDialog(
             'Change Status',
-            `Apakah anda ingin ${desStatusName}kan <strong>${data}</strong> ?`,
-            'Reset Password',
+            `Apakah anda ingin ${desStatusName}-kan <strong>${data}</strong> ?`,
+            desStatusName,
             () => {
                 window.location.href = changeStatusUrl;
             },
@@ -193,6 +193,7 @@ class DialogManager {
         window.confirmLogoutDialog = (logoutUrl) => this.confirmLogoutDialog(logoutUrl);
         window.confirmDeleteDialog = (dataDelete, deleteUrl) => this.confirmDeleteDialog(dataDelete, deleteUrl);
         window.confirmResetPasswordDialog = (data, resetPasswordUrl) => this.confirmResetPasswordDialog(data, resetPasswordUrl);
+        window.confirmChangeStatusDialog = (data, desStatusName, changeStatusUrl) => this.confirmChangeStatusDialog(data, desStatusName, changeStatusUrl);
     }
 
     // Static method to create singleton instance

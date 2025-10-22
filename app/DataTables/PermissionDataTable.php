@@ -21,11 +21,18 @@ class PermissionDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->addColumn('is_active', function($row) {
+                $type = 'is_active';
+                $name = $row->is_active ? 'Active' : 'Inactive';
+                return view('components.badge.badge-wrapper', compact('type', 'name'));;
+            })
             ->addColumn('action', function($row) {
-                $id          = $row->id;
-                $name        = $row->name;
-                $routeEdit   = route('permissions-edit', ['id' => $id]);
-                $routeDelete = route('permissions-delete', ['id' => $id]);
+                $id                = $row->id;
+                $name              = $row->name;
+                $isActive          = $row->is_active;
+                $desStatusName     = $isActive ? 'Inactive' : 'Active';
+                $routeEdit         = route('permissions-edit', ['id' => $id]);
+                $routeChangeStatus = route('permissions-change-status', ['id' => $id, 'status' => $isActive == 1 ? 0 : 1]);
 
                 $actions = [
                     [
@@ -35,14 +42,14 @@ class PermissionDataTable extends DataTable
                     ],
                     [
                         'type'   => 'button',
-                        'name'   => 'Delete',
-                        'action' => "confirmDeleteDialog('$name', '$routeDelete')"
+                        'name'   => "Set $desStatusName",
+                        'action' => "confirmChangeStatusDialog('$name', '$desStatusName','$routeChangeStatus')"
                     ],
                 ];
 
                 return view('components.action-dropdown-table', compact('actions'));
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['is_active', 'action'])
             ->setRowId('id');
     }
 
@@ -77,6 +84,7 @@ class PermissionDataTable extends DataTable
         return [
             Column::computed('DT_RowIndex', '#'),
             Column::make('name'),
+            Column::computed('is_active'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

@@ -87,13 +87,13 @@ class StatusController extends Controller
         }
     }
 
-    public function delete(string $id)
+    public function changeStatus(string $id, bool $status)
     {
         try {
-            $response = $this->statusService->delete($id);
+            $response = $this->statusService->changeStatus($id, $status);
 
-            $alertSuccess = ['type' => 'success', 'message' => 'Success delete status'];
-            $alertWarning = ['type' => 'warning', 'message' => 'Failed delete status'];
+            $alertSuccess = ['type' => 'success', 'message' => 'Success change status status'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed change status status'];
 
             if (!$response) {
                 return redirect()->back()->with('alert', $alertWarning);

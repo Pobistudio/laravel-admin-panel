@@ -11,9 +11,9 @@ interface RoleService
 
     public function update(UpdateRoleDto $dto);
 
-    public function delete(string $id);
+    public function changeStatus(string $id, bool $isActive);
 
-    public function getAll(array $exceptions = []);
+    public function getAll(array $exceptions = [], int $isActive = 2);
 
     public function getRoleById(string $id);
 

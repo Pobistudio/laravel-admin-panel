@@ -68,24 +68,29 @@ class StatusServiceImpl implements StatusService
     }
 
     /**
-     * Delete a status by its ID.
-     *
+     * Summary of changeStatus
      * @param string $id
-     * @return bool|null
-     * @throws ServiceException
+     * @param bool $isActive
+     * @throws \App\Exceptions\ServiceException
+     * @return bool
      */
-    public function delete(string $id)
+    public function changeStatus(string $id, bool $isActive)
     {
         $status = Status::find($id);
         if (!$status) {
             throw new ServiceException("Status with id {$id} not found");
         }
-        return $status->delete();
+        $status->is_active = $isActive;
+        return $status->save();
     }
 
-    public function getAll()
+    public function getAll(int $isActive = 2)
     {
-        return Status::all();
+        if ($isActive == 2) {
+            return Status::all();
+        } else {
+            return Status::where('is_active', $isActive);
+        }
     }
 
     /**
@@ -108,7 +113,7 @@ class StatusServiceImpl implements StatusService
      */
     public function getStatusesDataSelect($allItem = true, $exceptions = [])
     {
-        $statuses = Status::whereNotIn('id', $exceptions)->get()->toArray();
+        $statuses = Status::whereNotIn('id', $exceptions)->where('is_active', 1)->get()->toArray();
         if ($allItem) {
             return MappingUtils::mapToValueLabel($statuses, 'id', 'name', [ 'value' => 'all', 'label' => 'Semua Status' ]);
         }

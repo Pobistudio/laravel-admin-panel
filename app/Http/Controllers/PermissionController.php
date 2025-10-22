@@ -10,7 +10,6 @@ use App\Http\Requests\Permissions\CreatePermissionRequest;
 use App\Http\Requests\Permissions\UpdatePermissionRequest;
 use App\Services\Contracts\PermissionService;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class PermissionController extends Controller
@@ -88,13 +87,13 @@ class PermissionController extends Controller
         }
     }
 
-    public function delete(string $id)
+    public function changeStatus(string $id, bool $status)
     {
         try {
-            $response = $this->permissionService->delete($id);
+            $response = $this->permissionService->changeStatus($id, $status);
 
-            $alertSuccess = ['type' => 'success', 'message' => 'Success delete permission'];
-            $alertWarning = ['type' => 'warning', 'message' => 'Failed delete permission'];
+            $alertSuccess = ['type' => 'success', 'message' => 'Success change status permission'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed change status permission'];
 
             if (!$response) {
                 return redirect()->back()->with('alert', $alertWarning);

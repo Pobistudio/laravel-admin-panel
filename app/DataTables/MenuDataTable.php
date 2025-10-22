@@ -23,7 +23,7 @@ class MenuDataTable extends DataTable
             ->addColumn('icon', function($row) {
                 return '<i class="'.$row->icon.' ri-lg"></i>';
             })
-            ->addColumn('status', function($row) {
+            ->addColumn('is_active', function($row) {
                 $type = 'is_active';
                 $name = $row->is_active ? 'Active' : 'Inactive';
                 return view('components.badge.badge-wrapper', compact('type', 'name'));;
@@ -34,7 +34,7 @@ class MenuDataTable extends DataTable
                 $status            = $row->status;
                 $desStatusName     = $status ? 'Inactive' : 'Active';
                 $routeEdit         = route('menus-edit', ['id' => $id]);
-                $routeChangeStatus = route('menus-change-status', ['id' => $id, 'status' => !$status]);
+                $routeChangeStatus = route('menus-change-status', ['id' => $id, 'status' => $status == 1 ? 0 : 1]);
 
                 $actions = [
                     [
@@ -44,14 +44,14 @@ class MenuDataTable extends DataTable
                     ],
                     [
                         'type'   => 'button',
-                        'name'   => 'Set '.$desStatusName,
-                        'action' => "confirmChangeStatusDialog('$name', $desStatusName,'$routeChangeStatus')"
+                        'name'   => "Set $desStatusName",
+                        'action' => "confirmChangeStatusDialog('$name', '$desStatusName','$routeChangeStatus')"
                     ],
                 ];
 
                 return view('components.action-dropdown-table', compact('actions'));
             })
-            ->rawColumns(['icon', 'status', 'action'])
+            ->rawColumns(['icon', 'is_active', 'action'])
             ->setRowId('id');
     }
 

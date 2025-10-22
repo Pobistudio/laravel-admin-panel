@@ -92,7 +92,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
                 Route::post('{id}', [StatusController::class, 'update'])->name('statuses-edit')->middleware('permissionIsValid:update');
             });
 
-            Route::get('/delete/{id}', [StatusController::class, 'delete'])->name('statuses-delete')->middleware('permissionIsValid:delete');
+            Route::get('/change-status/{id}/{status}', [StatusController::class, 'changeStatus'])->name('statuses-change-status')->middleware('permissionIsValid:change_status');
 
         });
 
@@ -110,7 +110,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
                 Route::post('{id}', [RoleController::class, 'update'])->name('roles-edit')->middleware('permissionIsValid:update');
             });
 
-            Route::get('/delete/{id}', [RoleController::class, 'delete'])->name('roles-delete')->middleware('permissionIsValid:delete');
+            Route::get('/change-status/{id}/{status}', [RoleController::class, 'changeStatus'])->name('roles-change-status')->middleware('permissionIsValid:change_status');
 
         });
 
@@ -128,7 +128,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
                 Route::post('{id}', [PermissionController::class, 'update'])->name('permissions-edit')->middleware('permissionIsValid:update');
             });
 
-            Route::get('/delete/{id}', [PermissionController::class, 'delete'])->name('permissions-delete')->middleware('permissionIsValid:delete');
+            Route::get('/change-status/{id}/{status}', [PermissionController::class, 'changeStatus'])->name('permissions-change-status')->middleware('permissionIsValid:change_status');
 
         });
 

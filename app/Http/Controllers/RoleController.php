@@ -10,7 +10,6 @@ use App\Http\Requests\Roles\CreateRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
 use App\Services\Contracts\RoleService;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class RoleController extends Controller
@@ -96,13 +95,13 @@ class RoleController extends Controller
         }
     }
 
-    public function delete(string $id)
+    public function changeStatus(string $id, bool $status)
     {
         try {
-            $response = $this->roleService->delete($id);
+            $response = $this->roleService->changeStatus($id, $status);
 
-            $alertSuccess = ['type' => 'success', 'message' => 'Success delete role'];
-            $alertWarning = ['type' => 'warning', 'message' => 'Failed delete role'];
+            $alertSuccess = ['type' => 'success', 'message' => 'Success change status role'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed change status role'];
 
             if (!$response) {
                 return redirect()->back()->with('alert', $alertWarning);

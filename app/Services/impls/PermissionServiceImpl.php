@@ -67,19 +67,20 @@ class PermissionServiceImpl implements PermissionService
     }
 
     /**
-     * Delete a permission by its ID.
-     *
+     * Summary of changeStatus
      * @param string $id
-     * @return bool|null
-     * @throws ServiceException
+     * @param bool $isActive
+     * @throws \App\Exceptions\ServiceException
+     * @return bool
      */
-    public function delete(string $id)
+    public function changeStatus(string $id, bool $isActive)
     {
         $permission = Permission::find($id);
         if (!$permission) {
             throw new ServiceException("Permission with id {$id} not found");
         }
-        return $permission->delete();
+        $permission->is_active = $isActive;
+        return $permission->save();
     }
 
     /**
@@ -90,6 +91,6 @@ class PermissionServiceImpl implements PermissionService
      */
     public function getPermissionById(string $id)
     {
-        return Permission::where('id', $id)->where('is_active', 1)->first();
+        return Permission::where('id', $id)->first();
     }
 }

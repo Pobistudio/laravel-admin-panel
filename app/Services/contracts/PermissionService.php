@@ -11,7 +11,7 @@ interface PermissionService
 
     public function update(UpdatePermissionDto $dto);
 
-    public function delete(string $id);
+    public function changeStatus(string $id, bool $isActive);
 
     public function getPermissionById(string $id);
 

@@ -85,19 +85,20 @@ class RoleServiceImpl implements RoleService
     }
 
     /**
-     * Delete a role by its ID.
-     *
+     * Summary of changeStatus
      * @param string $id
+     * @param bool $isActive
+     * @throws \App\Exceptions\ServiceException
      * @return bool
-     * @throws ServiceException
      */
-    public function delete(string $id)
+    public function changeStatus(string $id, bool $isActive)
     {
         $role = Role::find($id);
         if (!$role) {
             throw new ServiceException("Role with id {$id} not found");
         }
-        return $role->delete();
+        $role->is_active = $isActive;
+        return $role->save();
     }
 
     /**
@@ -106,9 +107,13 @@ class RoleServiceImpl implements RoleService
      * @param array $exceptions
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll(array $exceptions = [])
+    public function getAll(array $exceptions = [], int $isActive = 2)
     {
-        return Role::whereNotIn('id', $exceptions)->get();
+        if ($isActive == 2) {
+            return Role::whereNotIn('id', $exceptions)->get();
+        } else {
+            return Role::whereNotIn('id', $exceptions)->where('is_active', $isActive)->get();
+        }
     }
 
     /**
@@ -141,7 +146,7 @@ class RoleServiceImpl implements RoleService
      */
     public function getRolesDataSelect($allItem = true, array $exceptions = [])
     {
-        $roles = $this->getAll($exceptions)->toArray();
+        $roles = $this->getAll($exceptions, 1)->toArray();
 
         if ($allItem) {
             array_unshift($roles, ['id' => 'all', 'name' => 'All']);

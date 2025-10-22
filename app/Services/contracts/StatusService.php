@@ -11,9 +11,9 @@ interface StatusService
 
     public function update(UpdateStatusDto $dto);
 
-    public function delete(string $id);
+    public function changeStatus(string $id, bool $isActive);
 
-    public function getAll();
+    public function getAll(int $isActive = 2);
 
     public function getStatusById(string $id);
 
