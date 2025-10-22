@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', "Dashboard")
+@section('page_title', "Welcome back")
+@section('page_subtitle', "Welcome to dashboard")
 @section('page')
 <div class="grid grid-cols-1 md:grid-cols-5">
     @foreach ($dashboardData as $item)
