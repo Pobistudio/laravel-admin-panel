@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DataTables\IconDataTable;
 use App\DTOs\Icons\CreateIconDto;
+use App\DTOs\Icons\UpdateIconDto;
 use App\Exceptions\ServiceException;
 use App\Http\Requests\Icons\CreateIconRequest;
+use App\Http\Requests\Icons\UpdateIconRequest;
 use App\Services\Contracts\IconService;
 use Exception;
 use Illuminate\Http\Request;
@@ -50,5 +52,62 @@ class IconController extends Controller
         }
     }
 
+    public function edit(string $id)
+    {
+        try {
+            $response = $this->iconService->getIconById($id);
+            $iconTypes = $this->iconService->getIconTypesSelect();
+            $type = substr($response->id, strrpos($response->id, '-') + 1);
+            if (!$response) {
+                return redirect()->back()->with('alert', ['type' => 'warning', 'message' => 'Icon not found']);
+            }
+            return view('pages.settings.icons.edit', compact('response', 'iconTypes', 'type'));
+        } catch(ServiceException $e) {
+            return redirect()->route('icons')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error edit icon attempt : {$e->getMessage()}");
+            return redirect()->route('icons')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
+
+    public function update(UpdateIconRequest $request, string $id)
+    {
+        try {
+            $response = $this->iconService->update(UpdateIconDto::fromRequest($request, $id));
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success update icon'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed update icon'];
+
+            if (!$response) {
+                return redirect()->back()->withInput()->with('alert', $alertWarning);
+            }
+            return redirect()->route('icons')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error update icon attempt : {$e->getMessage()}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
+
+    public function changeStatus(string $id, bool $status)
+    {
+        try {
+            $response = $this->iconService->changeStatus($id, $status);
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success change status icon'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed change status icon'];
+
+            if (!$response) {
+                return redirect()->back()->with('alert', $alertWarning);
+            }
+            return redirect()->route('icons')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error delete icon attempt : {$e->getMessage()}");
+            return redirect()->back()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
 
 }

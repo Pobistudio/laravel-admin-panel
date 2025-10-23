@@ -5,7 +5,7 @@ namespace App\Http\Requests\Icons;
 use App\Utils\SessionUtils;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateIconRequest extends FormRequest
+class UpdateIconRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class CreateIconRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'    => ['required', 'string', 'max:50', 'unique:icons,name'],
+            'name'    => ['required', 'string', 'max:50'],
             'type'    => ['required', 'string', 'max:50'],
             'section' => ['required', 'string', 'max:50'],
         ];
