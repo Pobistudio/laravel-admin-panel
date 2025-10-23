@@ -10,3 +10,4 @@ import './alpine.js';
 import './toggle-password.js';
 import './flatpicker.js';
 import './select.js';
+import './icon-preview.js';

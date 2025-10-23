@@ -233,6 +233,16 @@ function initSelectComponent(component) {
         renderLabel();
         renderOptions();
         renderHiddenInputs();
+
+        const event = new CustomEvent('selectChange', {
+            detail: {
+                name: name,
+                value: selected,
+                multiple: multiple
+            },
+            bubbles: true
+        });
+        component.dispatchEvent(event);
     }
 
     // Event listeners

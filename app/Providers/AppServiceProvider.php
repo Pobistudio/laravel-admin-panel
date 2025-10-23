@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\contracts\AuthService;
 use App\Services\contracts\DashboardService;
+use App\Services\Contracts\IconService;
 use App\Services\Contracts\MenuService;
 use App\Services\Contracts\PermissionService;
 use App\Services\Contracts\RoleService;
@@ -11,6 +12,7 @@ use App\Services\Contracts\StatusService;
 use App\Services\Contracts\UserService;
 use App\Services\impls\AuthServiceImpl;
 use App\Services\impls\DashboardServiceImpl;
+use App\Services\Impls\IconServiceImpl;
 use App\Services\Impls\MenuServiceImpl;
 use App\Services\impls\PermissionServiceImpl;
 use App\Services\impls\RoleServiceImpl;
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DashboardService::class, DashboardServiceImpl::class);
         $this->app->bind(PermissionService::class, PermissionServiceImpl::class);
         $this->app->bind(MenuService::class, MenuServiceImpl::class);
+        $this->app->bind(IconService::class, IconServiceImpl::class);
     }
 
     /**

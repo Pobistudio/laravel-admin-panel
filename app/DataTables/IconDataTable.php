@@ -6,7 +6,6 @@ use App\Models\Icon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,8 +20,16 @@ class IconDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('name', function($row) {
-                return '<i class="'.$row->id.' ri-lg"></i> '.$row->name;
+            ->filterColumn('name', function($query, $keyword) {
+                $query->whereRaw("LOWER(icons.name) LIKE ?", ["%{$keyword}%"]);
+            })
+            ->addColumn('icon', function($row) {
+                return '<i class="'.$row->id.' ri-lg"></i> ';
+            })
+            ->addColumn('section', function($row) {
+                $type = 'untype';
+                $name = $row->section;
+                return view('components.badge.badge-wrapper', compact('type', 'name'));;
             })
             ->addColumn('is_active', function($row) {
                 $type = 'is_active';
@@ -52,7 +59,7 @@ class IconDataTable extends DataTable
 
                 return view('components.action-dropdown-table', compact('actions'));
             })
-            ->rawColumns(['name', 'is_active', 'action'])
+            ->rawColumns(['icon', 'section', 'is_active', 'action'])
             ->setRowId('id');
     }
 
@@ -86,7 +93,9 @@ class IconDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex', '#'),
-            Column::computed('name'),
+            Column::computed('icon'),
+            Column::make('name'),
+            Column::computed('section'),
             Column::computed('is_active'),
             Column::computed('action')
                   ->exportable(false)

@@ -46,6 +46,8 @@ class Badge extends Component
                 'inactive' => 'bg-slate-100 text-slate-800',
                 default => 'bg-green-100 text-green-800',
             };
+        } else if ($type === 'untype') {
+            return 'bg-slate-100 text-slate-800';
         } else {
             return match ($name) {
                 'super admin' => 'bg-purple-100 text-purple-800 border border-purple-400',
