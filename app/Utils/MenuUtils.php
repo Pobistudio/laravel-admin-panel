@@ -12,6 +12,11 @@ class MenuUtils
         return self::sidebarGenerator($menus, $segments);
     }
 
+    public static function getTreeMenu()
+    {
+        return self::buildTreeMenu(self::getMenusByParams());
+    }
+
     private static function sidebarGenerator(array $menus, array $segments)
     {
         $sidebar = '';
@@ -58,7 +63,7 @@ class MenuUtils
         $menus = CacheUtils::get('menus', [$role]);
 
         if (!$menus) {
-            $menus = self::getMenusByRole($role);
+            $menus = self::getMenusByParams($role);
             CacheUtils::put('menus', [$role], $menus);
         }
 
@@ -66,12 +71,16 @@ class MenuUtils
         return $menus;
     }
 
-    private static function getMenusByRole($role): array
+    private static function getMenusByParams($role = ''): array
     {
-        return Menu::leftJoin('role_menu_permission', 'role_menu_permission.menu_id', '=', 'menus.id')
-        ->select('menus.*')
-        ->where('role_menu_permission.role_id', $role)
-        ->where('menus.is_active', 1)
+        $menus = Menu::leftJoin('role_menu_permission', 'role_menu_permission.menu_id', '=', 'menus.id')
+        ->select('menus.*');
+
+        if ($role) {
+            $menus->where('role_menu_permission.role_id', $role);
+        }
+
+        return $menus->where('menus.is_active', 1)
         ->groupBy('role_menu_permission.menu_id')
         ->orderBy('order', 'asc')
         ->get()->toArray();

@@ -32,5 +32,8 @@
             Create
         </x-button>
     </div>
+    <div class="flex flex-col">
+        <x-tree.tree-menu/>
+    </div>
 </x-form>
 @endsection
