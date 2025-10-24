@@ -11,6 +11,10 @@ use App\Utils\MappingUtils;
 
 class IconServiceImpl implements IconService
 {
+    /**
+     * Summary of getIconTypesSelect
+     * @return array
+     */
     public function getIconTypesSelect()
     {
         $data = [
@@ -27,6 +31,12 @@ class IconServiceImpl implements IconService
         return MappingUtils::mapToValueLabel($data, 'id', 'name');
     }
 
+    /**
+     * Summary of create
+     * @param \App\DTOs\Icons\CreateIconDto $dto
+     * @throws \App\Exceptions\ServiceException
+     * @return Icon
+     */
     public function create(CreateIconDto $dto)
     {
         $id = str_replace(' ', '-', strtolower($dto->name));
@@ -50,6 +60,12 @@ class IconServiceImpl implements IconService
         return $icon;
     }
 
+    /**
+     * Summary of update
+     * @param \App\DTOs\Icons\UpdateIconDto $dto
+     * @throws \App\Exceptions\ServiceException
+     * @return bool
+     */
     public function update(UpdateIconDto $dto)
     {
         $iconWithId = Icon::find($dto->id);
@@ -74,11 +90,23 @@ class IconServiceImpl implements IconService
         return $iconWithId->save();
     }
 
+    /**
+     * Summary of getIconById
+     * @param string $id
+     * @return Icon|null
+     */
     public function getIconById(string $id)
     {
         return Icon::find($id);
     }
 
+    /**
+     * Summary of changeStatus
+     * @param string $id
+     * @param bool $isActive
+     * @throws \App\Exceptions\ServiceException
+     * @return bool
+     */
     public function changeStatus(string $id, bool $isActive)
     {
         $icon = Icon::find($id);
@@ -87,5 +115,21 @@ class IconServiceImpl implements IconService
         }
         $icon->is_active = $isActive;
         return $icon->save();
+    }
+
+    public function getAll(int $isActive = 2)
+    {
+        return Icon::where('is_active', $isActive)->get();
+    }
+
+    public function getIconsDataSelect($allItem = true)
+    {
+        $icons = $this->getAll( 1)->toArray();
+
+        if ($allItem) {
+            array_unshift($icons, [ 'id' => '#', 'name' => 'Default Parent' ]);
+        }
+
+        return MappingUtils::mapToValueLabel($icons, 'id', 'name');
     }
 }

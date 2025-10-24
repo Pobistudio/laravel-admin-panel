@@ -11,6 +11,7 @@ function initSelectComponent(component) {
     const name = component.dataset.name;
     const multiple = component.dataset.multiple === 'true';
     const placeholder = component.dataset.placeholder;
+    const showiconfromvalue = component.dataset.showiconfromvalue === 'true';
     const options = JSON.parse(component.dataset.options);
     let selected = JSON.parse(component.dataset.selected);
 
@@ -51,6 +52,11 @@ function initSelectComponent(component) {
             const option = options.find(o => o.value == selected);
             return option ? option.label : placeholder;
         }
+    }
+
+    function getSelectedValue() {
+        if (multiple || !selected) return null;
+        return selected;
     }
 
     function getSelectedItems() {
@@ -132,7 +138,20 @@ function initSelectComponent(component) {
         if (!multiple || getSelectedItems().length === 0) {
             labelEl.classList.remove('hidden');
             badgesContainer.classList.add('hidden');
-            labelEl.textContent = getSelectedLabel();
+
+            // Clear previous content
+            labelEl.innerHTML = '';
+
+            // Add icon if available and enabled (dari value)
+            if (showiconfromvalue && !multiple && selected) {
+                const iconEl = document.createElement('i');
+                iconEl.className = selected + ' mr-2';
+                labelEl.appendChild(iconEl);
+            }
+
+            // Add text
+            const textNode = document.createTextNode(getSelectedLabel());
+            labelEl.appendChild(textNode);
         } else {
             labelEl.classList.add('hidden');
             badgesContainer.classList.remove('hidden');
@@ -149,8 +168,17 @@ function initSelectComponent(component) {
             badge.className = 'inline-flex items-center gap-1 px-2.5 py-1 bg-slate-500 text-white text-sm font-medium rounded-md border border-blue-200';
 
             const label = document.createElement('span');
-            label.className = 'max-w-[150px] truncate';
-            label.textContent = item.label;
+            label.className = 'max-w-[150px] truncate flex items-center gap-1';
+
+            // Add icon if available (dari value)
+            if (showiconfromvalue && item.value) {
+                const iconEl = document.createElement('i');
+                iconEl.className = item.value;
+                label.appendChild(iconEl);
+            }
+
+            const textNode = document.createTextNode(item.label);
+            label.appendChild(textNode);
 
             const button = document.createElement('button');
             button.type = 'button';
@@ -185,9 +213,21 @@ function initSelectComponent(component) {
                 li.classList.add('bg-blue-50', 'text-blue-700');
             }
 
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'flex items-center gap-2';
+
+            // Add icon if available and enabled (dari value)
+            if (showiconfromvalue && option.value) {
+                const iconEl = document.createElement('i');
+                iconEl.className = option.value;
+                contentWrapper.appendChild(iconEl);
+            }
+
             const span = document.createElement('span');
             span.textContent = option.label;
-            li.appendChild(span);
+            contentWrapper.appendChild(span);
+
+            li.appendChild(contentWrapper);
 
             if (multiple && isSelected(option.value)) {
                 const checkmark = document.createElement('svg');
@@ -272,13 +312,6 @@ function initSelectComponent(component) {
                 break;
         }
     });
-
-    // Hilangkan auto-open saat focus untuk menghindari konflik dengan click
-    // trigger.addEventListener('focus', function() {
-    //     if (!isOpen) {
-    //         openDropdown();
-    //     }
-    // });
 
     filterInput.addEventListener('input', function(e) {
         filter = e.target.value;

@@ -16,4 +16,8 @@ interface IconService
     public function getIconById(string $id);
 
     public function changeStatus(string $id, bool $isActive);
+
+    public function getAll(int $isActive = 2);
+
+    public function getIconsDataSelect($allItem = true);
 }

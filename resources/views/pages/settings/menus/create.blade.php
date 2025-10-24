@@ -19,7 +19,7 @@
     <div class="flex flex-col sm:flex-row w-full gap-4">
         <div class="flex flex-col w-full sm:w-1/2 gap-4">
             <x-label id="label_icon" for="icon">Icon</x-label>
-            <x-input type="text" id="icon" name="icon" value="{{ old('icon') }}" description="Default value '#'"/>
+            <x-select id="icon" name="icon"  :options="$icons" showiconfromvalue="true" description="Default value '#'"/>
         </div>
         <div class="flex flex-col w-full sm:w-1/2 gap-4">
             <x-label id="label_order" for="order">Order</x-label>
