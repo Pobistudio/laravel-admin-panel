@@ -10,6 +10,7 @@ interface IconService
     public function getIconTypesSelect();
 
     public function create(CreateIconDto $dto);
+
     public function update(UpdateIconDto $dto);
 
     public function getIconById(string $id);

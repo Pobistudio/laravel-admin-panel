@@ -70,6 +70,7 @@ class IconServiceImpl implements IconService
 
         $iconWithId->id = $newId;
         $iconWithId->name = $dto->name;
+        $iconWithId->section = $dto->section;
         return $iconWithId->save();
     }
 
