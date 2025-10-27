@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\MenuDataTable;
+use App\DTOs\Menus\CreateMenuDto;
 use App\Exceptions\ServiceException;
+use App\Http\Requests\Menus\CreateMenuRequest;
 use App\Services\Contracts\IconService;
 use App\Services\Contracts\MenuService;
 use App\Utils\MappingUtils;
@@ -36,6 +38,26 @@ class MenuController extends Controller
             return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
         } catch(Exception $e) {
             Log::error("Error change menu attempt : {$e}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
+
+    public function store(CreateMenuRequest $request)
+    {
+        try {
+            $response = $this->menuService->create(CreateMenuDto::fromRequest($request));
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success create new menu'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed create new menu'];
+
+            if (!$response) {
+                return redirect()->back()->withInput()->with('alert', $alertWarning);
+            }
+            return redirect()->route('menus')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error create menu attempt : {$e->getMessage()}");
             return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }

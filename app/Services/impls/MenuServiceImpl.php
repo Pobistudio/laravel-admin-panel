@@ -2,6 +2,7 @@
 
 namespace App\Services\Impls;
 
+use App\DTOs\Menus\CreateMenuDto;
 use App\Exceptions\ServiceException;
 use App\Models\Menu;
 use App\Services\Contracts\MenuService;
@@ -53,5 +54,29 @@ class MenuServiceImpl implements MenuService
         }
 
         return MappingUtils::mapToValueLabel($icons, 'id', 'name');
+    }
+
+    public function create(CreateMenuDto $dto)
+    {
+        $menu = Menu::where('name', $dto->name)->first();
+
+        if ($menu) {
+            throw new ServiceException("Menu with name {$dto->name} already exists");
+        }
+
+        $menu = Menu::create([
+            'name'       => $dto->name,
+            'link'       => !empty($dto->link) ? $dto->link : '#',
+            'link_alias' => !empty($dto->linkAlias) ? $dto->linkAlias : '#',
+            'icon'       => !empty($dto->icon) ? $dto->icon : '#',
+            'parent'     => $dto->parent != '#' ? $dto->parent : 0,
+            'order'      => $dto->order,
+        ]);
+
+        if (!$menu) {
+            throw new ServiceException("Failed to create menu");
+        }
+
+        return $menu;
     }
 }
