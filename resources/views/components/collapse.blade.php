@@ -22,7 +22,7 @@
     <button
         @click="open = !open"
         type="button"
-        class="w-full flex items-center justify-between px-6 py-4 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer {{ $buttonClass }}"
+        class="w-full flex items-center justify-between px-6 py-4 rounded-xl transition-all duration-300 ease-in-out transform hover:bg-slate-200 drop-shadow-md cursor-pointer {{ $buttonClass }}"
         :aria-expanded="open"
         aria-controls="{{ $id }}"
     >
