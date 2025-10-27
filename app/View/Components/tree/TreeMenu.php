@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\badge;
+namespace App\View\Components\Tree;
 
 use App\Utils\MenuUtils;
 use Illuminate\Contracts\View\View;
@@ -11,8 +11,6 @@ class TreeMenu extends Component
     public function __construct()
     {
         //
-        $menus = MenuUtils::getTreeMenu();
-        dd($menus);
     }
 
     /**
@@ -20,8 +18,7 @@ class TreeMenu extends Component
      */
     public function render(): View
     {
-        $menus = MenuUtils::getTreeMenu();
-        dd($menus);
+        $menus = MenuUtils::getPreviewTreeMenu();
         return view('components.tree.tree-menu', compact('menus'));
     }
 }

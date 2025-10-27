@@ -71,6 +71,14 @@
     transition: transform 0.2s ease;
 }
 
+.menu-arrow-transition {
+    transition: transform 0.2s ease-in-out;
+}
+
+.menu-children {
+    animation: slideDown 0.2s ease-in-out;
+}
+
 @keyframes rebound-down {
   0% {
     transform: translateY(-20px);
@@ -80,4 +88,15 @@
     transform: translateY(0);
     animation-timing-function: cubic-bezier(0.8, -0.6, 0.2, 1.5);
   }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

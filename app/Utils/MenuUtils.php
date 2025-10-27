@@ -12,26 +12,34 @@ class MenuUtils
         return self::sidebarGenerator($menus, $segments);
     }
 
-    public static function getTreeMenu()
+    public static function getPreviewTreeMenu()
     {
-        return self::buildTreeMenu(self::getMenusByParams());
+        return self::sidebarGenerator(self::buildTreeMenu(self::getMenusByParams()), [], true);
     }
 
-    private static function sidebarGenerator(array $menus, array $segments)
+    private static function sidebarGenerator(array $menus, array $segments, $isPreview = false)
     {
         $sidebar = '';
-        $hover   = 'hover:bg-slate-500 hover:rounded-lg hover:text-lap-white';
+        $hover   = !$isPreview ? 'hover:bg-slate-500 hover:rounded-lg hover:text-lap-white' : '';
 
         foreach ($menus as $item) {
             $link         = implode('/', $segments);
             $isActive     = str_starts_with($link, $item['link']) || $link == self::findLink($link, $item['children']);
             $bgSelectMenu = $isActive ? 'bg-slate-500 drop-shadow-xl rounded-lg text-lap-white' : '';
 
+            if ($isPreview) {
+               $bgSelectMenu = '';
+            }
+
             $icon = '';
 
             if ($item['icon'] != '#') {
                 $icon = '<i class="'.$item['icon'].' ri-lg"></i>';
+            } else {
+                $icon = '<span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>';
             }
+
+            $order = $isPreview ? '['.$item['order'].'] ' : '';
 
             if ($item['children']) {
                 $showNestedMenu = $isActive ? '' : 'hidden';
@@ -39,16 +47,16 @@ class MenuUtils
 
                 $sidebar .= '<li class="relative my-2">';
                 $sidebar .= '<a href="#" class="flex items-center justify-between p-2 '. $hover .' menu-toggle">';
-                $sidebar .= '<span class="flex gap-2 items-center text-sm">'. $icon . $item['name'] .'</span>';
+                $sidebar .= '<span class="flex gap-2 items-center text-sm">'. $icon . $order . $item['name'] .'</span>';
                 $sidebar .= '<svg class="w-4 h-4 transition-transform duration-200 transform '. $rotateToggle .'" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
                 $sidebar .= '</a>';
                 $sidebar .= '<ul class="ml-4 nested-menu '. $showNestedMenu .'">';
-                $sidebar .= self::sidebarGenerator($item['children'], $segments);
+                $sidebar .= self::sidebarGenerator($item['children'], $segments, $isPreview);
                 $sidebar .= '</ul>';
             } else {
                 $sidebar .= '<li class="my-2">';
                 $sidebar .= '<a href="'. route($item['link_alias']) .'" class="flex items-center justify-between p-2 '. $bgSelectMenu . ' ' . $hover .' ">';
-                $sidebar .= '<span class="flex gap-2 items-center text-sm">'. $icon . $item['name'] .'</span>';
+                $sidebar .= '<span class="flex gap-2 items-center text-sm">'. $icon . $order . $item['name'] .'</span>';
                 $sidebar .= '</a>';
             }
 
@@ -81,9 +89,10 @@ class MenuUtils
         }
 
         return $menus->where('menus.is_active', 1)
-        ->groupBy('role_menu_permission.menu_id')
-        ->orderBy('order', 'asc')
-        ->get()->toArray();
+            ->groupBy('menus.id')  // Changed from role_menu_permission.menu_id
+            ->orderBy('menus.order', 'asc')  // Also specify table for clarity
+            ->get()
+            ->toArray();
     }
 
     private static function buildTreeMenu(array $menus, int $parent = 0): array
