@@ -1,5 +1,7 @@
 import Alpine from 'alpinejs'
-
-window.Alpine = Alpine
+import collapse from '@alpinejs/collapse'
 
 Alpine.start()
+Alpine.plugin(collapse)
+
+window.Alpine = Alpine
