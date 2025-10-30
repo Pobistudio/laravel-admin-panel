@@ -13,12 +13,12 @@
             </div>
         </div>
         <div class="flex flex-col w-full sm:w-1/2 p-10 sm:p-5 items-center justify-center">
-            <x-form x-data="{ open: false}" method="POST" action="{{ route('login') }}" class="w-full lg:w-1/2">
+            <x-form x-data="{ open: false}" method="POST" action="{{ route('login.attempt') }}" class="w-full lg:w-1/2">
                 <x-form-title>Welcom to {{ config('app.name') }}</x-form-title>
                 <x-label id="label_email" for="email">Email</x-label>
                 <x-input type="email" id="email" name="email" autocomplete="email" value="{{ old('email') }}"/>
                 <x-label id="label_password" for="password">Password</x-label>
-                <x-input type="password" id="password" name="password" class="w-full" :isPassword="true"/>
+                <x-input type="password" id="password" name="password" class="w-full" autocomplete="current-password" :isPassword="true"/>
                 <x-link href="{{ route('auth-forgot-password') }}" class="text-end w-full">Forgot password?</x-link>
                 <x-button x-on:click="open = true" type="submit" class="flex items-center justify-center">
                     <x-loader-button x-show="open"/>
