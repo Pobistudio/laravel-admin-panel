@@ -4,7 +4,7 @@
 <div class="flex sm:flex-row flex-col gap-4">
     <x-form x-data="{ open: false}" method="POST" action="{{ route('menus-create') }}" class="sm:w-1/2 w-full" :border="true" :actionBack="route('menus')">
         <x-label id="label_parent" for="parent">Parent</x-label>
-        <x-select name="menu"  :options="$menus" value="{{ old('menu') }}" description="Pilih Default Parent untuk membuat Menu Parent"/>
+        <x-select name="parent"  :options="$menus" value="{{ old('parent') }}" description="Pilih Default Parent untuk membuat Menu Parent"/>
         <x-label id="label_name" for="name">Name</x-label>
         <x-input type="text" id="name" name="name" value="{{ old('name') }}"/>
         <div class="flex flex-col sm:flex-row w-full gap-4">
