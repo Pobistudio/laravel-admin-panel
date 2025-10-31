@@ -54,8 +54,9 @@ class MenuUtils
                 $sidebar .= self::sidebarGenerator($item['children'], $segments, $isPreview);
                 $sidebar .= '</ul>';
             } else {
+                $linkAlias = !$isPreview ? route($item['link_alias']) : '#';
                 $sidebar .= '<li class="my-2">';
-                $sidebar .= '<a href="'. route($item['link_alias']) .'" class="flex items-center justify-between p-2 '. $bgSelectMenu . ' ' . $hover .' ">';
+                $sidebar .= '<a href="'. $linkAlias .'" class="flex items-center justify-between p-2 '. $bgSelectMenu . ' ' . $hover .' ">';
                 $sidebar .= '<span class="flex gap-2 items-center text-sm">'. $icon . $order . $item['name'] .'</span>';
                 $sidebar .= '</a>';
             }
