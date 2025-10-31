@@ -19,7 +19,7 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
     Route::prefix('auth')->group(function () {
         Route::prefix('login')->group(function () {
             Route::get('/', [AuthController::class, 'login'])->name('login');
-            Route::post('/', [AuthController::class, 'doLogin'])->name('login');
+            Route::post('/', [AuthController::class, 'doLogin'])->name('login.attempt')->middleware('throttle:5,1');
         });
 
         Route::prefix('forgot-password')->group(function () {
