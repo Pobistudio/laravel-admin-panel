@@ -61,4 +61,23 @@ class MenuController extends Controller
             return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
+
+    public function edit(string $id)
+    {
+        try {
+            $menus = $this->menuService->getAllParentDataSelect(true);
+            $icons = $this->iconService->getIconsDataSelect(false);
+            $response = $this->menuService->getMenuByid($id);
+
+            if (!$response) {
+                return redirect()->back()->with('alert', ['type' => 'warning', 'message' => 'Permission not found']);
+            }
+            return view('pages.settings.menus.edit', compact('response', 'menus', 'icons'));
+        } catch(ServiceException $e) {
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error edit permission attempt : {$e->getMessage()}");
+            return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
 }

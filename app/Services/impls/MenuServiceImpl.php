@@ -56,6 +56,16 @@ class MenuServiceImpl implements MenuService
         return MappingUtils::mapToValueLabel($icons, 'id', 'name');
     }
 
+    /**
+     * Summary of getMenuByid
+     * @param string $id
+     * @return Menu|null
+     */
+    public function getMenuByid(string $id)
+    {
+        return Menu::where('id', $id)->first();
+    }
+
     public function create(CreateMenuDto $dto)
     {
         $menu = Menu::where('name', $dto->name)->first();

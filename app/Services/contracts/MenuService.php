@@ -10,5 +10,7 @@ interface MenuService
 
     public function getAllParentDataSelect($allItem = true);
 
+    public function getMenuByid(string $id);
+
     public function create(CreateMenuDto $dto);
 }
