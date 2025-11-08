@@ -3,6 +3,7 @@
 namespace App\Services\Impls;
 
 use App\DTOs\Menus\CreateMenuDto;
+use App\DTOs\Menus\UpdateMenuDto;
 use App\Exceptions\ServiceException;
 use App\Models\Menu;
 use App\Services\Contracts\MenuService;
@@ -85,6 +86,35 @@ class MenuServiceImpl implements MenuService
 
         if (!$menu) {
             throw new ServiceException("Failed to create menu");
+        }
+
+        return $menu;
+    }
+
+    /**
+     * Summary of update
+     * @param UpdateMenuDto $dto
+     * @throws \App\Exceptions\ServiceException
+     * @return Menu
+     */
+    public function update(UpdateMenuDto $dto)
+    {
+        $menu = Menu::find($dto->id);
+        if (!$menu) {
+            throw new ServiceException("Menu with id {$dto->id} not found");
+        }
+
+        $menu->name = $dto->name;
+        $menu->link = !empty($dto->link) ? $dto->link : '#';
+        $menu->link_alias = !empty($dto->linkAlias) ? $dto->linkAlias : '#';
+        $menu->icon = !empty($dto->icon) ? $dto->icon : '#';
+        $menu->parent = $dto->parent != '#' ? $dto->parent : 0;
+        $menu->order = $dto->order;
+
+        $updated = $menu->save();
+
+        if (!$updated) {
+            throw new ServiceException("Failed to update menu");
         }
 
         return $menu;

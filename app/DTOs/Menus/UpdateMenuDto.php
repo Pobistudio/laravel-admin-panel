@@ -2,11 +2,12 @@
 
 namespace App\DTOs\Menus;
 
-use App\Http\Requests\Menus\CreateMenuRequest;
+use App\Http\Requests\Menus\UpdateMenuRequest;
 
-class CreateMenuDto
+class UpdateMenuDto
 {
     public function __construct(
+        public readonly string $id,
         public readonly string $name,
         public readonly string $link,
         public readonly string $linkAlias,
@@ -16,7 +17,7 @@ class CreateMenuDto
     ) {
     }
 
-    public static function fromRequest(CreateMenuRequest $request)
+    public static function fromRequest(UpdateMenuRequest $request, string $id)
     {
         $link      = $request->validated('link');
         $linkAlias = $request->validated('link_alias');
@@ -25,6 +26,7 @@ class CreateMenuDto
         $order     = $request->validated('order');
 
         return new self(
+            id: $id,
             name: $request->validated('name'),
             link: empty($link) ? '#' : $link,
             linkAlias: empty($linkAlias) ? '#' : $linkAlias,

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DataTables\MenuDataTable;
 use App\DTOs\Menus\CreateMenuDto;
+use App\DTOs\Menus\UpdateMenuDto;
 use App\Exceptions\ServiceException;
 use App\Http\Requests\Menus\CreateMenuRequest;
+use App\Http\Requests\Menus\UpdateMenuRequest;
 use App\Services\Contracts\IconService;
 use App\Services\Contracts\MenuService;
 use App\Utils\MappingUtils;
@@ -78,6 +80,26 @@ class MenuController extends Controller
         } catch(Exception $e) {
             Log::error("Error edit permission attempt : {$e->getMessage()}");
             return redirect()->route('users')->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
+
+    public function update(UpdateMenuRequest $request, string $id)
+    {
+        try {
+            $response = $this->menuService->update(UpdateMenuDto::fromRequest($request, $id));
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success update menu'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed update menu'];
+
+            if (!$response) {
+                return redirect()->back()->withInput()->with('alert', $alertWarning);
+            }
+            return redirect()->route('menus')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error update menu attempt : {$e->getMessage()}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
         }
     }
 }
