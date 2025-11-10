@@ -150,7 +150,12 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
 
             Route::get('/change-status/{id}/{status}', [MenuController::class, 'changeStatus'])->name('menus-change-status')->middleware('permissionIsValid:change_status');
 
+            Route::prefix('assign-menu-permissions')->group(function () {
+                Route::get('/', [MenuController::class, 'assignMenuPermissions'])->name('assign-menu-permissions')->middleware('permissionIsValid:view');
+                Route::post('/', [MenuController::class, 'doAssignMenuPermissions'])->name('assign-menu-permissions')->middleware('permissionIsValid:update');
+            });
         });
+
 
     });
 

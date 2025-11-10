@@ -22,6 +22,7 @@ class RoleMenuPermissionSeeder extends Seeder
         $icon = Menu::where('name', 'Icon')->first();
         $user = Menu::where('name', 'User')->first();
         $profile = Menu::where('name', 'Profile')->first();
+        $assignMenuPermission = Menu::where('name', 'Assign Menu Permission')->first();
 
         $rolemenupermission = [
             [
@@ -228,6 +229,16 @@ class RoleMenuPermissionSeeder extends Seeder
                 'role_id' => 'super_admin',
                 'menu_id' => $settings->id,
                 'permission_id' => 'view',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $assignMenuPermission->id,
+                'permission_id' => 'view',
+            ],
+            [
+                'role_id' => 'super_admin',
+                'menu_id' => $assignMenuPermission->id,
+                'permission_id' => 'update',
             ],
         ];
         RoleMenuPermission::insert($rolemenupermission);

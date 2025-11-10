@@ -84,5 +84,20 @@ class MenuSeeder extends Seeder
         ];
 
         Menu::insert($subMenuSettings);
+
+        $menu = Menu::where('name', 'Menu')->first();
+
+        $subMenuMenu = [
+            [
+                'name' => 'Assign Menu Permission',
+                'link' => 'settings/menus/assign-menu-permissions',
+                'link_alias' => 'assign-menu-permissions',
+                'parent' => $menu->id,
+                'order' => 0,
+            ],
+        ];
+
+        Menu::insert($subMenuMenu);
+
     }
 }
