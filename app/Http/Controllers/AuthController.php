@@ -8,7 +8,10 @@ use App\Exceptions\ServiceException;
 use App\Http\Requests\Auths\ChangePasswordRequest;
 use App\Http\Requests\Auths\LoginRequest;
 use App\Services\contracts\AuthService;
+use App\Utils\CacheUtils;
+use App\Utils\SessionUtils;
 use Exception;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
@@ -31,7 +34,8 @@ class AuthController extends Controller
             $alertSuccess = ['type' => 'success', 'message' => 'Success login user'];
             $alertWarning = ['type' => 'warning', 'message' => 'Failed login user'];
             if ($result) {
-                return redirect()->route('dashboard')->with('alert', $alertSuccess);
+                $intendedUrl = CacheUtils::get('intended_url', 'ext');
+                return redirect()->to($intendedUrl ?? route('dashboard'))->with('alert', $alertSuccess);
             }
             return redirect()->back()->withInput()->with('alert', $alertWarning);
         } catch(ServiceException $e) {

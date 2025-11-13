@@ -22,6 +22,8 @@ class EnsureSessionIsValid
         if (SessionUtils::isExist()) {
             if (in_array($request->path(), $unprotectedPath)) {
                 return redirect()->route("dashboard");
+            } else {
+                CacheUtils::put('intended_url',  'ext', $request->fullUrl());
             }
 
             return $next($request);
