@@ -107,6 +107,6 @@ class MenuController extends Controller
     public function assignMenuPermissions()
     {
         $roles    = $this->roleService->getRolesDataSelect(false);
-        return view('pages.settings.menus.assign-menu-permissions.list', compact('roles'));
+        return view('pages.settings.menus.assign-menu-permissions.index', compact('roles'));
     }
 }

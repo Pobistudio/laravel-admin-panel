@@ -283,6 +283,12 @@ function initSelectComponent(component) {
             bubbles: true
         });
         component.dispatchEvent(event);
+
+        // Tambahkan ini untuk handle onChange callback
+        const onChangeCallback = component.dataset.onchange;
+        if (onChangeCallback && typeof window[onChangeCallback] === 'function') {
+            window[onChangeCallback](selected, name);
+        }
     }
 
     // Event listeners
