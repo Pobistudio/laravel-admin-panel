@@ -12,6 +12,22 @@ use App\Utils\MappingUtils;
 class MenuServiceImpl implements MenuService
 {
     /**
+     * Summary of getAll
+     * @throws \App\Exceptions\ServiceException
+     * @return Menu
+     */
+    public function getAll()
+    {
+        $menus = Menu::orderBy('order', 'asc')->get();
+
+        if (!$menus) {
+            throw new ServiceException("No menus found");
+        }
+
+        return $menus;
+    }
+
+    /**
      * Summary of getAllParent
      * @param int $isActive
      * @throws \App\Exceptions\ServiceException

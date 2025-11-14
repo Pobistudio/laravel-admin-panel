@@ -84,6 +84,16 @@ class PermissionServiceImpl implements PermissionService
     }
 
     /**
+     * Get all permissions.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll()
+    {
+        return Permission::all();
+    }
+
+    /**
      * Get a permission by its ID.
      *
      * @param string $id

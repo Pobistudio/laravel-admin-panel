@@ -13,6 +13,7 @@ interface PermissionService
 
     public function changeStatus(string $id, bool $isActive);
 
+    public function getAll();
     public function getPermissionById(string $id);
 
 }

@@ -23,7 +23,7 @@
         <div class="hidden-inputs"></div>
 
         <!-- Dropdown -->
-        <div class="select-dropdown absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto hidden">
+        <div class="select-dropdown absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto hidden">
             <div class="sticky top-0 p-2 bg-white border-b border-gray-300">
                 <input type="text" class="select-filter w-full px-2 py-1 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Cari...">
             </div>

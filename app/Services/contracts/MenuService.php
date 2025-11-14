@@ -7,6 +7,7 @@ use App\DTOs\Menus\UpdateMenuDto;
 
 interface MenuService
 {
+    public function getAll();
     public function getAllParent(int $isActive = 2);
 
     public function getAllParentDataSelect($allItem = true);
