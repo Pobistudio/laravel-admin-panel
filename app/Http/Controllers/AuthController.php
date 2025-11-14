@@ -34,8 +34,8 @@ class AuthController extends Controller
             $alertSuccess = ['type' => 'success', 'message' => 'Success login user'];
             $alertWarning = ['type' => 'warning', 'message' => 'Failed login user'];
             if ($result) {
-                $intendedUrl = CacheUtils::get('intended_url', 'ext');
-                return redirect()->to($intendedUrl ?? route('dashboard'))->with('alert', $alertSuccess);
+                $redirect = SessionUtils::redirectToIntended(route('dashboard'));
+                return $redirect->with('alert', $alertSuccess);
             }
             return redirect()->back()->withInput()->with('alert', $alertWarning);
         } catch(ServiceException $e) {

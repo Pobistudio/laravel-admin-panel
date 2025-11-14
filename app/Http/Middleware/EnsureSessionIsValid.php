@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Utils\CacheUtils;
 use App\Utils\SessionUtils;
 use Closure;
 use Illuminate\Http\Request;
@@ -23,7 +22,7 @@ class EnsureSessionIsValid
             if (in_array($request->path(), $unprotectedPath)) {
                 return redirect()->route("dashboard");
             } else {
-                CacheUtils::put('intended_url',  'ext', $request->fullUrl());
+                SessionUtils::saveIntendedUrl($request->fullUrl());
             }
 
             return $next($request);
