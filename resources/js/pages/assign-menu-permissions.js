@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    const form = document.getElementById('assign-menu-permissions');
+    const form = document.getElementById('form-assign-menu-permissions');
 
     if (form) {
 
