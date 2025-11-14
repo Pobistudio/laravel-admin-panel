@@ -210,11 +210,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         const checkbox = document.createElement('input');
                         checkbox.type = 'checkbox';
-                        checkbox.name = `permissions[${menu.id}][]`;
-                        checkbox.value = permission.id;
+                        checkbox.name = `mappings[]`;
+                        checkbox.value = menu.id + '-' + permission.id;
                         checkbox.className = 'w-5 h-5 text-blue-600 bg-gray-100 border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer transition-all hover:scale-110';
-                        checkbox.dataset.menuId = menu.id;
-                        checkbox.dataset.permissionId = permission.id;
 
                         checkbox.checked = menu.permissions.includes(permission.id);
 

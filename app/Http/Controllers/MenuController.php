@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\MenuDataTable;
+use App\DTOs\Menus\AssignMenuPermissionDto;
 use App\DTOs\Menus\CreateMenuDto;
 use App\DTOs\Menus\UpdateMenuDto;
 use App\Exceptions\ServiceException;
+use App\Http\Requests\Menus\AssignMenuPermissionsRequest;
 use App\Http\Requests\Menus\CreateMenuRequest;
 use App\Http\Requests\Menus\UpdateMenuRequest;
+use App\Services\contracts\AssignMenuPermissionsService;
 use App\Services\Contracts\IconService;
 use App\Services\Contracts\MenuService;
 use App\Services\Contracts\RoleService;
@@ -19,11 +22,13 @@ class MenuController extends Controller
     private MenuService $menuService;
     private IconService $iconService;
     private RoleService $roleService;
+    private AssignMenuPermissionsService $assignMenuPermissionsService;
 
-    public function __construct(MenuService $menuService, IconService $iconService, RoleService $roleService) {
+    public function __construct(MenuService $menuService, IconService $iconService, RoleService $roleService, AssignMenuPermissionsService $assignMenuPermissionsService) {
         $this->menuService = $menuService;
         $this->iconService = $iconService;
         $this->roleService = $roleService;
+        $this->assignMenuPermissionsService = $assignMenuPermissionsService;
     }
 
     public function index(MenuDataTable $dataTable)
@@ -108,5 +113,25 @@ class MenuController extends Controller
     {
         $roles    = $this->roleService->getRolesDataSelect(false);
         return view('pages.settings.menus.assign-menu-permissions.index', compact('roles'));
+    }
+
+    public function doAssignMenuPermissions(AssignMenuPermissionsRequest $request)
+    {
+        try {
+            $response = $this->assignMenuPermissionsService->assignMenuPermissionsToRole(AssignMenuPermissionDto::fromRequest($request));
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success assign menu permissions'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed assign menu permissions'];
+
+            if (!$response) {
+                return redirect()->back()->withInput()->with('alert', $alertWarning);
+            }
+            return redirect()->route('menus')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->withInput()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error assign menu permissions attempt : {$e->getMessage()}");
+            return redirect()->back()->withInput()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
     }
 }

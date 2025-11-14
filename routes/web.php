@@ -156,7 +156,6 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
             });
         });
 
-
     });
 
 });
