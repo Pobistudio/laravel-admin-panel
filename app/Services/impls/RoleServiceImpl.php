@@ -172,14 +172,4 @@ class RoleServiceImpl implements RoleService
 
         return MappingUtils::childRolesToValueLabel($childRoles, $allItem);
     }
-
-    public function assignPermissionsToRole()
-    {
-
-    }
-
-    public function attachMenuToRole()
-    {
-
-    }
 }

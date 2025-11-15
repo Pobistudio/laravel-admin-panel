@@ -109,6 +109,25 @@ class MenuController extends Controller
         }
     }
 
+    public function changeStatus(string $id, int $status)
+    {
+        try {
+            $response = $this->menuService->changeStatus($id, $status);
+
+            $alertSuccess = ['type' => 'success', 'message' => 'Success change menu status'];
+            $alertWarning = ['type' => 'warning', 'message' => 'Failed change menu status'];
+
+            if (!$response) {
+                return redirect()->back()->with('alert', $alertWarning);
+            }
+            return redirect()->route('menus')->with('alert', $alertSuccess);
+        } catch(ServiceException $e) {
+            return redirect()->back()->with('alert', ['type' => 'warning', 'message' => $e->getMessage()]);
+        } catch(Exception $e) {
+            Log::error("Error change menu status attempt : {$e->getMessage()}");
+            return redirect()->back()->with('alert', ['type' => 'error', 'message' => 'Internal Server Error']);
+        }
+    }
     public function assignMenuPermissions()
     {
         $roles    = $this->roleService->getRolesDataSelect(false);

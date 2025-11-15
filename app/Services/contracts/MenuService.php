@@ -17,4 +17,6 @@ interface MenuService
     public function create(CreateMenuDto $dto);
 
     public function update(UpdateMenuDto $dto);
+
+    public function changeStatus(string $id, int $status);
 }

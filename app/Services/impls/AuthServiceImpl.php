@@ -117,8 +117,8 @@ class AuthServiceImpl implements AuthService
      */
     public function logout()
     {
-        $userID = SessionUtils::get('id');
-        CacheUtils::deleteWithTags($userID);
+        // $userID = SessionUtils::get('id');
+        // CacheUtils::deleteWithTags($userID);
         SessionUtils::deleteMain();
     }
 

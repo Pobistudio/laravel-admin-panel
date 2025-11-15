@@ -72,6 +72,48 @@ class CacheUtils
     }
 
     /**
+     * Menghapus semua cache berdasarkan key tertentu dari semua tags
+     *
+     * @param string $key
+     * @return int Jumlah key yang dihapus
+     */
+    public static function deleteByKey($key)
+    {
+        $deleted = 0;
+        $pattern = "*:{$key}";
+
+        // Cari semua tracking lists yang mungkin berisi key ini
+        $allTrackingKeys = Cache::get('all_cache_prefixes', []);
+
+        foreach ($allTrackingKeys as $prefix) {
+            $keysListKey = "cache_keys:{$prefix}";
+            $keys = Cache::get($keysListKey, []);
+
+            if (!empty($keys) && is_array($keys)) {
+                $remainingKeys = [];
+                foreach ($keys as $cacheKey) {
+                    // Cek apakah key diakhiri dengan ":{$key}"
+                    if (str_ends_with($cacheKey, ":{$key}")) {
+                        if (Cache::forget($cacheKey)) {
+                            $deleted++;
+                        }
+                    } else {
+                        $remainingKeys[] = $cacheKey;
+                    }
+                }
+
+                // Update tracking list
+                if (count($remainingKeys) > 0) {
+                    Cache::put($keysListKey, $remainingKeys, 86400 * 7);
+                } else {
+                    Cache::forget($keysListKey);
+                }
+            }
+        }
+
+        return $deleted;
+    }
+    /**
      * Menghapus semua cache dengan prefix tertentu
      *
      * @param string $prefix
@@ -167,5 +209,43 @@ class CacheUtils
                 Cache::forget($keysListKey);
             }
         }
+    }
+
+    /**
+     * Mengambil semua data cache yang tersimpan
+     *
+     * @return array Array dengan format ['cache_key' => 'decrypted_value']
+     */
+    public static function getAll()
+    {
+        $allCaches = [];
+
+        // Ambil semua tracking lists
+        $allTrackingKeys = Cache::get('all_cache_prefixes', []);
+
+        if (!empty($allTrackingKeys) && is_array($allTrackingKeys)) {
+            foreach ($allTrackingKeys as $prefix) {
+                $keysListKey = "cache_keys:{$prefix}";
+                $keys = Cache::get($keysListKey, []);
+
+                if (!empty($keys) && is_array($keys)) {
+                    foreach ($keys as $cacheKey) {
+                        $value = Cache::get($cacheKey);
+
+                        if ($value !== null) {
+                            try {
+                                // Dekripsi value
+                                $allCaches[$cacheKey] = CryptUtils::dec($value);
+                            } catch (\Exception $e) {
+                                // Jika gagal dekripsi, simpan value asli
+                                $allCaches[$cacheKey] = $value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $allCaches;
     }
 }

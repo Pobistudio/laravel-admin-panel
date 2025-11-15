@@ -31,7 +31,7 @@ class MenuDataTable extends DataTable
             ->addColumn('action', function($row) {
                 $id                = $row->id;
                 $name              = $row->name;
-                $status            = $row->status;
+                $status            = $row->is_active;
                 $desStatusName     = $status ? 'Inactive' : 'Active';
                 $routeEdit         = route('menus-edit', ['id' => $id]);
                 $routeChangeStatus = route('menus-change-status', ['id' => $id, 'status' => $status == 1 ? 0 : 1]);

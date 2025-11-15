@@ -7,10 +7,19 @@ use App\DTOs\Menus\UpdateMenuDto;
 use App\Exceptions\ServiceException;
 use App\Models\Menu;
 use App\Services\Contracts\MenuService;
+use App\Services\Contracts\RoleService;
+use App\Utils\CacheUtils;
 use App\Utils\MappingUtils;
 
 class MenuServiceImpl implements MenuService
 {
+
+    private RoleService $roleService;
+
+    public function __construct(RoleService $roleService) {
+        $this->roleService = $roleService;
+    }
+
     /**
      * Summary of getAll
      * @throws \App\Exceptions\ServiceException
@@ -103,7 +112,8 @@ class MenuServiceImpl implements MenuService
         if (!$menu) {
             throw new ServiceException("Failed to create menu");
         }
-
+        // delete cache menus
+        $this->deleteAllCacheMenus();
         return $menu;
     }
 
@@ -133,6 +143,39 @@ class MenuServiceImpl implements MenuService
             throw new ServiceException("Failed to update menu");
         }
 
+        // delete cache menus
+        $this->deleteAllCacheMenus();
         return $menu;
+    }
+
+    /**
+     * Summary of changeStatus
+     * @param string $id
+     * @param int $status
+     * @throws \App\Exceptions\ServiceException
+     * @return Menu
+     */
+    public function changeStatus(string $id, int $status)
+    {
+        $menu = Menu::find($id);
+        if (!$menu) {
+            throw new ServiceException("Menu with id {$id} not found");
+        }
+        $menu->is_active = $status;
+        $updated = $menu->save();
+        if (!$updated) {
+            throw new ServiceException("Failed to update menu");
+        }
+        // delete cache menus
+        $this->deleteAllCacheMenus();
+        return $menu;
+    }
+
+    private function deleteAllCacheMenus()
+    {
+        $roles = $this->roleService->getAll();
+        foreach ($roles as $role) {
+            CacheUtils::deleteWithTags($role->id);
+        }
     }
 }

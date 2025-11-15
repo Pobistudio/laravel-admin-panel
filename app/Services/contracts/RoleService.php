@@ -23,8 +23,4 @@ interface RoleService
 
     public function getChildRolesDataSelect($allItem = true, array $exceptions = []);
 
-    public function assignPermissionsToRole();
-
-    public function attachMenuToRole();
-
 }
