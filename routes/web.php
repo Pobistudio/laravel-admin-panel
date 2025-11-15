@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\UserController;
@@ -15,6 +16,8 @@ Route::middleware([EnsureSessionIsValid::class])->group(function () {
     Route::get('/', function() {
         return redirect()->route('dashboard');
     });
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('permissionIsValid:view');
 
     Route::prefix('auth')->group(function () {
         Route::prefix('login')->group(function () {

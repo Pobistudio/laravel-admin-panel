@@ -21,7 +21,7 @@
 
         <div id="dropdown-menu" class="hidden origin-top-right absolute top-17 right-3 mt-2 w-56 rounded-md shadow-lg bg-gray-100 ring-1 ring-slate-400 ring-opacity-5 focus:outline-none z-50 p-2" role="menu" aria-labelledby="menu-button">
             <div class="py-1" role="none">
-                <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-300 rounded-md" role="menuitem" tabindex="-1" id="menu-item-1">Profile</a>
+                <a href="{{ route('profile') }}" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-300 rounded-md" role="menuitem" tabindex="-1" id="menu-item-1">Profile</a>
                 <button class="text-gray-700 w-full cursor-pointer text-start px-4 py-2 text-sm hover:bg-gray-300 rounded-md" onclick="confirmLogoutDialog('{{ route('logout') }}')"  role="menuitem" tabindex="-1" id="menu-item-2">
                     Log Out
                 </button>
